@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="WWCalendarTimeSelectorDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kkW-eJ-sjz">
+                                <rect key="frame" x="139" y="28" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MWM-z2-H56">
+                                <rect key="frame" x="134" y="57" width="52" height="30"/>
+                                <state key="normal" title="Demo 1"/>
+                                <connections>
+                                    <action selector="showPicker:" destination="BYZ-38-t0r" eventType="touchUpInside" id="EGX-Hm-hhb"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tgP-Ir-2Z4">
+                                <rect key="frame" x="133" y="95" width="54" height="30"/>
+                                <state key="normal" title="Demo 2"/>
+                                <connections>
+                                    <action selector="showPicker:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Ng7-L4-vWp"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rGf-6g-dMm">
+                                <rect key="frame" x="133" y="133" width="54" height="30"/>
+                                <state key="normal" title="Demo 3"/>
+                                <connections>
+                                    <action selector="showPicker:" destination="BYZ-38-t0r" eventType="touchUpInside" id="kzW-H0-Sbj"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7jy-o7-fx9">
+                                <rect key="frame" x="133" y="171" width="54" height="30"/>
+                                <state key="normal" title="Demo 4"/>
+                                <connections>
+                                    <action selector="showPicker:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Uda-Up-fS7"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yxe-KT-oi0">
+                                <rect key="frame" x="133" y="209" width="54" height="30"/>
+                                <state key="normal" title="Demo 5"/>
+                                <connections>
+                                    <action selector="showPicker:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Cvy-Zx-jos"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Sz-pT-LDn">
+                                <rect key="frame" x="133" y="247" width="54" height="30"/>
+                                <state key="normal" title="Demo 6"/>
+                                <connections>
+                                    <action selector="showPicker:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bxN-dH-0vv"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="7" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jq8-G2-md0">
+                                <rect key="frame" x="134" y="285" width="53" height="30"/>
+                                <state key="normal" title="Demo 7"/>
+                                <connections>
+                                    <action selector="showPicker:" destination="BYZ-38-t0r" eventType="touchUpInside" id="l1e-RB-LZS"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="tgP-Ir-2Z4" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="247-iu-I81"/>
+                            <constraint firstItem="rGf-6g-dMm" firstAttribute="top" secondItem="tgP-Ir-2Z4" secondAttribute="bottom" constant="8" symbolic="YES" id="2Gm-tR-qCT"/>
+                            <constraint firstItem="4Sz-pT-LDn" firstAttribute="top" secondItem="Yxe-KT-oi0" secondAttribute="bottom" constant="8" symbolic="YES" id="4y2-4K-Y7c"/>
+                            <constraint firstItem="kkW-eJ-sjz" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" symbolic="YES" id="8aC-gT-sp9"/>
+                            <constraint firstItem="MWM-z2-H56" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="8hL-Hy-5ik"/>
+                            <constraint firstItem="4Sz-pT-LDn" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="9vx-0y-iaj"/>
+                            <constraint firstItem="7jy-o7-fx9" firstAttribute="top" secondItem="rGf-6g-dMm" secondAttribute="bottom" constant="8" symbolic="YES" id="Aqd-wn-VsS"/>
+                            <constraint firstItem="MWM-z2-H56" firstAttribute="top" secondItem="kkW-eJ-sjz" secondAttribute="bottom" constant="8" symbolic="YES" id="Gg6-bb-fHq"/>
+                            <constraint firstItem="rGf-6g-dMm" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="HFc-Nx-Dl8"/>
+                            <constraint firstItem="Jq8-G2-md0" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Hcx-Sp-Sd6"/>
+                            <constraint firstItem="7jy-o7-fx9" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="HkH-RT-e4r"/>
+                            <constraint firstItem="tgP-Ir-2Z4" firstAttribute="top" secondItem="MWM-z2-H56" secondAttribute="bottom" constant="8" symbolic="YES" id="JSY-YI-bdQ"/>
+                            <constraint firstItem="Yxe-KT-oi0" firstAttribute="top" secondItem="7jy-o7-fx9" secondAttribute="bottom" constant="8" symbolic="YES" id="cSo-b0-np5"/>
+                            <constraint firstItem="Jq8-G2-md0" firstAttribute="top" secondItem="4Sz-pT-LDn" secondAttribute="bottom" constant="8" symbolic="YES" id="d7z-GQ-xjE"/>
+                            <constraint firstItem="Yxe-KT-oi0" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="gHK-fT-y8C"/>
+                            <constraint firstItem="kkW-eJ-sjz" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ycn-Oc-Uy8"/>
+                        </constraints>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="dateLabel" destination="kkW-eJ-sjz" id="ljf-vL-ljD"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+    </scenes>
+</document>

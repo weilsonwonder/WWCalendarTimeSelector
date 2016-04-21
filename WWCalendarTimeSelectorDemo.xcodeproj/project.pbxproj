@@ -1,0 +1,334 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		007161CD1CC87C26002CB119 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007161CC1CC87C26002CB119 /* AppDelegate.swift */; };
+		007161CF1CC87C26002CB119 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007161CE1CC87C26002CB119 /* ViewController.swift */; };
+		007161D21CC87C26002CB119 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 007161D01CC87C26002CB119 /* Main.storyboard */; };
+		007161D41CC87C26002CB119 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 007161D31CC87C26002CB119 /* Assets.xcassets */; };
+		007161D71CC87C26002CB119 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 007161D51CC87C26002CB119 /* LaunchScreen.storyboard */; };
+		00FBEF7E1CC8849D0046C872 /* Duration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00FBEF761CC8849D0046C872 /* Duration.swift */; };
+		00FBEF7F1CC8849D0046C872 /* Int+Timepiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00FBEF771CC8849D0046C872 /* Int+Timepiece.swift */; };
+		00FBEF801CC8849D0046C872 /* NSCalendar+Timepiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00FBEF781CC8849D0046C872 /* NSCalendar+Timepiece.swift */; };
+		00FBEF811CC8849D0046C872 /* NSDate+Timepiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00FBEF791CC8849D0046C872 /* NSDate+Timepiece.swift */; };
+		00FBEF821CC8849D0046C872 /* NSDateComponents+Timepiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00FBEF7A1CC8849D0046C872 /* NSDateComponents+Timepiece.swift */; };
+		00FBEF831CC8849D0046C872 /* String+Timepiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00FBEF7B1CC8849D0046C872 /* String+Timepiece.swift */; };
+		00FBEF841CC8849D0046C872 /* WWCalendarTimeSelector.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00FBEF7C1CC8849D0046C872 /* WWCalendarTimeSelector.storyboard */; };
+		00FBEF851CC8849D0046C872 /* WWCalendarTimeSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00FBEF7D1CC8849D0046C872 /* WWCalendarTimeSelector.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		007161C91CC87C26002CB119 /* WWCalendarTimeSelectorDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WWCalendarTimeSelectorDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		007161CC1CC87C26002CB119 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		007161CE1CC87C26002CB119 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		007161D11CC87C26002CB119 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		007161D31CC87C26002CB119 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		007161D61CC87C26002CB119 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		007161D81CC87C26002CB119 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		00FBEF761CC8849D0046C872 /* Duration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Duration.swift; sourceTree = "<group>"; };
+		00FBEF771CC8849D0046C872 /* Int+Timepiece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+Timepiece.swift"; sourceTree = "<group>"; };
+		00FBEF781CC8849D0046C872 /* NSCalendar+Timepiece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSCalendar+Timepiece.swift"; sourceTree = "<group>"; };
+		00FBEF791CC8849D0046C872 /* NSDate+Timepiece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Timepiece.swift"; sourceTree = "<group>"; };
+		00FBEF7A1CC8849D0046C872 /* NSDateComponents+Timepiece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDateComponents+Timepiece.swift"; sourceTree = "<group>"; };
+		00FBEF7B1CC8849D0046C872 /* String+Timepiece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Timepiece.swift"; sourceTree = "<group>"; };
+		00FBEF7C1CC8849D0046C872 /* WWCalendarTimeSelector.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = WWCalendarTimeSelector.storyboard; sourceTree = "<group>"; };
+		00FBEF7D1CC8849D0046C872 /* WWCalendarTimeSelector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WWCalendarTimeSelector.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		007161C61CC87C26002CB119 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		007161C01CC87C25002CB119 = {
+			isa = PBXGroup;
+			children = (
+				007161CB1CC87C26002CB119 /* WWCalendarTimeSelectorDemo */,
+				007161CA1CC87C26002CB119 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		007161CA1CC87C26002CB119 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				007161C91CC87C26002CB119 /* WWCalendarTimeSelectorDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		007161CB1CC87C26002CB119 /* WWCalendarTimeSelectorDemo */ = {
+			isa = PBXGroup;
+			children = (
+				00FBEF751CC8849D0046C872 /* Sources */,
+				007161CC1CC87C26002CB119 /* AppDelegate.swift */,
+				007161CE1CC87C26002CB119 /* ViewController.swift */,
+				007161D01CC87C26002CB119 /* Main.storyboard */,
+				007161D31CC87C26002CB119 /* Assets.xcassets */,
+				007161D51CC87C26002CB119 /* LaunchScreen.storyboard */,
+				007161D81CC87C26002CB119 /* Info.plist */,
+			);
+			path = WWCalendarTimeSelectorDemo;
+			sourceTree = "<group>";
+		};
+		00FBEF751CC8849D0046C872 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				00FBEF761CC8849D0046C872 /* Duration.swift */,
+				00FBEF771CC8849D0046C872 /* Int+Timepiece.swift */,
+				00FBEF781CC8849D0046C872 /* NSCalendar+Timepiece.swift */,
+				00FBEF791CC8849D0046C872 /* NSDate+Timepiece.swift */,
+				00FBEF7A1CC8849D0046C872 /* NSDateComponents+Timepiece.swift */,
+				00FBEF7B1CC8849D0046C872 /* String+Timepiece.swift */,
+				00FBEF7C1CC8849D0046C872 /* WWCalendarTimeSelector.storyboard */,
+				00FBEF7D1CC8849D0046C872 /* WWCalendarTimeSelector.swift */,
+			);
+			path = Sources;
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		007161C81CC87C26002CB119 /* WWCalendarTimeSelectorDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 007161DB1CC87C26002CB119 /* Build configuration list for PBXNativeTarget "WWCalendarTimeSelectorDemo" */;
+			buildPhases = (
+				007161C51CC87C26002CB119 /* Sources */,
+				007161C61CC87C26002CB119 /* Frameworks */,
+				007161C71CC87C26002CB119 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WWCalendarTimeSelectorDemo;
+			productName = WWCalendarTimeSelectorDemo;
+			productReference = 007161C91CC87C26002CB119 /* WWCalendarTimeSelectorDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		007161C11CC87C25002CB119 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0730;
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = Wonder;
+				TargetAttributes = {
+					007161C81CC87C26002CB119 = {
+						CreatedOnToolsVersion = 7.3;
+					};
+				};
+			};
+			buildConfigurationList = 007161C41CC87C25002CB119 /* Build configuration list for PBXProject "WWCalendarTimeSelectorDemo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 007161C01CC87C25002CB119;
+			productRefGroup = 007161CA1CC87C26002CB119 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				007161C81CC87C26002CB119 /* WWCalendarTimeSelectorDemo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		007161C71CC87C26002CB119 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00FBEF841CC8849D0046C872 /* WWCalendarTimeSelector.storyboard in Resources */,
+				007161D71CC87C26002CB119 /* LaunchScreen.storyboard in Resources */,
+				007161D41CC87C26002CB119 /* Assets.xcassets in Resources */,
+				007161D21CC87C26002CB119 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		007161C51CC87C26002CB119 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00FBEF851CC8849D0046C872 /* WWCalendarTimeSelector.swift in Sources */,
+				00FBEF831CC8849D0046C872 /* String+Timepiece.swift in Sources */,
+				00FBEF821CC8849D0046C872 /* NSDateComponents+Timepiece.swift in Sources */,
+				00FBEF7E1CC8849D0046C872 /* Duration.swift in Sources */,
+				00FBEF7F1CC8849D0046C872 /* Int+Timepiece.swift in Sources */,
+				00FBEF811CC8849D0046C872 /* NSDate+Timepiece.swift in Sources */,
+				007161CF1CC87C26002CB119 /* ViewController.swift in Sources */,
+				007161CD1CC87C26002CB119 /* AppDelegate.swift in Sources */,
+				00FBEF801CC8849D0046C872 /* NSCalendar+Timepiece.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		007161D01CC87C26002CB119 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				007161D11CC87C26002CB119 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		007161D51CC87C26002CB119 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				007161D61CC87C26002CB119 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		007161D91CC87C26002CB119 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		007161DA1CC87C26002CB119 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		007161DC1CC87C26002CB119 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = WWCalendarTimeSelectorDemo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = weilson.wonder.WWCalendarTimeSelectorDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		007161DD1CC87C26002CB119 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = WWCalendarTimeSelectorDemo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = weilson.wonder.WWCalendarTimeSelectorDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		007161C41CC87C25002CB119 /* Build configuration list for PBXProject "WWCalendarTimeSelectorDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				007161D91CC87C26002CB119 /* Debug */,
+				007161DA1CC87C26002CB119 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		007161DB1CC87C26002CB119 /* Build configuration list for PBXNativeTarget "WWCalendarTimeSelectorDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				007161DC1CC87C26002CB119 /* Debug */,
+				007161DD1CC87C26002CB119 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 007161C11CC87C25002CB119 /* Project object */;
+}

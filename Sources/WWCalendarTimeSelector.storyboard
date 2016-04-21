@@ -8,7 +8,7 @@
         <!--Calendar Time Selector-->
         <scene sceneID="6Mw-N3-krM">
             <objects>
-                <viewController id="guU-fh-eOY" customClass="WWCalendarTimeSelector" customModule="WWCalendarTimeSelectorDemo" sceneMemberID="viewController">
+                <viewController id="guU-fh-eOY" customClass="WWCalendarTimeSelector" customModule="WWCalendarTimeSelector" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="9JA-Sg-qKN"/>
                         <viewControllerLayoutGuide type="bottom" id="SIY-e8-2EO"/>
@@ -187,7 +187,7 @@
                                                                 <outlet property="delegate" destination="guU-fh-eOY" id="uiZ-Up-wbh"/>
                                                             </connections>
                                                         </tableView>
-                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sdw-Mc-C2Q" customClass="WWClock" customModule="WWCalendarTimeSelectorDemo">
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sdw-Mc-C2Q" customClass="WWClock" customModule="WWCalendarTimeSelector">
                                                             <rect key="frame" x="0.0" y="0.0" width="280" height="308"/>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         </view>

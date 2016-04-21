@@ -145,8 +145,8 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
     private var deviceOrientation: UIDeviceOrientation { return UIDevice.currentDevice().orientation }
     
     public static func instantiate() -> WWCalendarTimeSelector {
-        
-        let bundleURL = NSBundle.mainBundle().URLForResource("WWCalendarTimeSelectorStoryboardBundle", withExtension: "bundle")
+        let podBundle = NSBundle(forClass: self.classForCoder())
+        let bundleURL = podBundle.URLForResource("WWCalendarTimeSelectorStoryboardBundle", withExtension: "bundle")
         let bundle = NSBundle(URL: bundleURL!)
         let picker = UIStoryboard(name: "WWCalendarTimeSelector", bundle: bundle).instantiateInitialViewController() as! WWCalendarTimeSelector
         

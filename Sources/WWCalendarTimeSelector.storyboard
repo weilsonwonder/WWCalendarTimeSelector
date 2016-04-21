@@ -187,7 +187,7 @@
                                                                 <outlet property="delegate" destination="guU-fh-eOY" id="uiZ-Up-wbh"/>
                                                             </connections>
                                                         </tableView>
-                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sdw-Mc-C2Q" customClass="WWClock" customModule="WWCalendarTimeSelectorDemo" customModuleProvider="target">
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sdw-Mc-C2Q" customClass="WWClock" customModule="WWCalendarTimeSelectorDemo">
                                                             <rect key="frame" x="0.0" y="0.0" width="280" height="308"/>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         </view>

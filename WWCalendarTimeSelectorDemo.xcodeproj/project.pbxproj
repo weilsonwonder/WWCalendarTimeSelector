@@ -84,17 +84,25 @@
 		00FBEF751CC8849D0046C872 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				00FBEF861CC889740046C872 /* Helper */,
+				00FBEF7D1CC8849D0046C872 /* WWCalendarTimeSelector.swift */,
+				00FBEF7C1CC8849D0046C872 /* WWCalendarTimeSelector.storyboard */,
+			);
+			path = Sources;
+			sourceTree = SOURCE_ROOT;
+		};
+		00FBEF861CC889740046C872 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
 				00FBEF761CC8849D0046C872 /* Duration.swift */,
 				00FBEF771CC8849D0046C872 /* Int+Timepiece.swift */,
 				00FBEF781CC8849D0046C872 /* NSCalendar+Timepiece.swift */,
 				00FBEF791CC8849D0046C872 /* NSDate+Timepiece.swift */,
 				00FBEF7A1CC8849D0046C872 /* NSDateComponents+Timepiece.swift */,
 				00FBEF7B1CC8849D0046C872 /* String+Timepiece.swift */,
-				00FBEF7C1CC8849D0046C872 /* WWCalendarTimeSelector.storyboard */,
-				00FBEF7D1CC8849D0046C872 /* WWCalendarTimeSelector.swift */,
 			);
-			path = Sources;
-			sourceTree = SOURCE_ROOT;
+			name = Helper;
+			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 

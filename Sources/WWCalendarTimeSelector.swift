@@ -125,6 +125,13 @@ public enum WWCalendarTimeSelectorTimeStep: Int {
     /// - Parameters:
     ///     - selector: The selector that has been dismissed.
     optional func WWCalendarTimeSelectorDidDismiss(selector: WWCalendarTimeSelector)
+    
+    /// Method if implemented, will be used to determine if a particular date should be selected.
+    ///
+    /// - Parameters:
+    ///     - selector: The selector that is checking for selectablity of date.
+    ///     - date: The date that user tapped, but have not yet given feedback to determine if should be selected.
+    optional func WWCalendarTimeSelectorShouldSelectDate(selector: WWCalendarTimeSelector, date: NSDate) -> Bool
 }
 
 public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITableViewDataSource, WWCalendarRowProtocol, WWClockProtocol {
@@ -1298,86 +1305,65 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
     }
     
     internal func WWCalendarRowDidSelect(date: NSDate) {
-        if optionMultipleSelection {
-            var indexPath: NSIndexPath
-            
-            
-            
-            
-            
-            var indexPathToReload: NSIndexPath? = nil
-            if let d = multipleDatesLastAdded {
-                let indexToReload = multipleDates.indexOf(d)!
-                indexPathToReload = NSIndexPath(forRow: indexToReload, inSection: 0)
-            }
-            
-            
-            
-            
-            
-            if let indexToDelete = multipleDates.indexOf(date) {
-                // delete...
-                indexPath = NSIndexPath(forRow: indexToDelete, inSection: 0)
-                optionCurrentDates.remove(date)
+        if delegate?.WWCalendarTimeSelectorShouldSelectDate?(self, date: date) ?? true {
+            if optionMultipleSelection {
+                var indexPath: NSIndexPath
+                var indexPathToReload: NSIndexPath? = nil
                 
-                selMultipleDatesTable.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Middle, animated: true)
-                
-                multipleDatesLastAdded = nil
-                selMultipleDatesTable.beginUpdates()
-                selMultipleDatesTable.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Left)
-                if let ip = indexPathToReload where ip != indexPath {
-                    selMultipleDatesTable.reloadRowsAtIndexPaths([ip], withRowAnimation: UITableViewRowAnimation.Fade)
+                if let d = multipleDatesLastAdded {
+                    let indexToReload = multipleDates.indexOf(d)!
+                    indexPathToReload = NSIndexPath(forRow: indexToReload, inSection: 0)
                 }
-                selMultipleDatesTable.endUpdates()
-            }
-            else {
-                // insert...
                 
-                
-                
-                
-                
-                
-                
-                var shouldScroll = false
-                
-                
-                optionCurrentDates.insert(date)
-                let indexToAdd = multipleDates.indexOf(date)!
-                indexPath = NSIndexPath(forRow: indexToAdd, inSection: 0)
-                
-                
-                
-                if indexPath.row < optionCurrentDates.count - 1 {
+                if let indexToDelete = multipleDates.indexOf(date) {
+                    // delete...
+                    indexPath = NSIndexPath(forRow: indexToDelete, inSection: 0)
+                    optionCurrentDates.remove(date)
+                    
                     selMultipleDatesTable.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Middle, animated: true)
+                    
+                    multipleDatesLastAdded = nil
+                    selMultipleDatesTable.beginUpdates()
+                    selMultipleDatesTable.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Left)
+                    if let ip = indexPathToReload where ip != indexPath {
+                        selMultipleDatesTable.reloadRowsAtIndexPaths([ip], withRowAnimation: UITableViewRowAnimation.Fade)
+                    }
+                    selMultipleDatesTable.endUpdates()
                 }
                 else {
-                    shouldScroll = true
+                    // insert...
+                    var shouldScroll = false
+                    
+                    optionCurrentDates.insert(date)
+                    let indexToAdd = multipleDates.indexOf(date)!
+                    indexPath = NSIndexPath(forRow: indexToAdd, inSection: 0)
+                    
+                    if indexPath.row < optionCurrentDates.count - 1 {
+                        selMultipleDatesTable.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Middle, animated: true)
+                    }
+                    else {
+                        shouldScroll = true
+                    }
+                    
+                    multipleDatesLastAdded = date
+                    selMultipleDatesTable.beginUpdates()
+                    selMultipleDatesTable.insertRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Right)
+                    if let ip = indexPathToReload {
+                        selMultipleDatesTable.reloadRowsAtIndexPaths([ip], withRowAnimation: UITableViewRowAnimation.Fade)
+                    }
+                    selMultipleDatesTable.endUpdates()
+                    
+                    if shouldScroll {
+                        selMultipleDatesTable.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Middle, animated: true)
+                    }
                 }
-                
-                multipleDatesLastAdded = date
-                selMultipleDatesTable.beginUpdates()
-                selMultipleDatesTable.insertRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Right)
-                if let ip = indexPathToReload {
-                    selMultipleDatesTable.reloadRowsAtIndexPaths([ip], withRowAnimation: UITableViewRowAnimation.Fade)
-                }
-                selMultipleDatesTable.endUpdates()
-                
-                
-                
-                if shouldScroll {
-                    selMultipleDatesTable.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Middle, animated: true)
-                }
-                
-                
-                
             }
+            else {
+                optionCurrentDate = optionCurrentDate.change(year: date.year, month: date.month, day: date.day)
+                updateDate()
+            }
+            calendarTable.reloadData()
         }
-        else {
-            optionCurrentDate = optionCurrentDate.change(year: date.year, month: date.month, day: date.day)
-            updateDate()
-        }
-        calendarTable.reloadData()
     }
     
     internal func WWClockGetTime() -> NSDate {

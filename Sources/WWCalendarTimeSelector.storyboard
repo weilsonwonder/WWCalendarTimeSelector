@@ -312,6 +312,7 @@
                         <outlet property="backgroundSelView" destination="cWr-1L-l1G" id="SIO-3w-1Xh"/>
                         <outlet property="bottomContainerHeightConstraint" destination="b8a-Ld-cat" id="fL3-eN-V0b"/>
                         <outlet property="bottomContainerLeftConstraint" destination="C9D-y6-A1S" id="1hE-xu-12J"/>
+                        <outlet property="bottomContainerTopConstraint" destination="0td-o9-QK4" id="Lz9-MU-tqn"/>
                         <outlet property="bottomContainerView" destination="WyW-5f-hIf" id="0zS-u8-HN0"/>
                         <outlet property="bottomContainerWidthConstraint" destination="Zul-mg-a28" id="wJ6-dR-S3J"/>
                         <outlet property="calendarTable" destination="Qdk-04-U5s" id="J2k-Q9-W78"/>
@@ -345,6 +346,7 @@
                         <outlet property="timeLabel" destination="p7i-Tq-XUo" id="ECV-Jg-qqI"/>
                         <outlet property="topContainerHeightConstraint" destination="bSR-cD-kZe" id="Tg1-Zu-H49"/>
                         <outlet property="topContainerLeftConstraint" destination="P1f-9g-7aZ" id="Vbz-SQ-99f"/>
+                        <outlet property="topContainerTopConstraint" destination="h15-uU-Vex" id="lkw-GJ-erU"/>
                         <outlet property="topContainerView" destination="yZx-N2-yKn" id="FER-qA-YbE"/>
                         <outlet property="topContainerWidthConstraint" destination="Fup-nt-LeL" id="qjL-Ga-JJk"/>
                         <outlet property="visualEffectDarkView" destination="Lau-BG-lC0" id="q0f-CX-i5T"/>

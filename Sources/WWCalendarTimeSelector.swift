@@ -160,7 +160,7 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
     ///
     /// - Note:
     /// Defaults to all styles.
-    public var optionPickerStyle: Set<WWCalendarTimeSelectorStyle> = [.Date, .Year, .Time]
+    public var optionSelectors: Set<WWCalendarTimeSelectorStyle> = [.Date, .Year, .Time]
     
     /// Set `optionTimeStep` to customise the period of time which the users will be able to choose. The step will show the user the available minutes to select (with exception of `OneMinute` step, see *Note*).
     ///
@@ -422,8 +422,8 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        if optionPickerStyle.count == 0 {
-            optionPickerStyle = [.Date, .Year, .Time]
+        if optionSelectors.count == 0 {
+            optionSelectors = [.Date, .Year, .Time]
         }
         
         let seventhRowStartDate = optionCurrentDate.beginningOfMonth
@@ -502,13 +502,13 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
             selMultipleDatesTable.reloadData()
             didRotate()
             
-            if optionPickerStyle.contains(.Date) {
+            if optionSelectors.contains(.Date) {
                 showDate(true)
             }
-            else if optionPickerStyle.contains(.Year) {
+            else if optionSelectors.contains(.Year) {
                 showYear(true)
             }
-            else if optionPickerStyle.contains(.Time) {
+            else if optionSelectors.contains(.Time) {
                 showTime(true)
             }
         }
@@ -789,14 +789,14 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
         selDateTopConstraint.constant = 0
         selDateLeftConstraint.constant = 0
         selDateRightConstraint.constant = 0
-        selDateHeightConstraint.constant = optionPickerStyle.count > 1 ? selActiveHeight : selActiveHeightFull
+        selDateHeightConstraint.constant = optionSelectors.count > 1 ? selActiveHeight : selActiveHeightFull
         
         selYearLeftConstraint.constant = 0
         selTimeRightConstraint.constant = 0
-        if optionPickerStyle.contains(.Year) {
+        if optionSelectors.contains(.Year) {
             selYearTopConstraint.constant = selActiveHeight
             selYearHeightConstraint.constant = selInactiveHeight
-            if optionPickerStyle.contains(.Time) {
+            if optionSelectors.contains(.Time) {
                 selYearRightConstraint.constant = selInactiveWidth
                 selTimeHeightConstraint.constant = selInactiveHeight
                 selTimeTopConstraint.constant = selActiveHeight
@@ -813,7 +813,7 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
             selYearTopConstraint.constant = 0
             selYearHeightConstraint.constant = 0
             selYearRightConstraint.constant = selInactiveWidthDouble
-            if optionPickerStyle.contains(.Time) {
+            if optionSelectors.contains(.Time) {
                 selTimeHeightConstraint.constant = selInactiveHeight
                 selTimeTopConstraint.constant = selActiveHeight
                 selTimeLeftConstraint.constant = 0
@@ -870,14 +870,14 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
         selYearTopConstraint.constant = 0
         selYearLeftConstraint.constant = 0
         selYearRightConstraint.constant = 0
-        selYearHeightConstraint.constant = optionPickerStyle.count > 1 ? selActiveHeight : selActiveHeightFull
+        selYearHeightConstraint.constant = optionSelectors.count > 1 ? selActiveHeight : selActiveHeightFull
         
         selDateLeftConstraint.constant = 0
         selTimeRightConstraint.constant = 0
-        if optionPickerStyle.contains(.Date) {
+        if optionSelectors.contains(.Date) {
             selDateHeightConstraint.constant = selInactiveHeight
             selDateTopConstraint.constant = selActiveHeight
-            if optionPickerStyle.contains(.Time) {
+            if optionSelectors.contains(.Time) {
                 selDateRightConstraint.constant = selInactiveWidth
                 selTimeHeightConstraint.constant = selInactiveHeight
                 selTimeTopConstraint.constant = selActiveHeight
@@ -894,7 +894,7 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
             selDateHeightConstraint.constant = 0
             selDateTopConstraint.constant = 0
             selDateRightConstraint.constant = selInactiveWidthDouble
-            if optionPickerStyle.contains(.Time) {
+            if optionSelectors.contains(.Time) {
                 selTimeHeightConstraint.constant = selInactiveHeight
                 selTimeTopConstraint.constant = selActiveHeight
                 selTimeLeftConstraint.constant = 0
@@ -951,14 +951,14 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
         selTimeTopConstraint.constant = 0
         selTimeLeftConstraint.constant = 0
         selTimeRightConstraint.constant = 0
-        selTimeHeightConstraint.constant = optionPickerStyle.count > 1 ? selActiveHeight : selActiveHeightFull
+        selTimeHeightConstraint.constant = optionSelectors.count > 1 ? selActiveHeight : selActiveHeightFull
         
         selDateLeftConstraint.constant = 0
         selYearRightConstraint.constant = 0
-        if optionPickerStyle.contains(.Date) {
+        if optionSelectors.contains(.Date) {
             selDateHeightConstraint.constant = selInactiveHeight
             selDateTopConstraint.constant = selActiveHeight
-            if optionPickerStyle.contains(.Year) {
+            if optionSelectors.contains(.Year) {
                 selDateRightConstraint.constant = selInactiveWidth
                 selYearHeightConstraint.constant = selInactiveHeight
                 selYearTopConstraint.constant = selActiveHeight
@@ -975,7 +975,7 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
             selDateHeightConstraint.constant = 0
             selDateTopConstraint.constant = 0
             selDateRightConstraint.constant = selInactiveWidthDouble
-            if optionPickerStyle.contains(.Year) {
+            if optionSelectors.contains(.Year) {
                 selYearHeightConstraint.constant = selInactiveHeight
                 selYearTopConstraint.constant = selActiveHeight
                 selYearLeftConstraint.constant = 0

@@ -307,6 +307,9 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
     public var optionSelectorPanelFontColorMultipleSelectionHighlight = UIColor.whiteColor()
     public var optionSelectorPanelBackgroundColor = UIColor.brownColor().colorWithAlphaComponent(0.9)
     
+    public var optionMainPanelBackgroundColor = UIColor.whiteColor()
+    public var optionBottomPanelBackgroundColor = UIColor.whiteColor()
+    
     // Extras
     public var optionButtonTitleDone: String = "Done"
     public var optionButtonTitleCancel: String = "Cancel"
@@ -331,6 +334,7 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
     @IBOutlet private weak var backgroundDayView: UIView!
     @IBOutlet private weak var backgroundSelView: UIView!
     @IBOutlet private weak var backgroundContentView: UIView!
+    @IBOutlet private weak var backgroundButtonsView: UIView!
     @IBOutlet private weak var cancelButton: UIButton!
     @IBOutlet private weak var doneButton: UIButton!
     @IBOutlet private weak var selDateView: UIView!
@@ -452,6 +456,8 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
         
         backgroundDayView.backgroundColor = optionTopPanelBackgroundColor
         backgroundSelView.backgroundColor = optionSelectorPanelBackgroundColor
+        backgroundContentView.backgroundColor = optionMainPanelBackgroundColor
+        backgroundButtonsView.backgroundColor = optionBottomPanelBackgroundColor
         selMultipleDatesTable.backgroundColor = optionSelectorPanelBackgroundColor
         
         doneButton.backgroundColor = optionButtonBackgroundColorDone
@@ -1072,6 +1078,7 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
                 calRow.dateFutureFlashBackgroundColor = optionCalendarBackgroundColorFutureDatesFlash
                 calRow.flashDuration = selAnimationDuration
                 cell.contentView.addSubview(calRow)
+                cell.backgroundColor = UIColor.clearColor()
                 cell.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[cr]|", options: [], metrics: nil, views: ["cr": calRow]))
                 cell.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[cr]|", options: [], metrics: nil, views: ["cr": calRow]))
             }
@@ -1100,6 +1107,7 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
             }
             else {
                 cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "cell")
+                cell.backgroundColor = UIColor.clearColor()
                 cell.textLabel?.textAlignment = NSTextAlignment.Center
                 cell.selectionStyle = UITableViewCellSelectionStyle.None
             }

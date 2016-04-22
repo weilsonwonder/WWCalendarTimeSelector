@@ -204,11 +204,12 @@
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sdw-Mc-C2Q" customClass="WWClock" customModule="WWCalendarTimeSelector">
                                                 <rect key="frame" x="0.0" y="0.0" width="280" height="306"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             </view>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="NEJ-YT-VaV">
                                                 <rect key="frame" x="0.0" y="0.0" width="280" height="306"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <connections>
                                                     <outlet property="dataSource" destination="guU-fh-eOY" id="3GD-zx-ql8"/>
                                                     <outlet property="delegate" destination="guU-fh-eOY" id="uiZ-Up-wbh"/>
@@ -307,6 +308,7 @@
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="backgroundButtonsView" destination="PHa-ht-de9" id="8cQ-UM-mfU"/>
                         <outlet property="backgroundContentView" destination="M5t-1q-LX1" id="I0p-hQ-m1G"/>
                         <outlet property="backgroundDayView" destination="cmz-PS-Tfb" id="gQV-IJ-ZMB"/>
                         <outlet property="backgroundSelView" destination="cWr-1L-l1G" id="SIO-3w-1Xh"/>

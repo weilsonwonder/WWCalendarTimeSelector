@@ -279,8 +279,8 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
     public var optionButtonFontDone = UIFont.boldSystemFontOfSize(16)
     public var optionButtonFontColorCancel = UIColor.brownColor()
     public var optionButtonFontColorDone = UIColor.brownColor()
-    public var optionButtonFontColorCancelHighlighted = UIColor.brownColor().colorWithAlphaComponent(0.25)
-    public var optionButtonFontColorDoneHighlighted = UIColor.brownColor().colorWithAlphaComponent(0.25)
+    public var optionButtonFontColorCancelHighlight = UIColor.brownColor().colorWithAlphaComponent(0.25)
+    public var optionButtonFontColorDoneHighlight = UIColor.brownColor().colorWithAlphaComponent(0.25)
     public var optionButtonBackgroundColorCancel = UIColor.clearColor()
     public var optionButtonBackgroundColorDone = UIColor.clearColor()
     
@@ -456,8 +456,8 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
         cancelButton.backgroundColor = optionButtonBackgroundColorCancel
         doneButton.setAttributedTitle(NSAttributedString(string: optionButtonTitleDone, attributes: [NSFontAttributeName: optionButtonFontDone, NSForegroundColorAttributeName: optionButtonFontColorDone]), forState: UIControlState.Normal)
         cancelButton.setAttributedTitle(NSAttributedString(string: optionButtonTitleCancel, attributes: [NSFontAttributeName: optionButtonFontCancel, NSForegroundColorAttributeName: optionButtonFontColorCancel]), forState: UIControlState.Normal)
-        doneButton.setAttributedTitle(NSAttributedString(string: optionButtonTitleDone, attributes: [NSFontAttributeName: optionButtonFontDone, NSForegroundColorAttributeName: optionButtonFontColorDoneHighlighted]), forState: UIControlState.Highlighted)
-        cancelButton.setAttributedTitle(NSAttributedString(string: optionButtonTitleCancel, attributes: [NSFontAttributeName: optionButtonFontCancel, NSForegroundColorAttributeName: optionButtonFontColorCancelHighlighted]), forState: UIControlState.Highlighted)
+        doneButton.setAttributedTitle(NSAttributedString(string: optionButtonTitleDone, attributes: [NSFontAttributeName: optionButtonFontDone, NSForegroundColorAttributeName: optionButtonFontColorDoneHighlight]), forState: UIControlState.Highlighted)
+        cancelButton.setAttributedTitle(NSAttributedString(string: optionButtonTitleCancel, attributes: [NSFontAttributeName: optionButtonFontCancel, NSForegroundColorAttributeName: optionButtonFontColorCancelHighlight]), forState: UIControlState.Highlighted)
         
         dayLabel.textColor = optionTopPanelFontColor
         dayLabel.font = optionTopPanelFont

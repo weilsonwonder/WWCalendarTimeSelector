@@ -34,6 +34,7 @@ class ViewController: UIViewController, WWCalendarTimeSelectorProtocol {
         case 8:
             picker.optionMultipleSelection = true
             picker.optionCurrentDates = Set(multipleDates)
+            picker.optionMultipleSelectionGrouping = .Pill
         default:
             picker.optionStyles = [.Date, .Year, .Time]
         }

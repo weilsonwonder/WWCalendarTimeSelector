@@ -19,12 +19,28 @@ import UIKit
 /// - Note: 
 /// `optionPickerStyle` should contain at least 1 of the following style. It will default to all styles should there be none in the option specified.
 public enum WWCalendarTimeSelectorStyle {
-    /// Shows both Month and Date
+    /// Shows both Month and Date.
     case Date
-    /// Shows only the Year
+    /// Shows only the Year.
     case Year
-    /// Shows only the Time in 12-hour style
+    /// Shows only the Time in 12-hour style.
     case Time
+}
+
+/// Set `optionMultipleSelectionGrouping` with one of the following:
+///
+/// `Simple`: No grouping for multiple selection. Selected dates are displayed as individual circles.
+///
+/// `Pill`: This is the default. Pill-like grouping where dates are grouped only if they are adjacent to each other (+- 1 day).
+///
+/// `LinkedBalls`: Smaller circular selection, with a bar connecting adjacent dates.
+public enum WWCalendarTimeSelectorMultipleSelectionGrouping {
+    /// Displayed as individual circular selection
+    case Simple
+    /// Rounded rectangular grouping
+    case Pill
+    /// Individual circular selection with a bar between adjacent dates
+    case LinkedBalls
 }
 
 /// Set `optionTimeStep` to customise the period of time which the users will be able to choose. The step will show the user the available minutes to select (with exception of `OneMinute` step, see *Note*).
@@ -216,7 +232,8 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
     /// Selector will show the earliest selected date's month by default.
     public var optionCurrentDates: Set<NSDate> = []
     
-    public var optionStyleBlurEffect: UIBlurEffectStyle = UIBlurEffectStyle.Dark
+    public var optionStyleBlurEffect: UIBlurEffectStyle = .Dark
+    public var optionMultipleSelectionGrouping: WWCalendarTimeSelectorMultipleSelectionGrouping = .Pill
     
     // Fonts & Colors
     public var optionCalendarFontMonth = UIFont.systemFontOfSize(14)
@@ -1077,6 +1094,8 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
                 calRow.dateFutureHighlightBackgroundColor = optionCalendarBackgroundColorFutureDatesHighlight
                 calRow.dateFutureFlashBackgroundColor = optionCalendarBackgroundColorFutureDatesFlash
                 calRow.flashDuration = selAnimationDuration
+                calRow.multipleSelectionGrouping = optionMultipleSelectionGrouping
+                calRow.multipleSelectionEnabled = optionMultipleSelection
                 cell.contentView.addSubview(calRow)
                 cell.backgroundColor = UIColor.clearColor()
                 cell.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[cr]|", options: [], metrics: nil, views: ["cr": calRow]))
@@ -1462,6 +1481,8 @@ internal class WWCalendarRow: UIView {
     internal var dateFutureHighlightBackgroundColor: UIColor!
     internal var dateFutureFlashBackgroundColor: UIColor!
     internal var flashDuration: NSTimeInterval!
+    internal var multipleSelectionGrouping: WWCalendarTimeSelectorMultipleSelectionGrouping = .Simple
+    internal var multipleSelectionEnabled: Bool = false
     
     internal var selectedDates: Set<NSDate> {
         set {
@@ -1478,6 +1499,8 @@ internal class WWCalendarRow: UIView {
     private var originalDates: Set<NSDate> = []
     private var comparisonDates: Set<NSDate> = []
     private let days = ["S", "M", "T", "W", "T", "F", "S"]
+    private let multipleSelectionBorder: CGFloat = 12
+    private let multipleSelectionBar: CGFloat = 8
     
     internal override func drawRect(rect: CGRect) {
         let detail = delegate.WWCalendarRowGetDetails(tag)
@@ -1533,11 +1556,58 @@ internal class WWCalendarRow: UIView {
                     let y = (boxHeight - dateHeight) / 2
                     
                     if comparisonDates.contains(date) {
-                        let size = min(boxHeight, boxWidth)
-                        let x = CGFloat(i - 1) * boxWidth + (boxWidth - size) / 2
-                        let y = (boxHeight - size) / 2
                         CGContextSetFillColorWithColor(ctx, backgroundHighlightColor)
-                        CGContextFillEllipseInRect(ctx, CGRect(x: x, y: y, width: size, height: size))
+                        
+                        if multipleSelectionEnabled {
+                            var testStringSize = NSAttributedString(string: "00", attributes: [NSFontAttributeName: dateTodayFontHighlight, NSParagraphStyleAttributeName: paragraph]).size()
+                            var dateMaxWidth = testStringSize.width
+                            var dateMaxHeight = testStringSize.height
+                            if dateFutureFontHighlight.lineHeight > dateTodayFontHighlight.lineHeight {
+                                testStringSize = NSAttributedString(string: "00", attributes: [NSFontAttributeName: dateFutureFontHighlight, NSParagraphStyleAttributeName: paragraph]).size()
+                                dateMaxWidth = testStringSize.width
+                                dateMaxHeight = testStringSize.height
+                            }
+                            if datePastFontHighlight.lineHeight > dateFutureFontHighlight.lineHeight {
+                                testStringSize = NSAttributedString(string: "00", attributes: [NSFontAttributeName: datePastFontHighlight, NSParagraphStyleAttributeName: paragraph]).size()
+                                dateMaxWidth = testStringSize.width
+                                dateMaxHeight = testStringSize.height
+                            }
+                            
+                            let size = min(max(dateHeight, dateMaxWidth) + multipleSelectionBorder, min(boxHeight, boxWidth))
+                            let maxConnectorSize = min(max(dateMaxHeight, dateMaxWidth) + multipleSelectionBorder, min(boxHeight, boxWidth))
+                            let x = CGFloat(i - 1) * boxWidth + (boxWidth - size) / 2
+                            let y = (boxHeight - size) / 2
+                            
+                            // connector
+                            switch multipleSelectionGrouping {
+                            case .Simple:
+                                break
+                            case .Pill:
+                                if comparisonDates.contains(date - 1.day) {
+                                    CGContextFillRect(ctx, CGRect(x: CGFloat(i - 1) * boxWidth, y: y, width: boxWidth / 2, height: maxConnectorSize))
+                                }
+                                if comparisonDates.contains(date + 1.day) {
+                                    CGContextFillRect(ctx, CGRect(x: CGFloat(i - 1) * boxWidth + boxWidth / 2, y: y, width: boxWidth / 2, height: maxConnectorSize))
+                                }
+                            case .LinkedBalls:
+                                if comparisonDates.contains(date - 1.day) {
+                                    CGContextFillRect(ctx, CGRect(x: CGFloat(i - 1) * boxWidth, y: (boxHeight - multipleSelectionBar) / 2, width: boxWidth / 2, height: multipleSelectionBar))
+                                }
+                                if comparisonDates.contains(date + 1.day) {
+                                    CGContextFillRect(ctx, CGRect(x: CGFloat(i - 1) * boxWidth + boxWidth / 2, y: (boxHeight - multipleSelectionBar) / 2, width: boxWidth / 2, height: multipleSelectionBar))
+                                }
+                            }
+                            
+                            // ball
+                            CGContextFillEllipseInRect(ctx, CGRect(x: x, y: y, width: size, height: size))
+                        }
+                        else {
+                            let size = min(boxHeight, boxWidth)
+                            let x = CGFloat(i - 1) * boxWidth + (boxWidth - size) / 2
+                            let y = (boxHeight - size) / 2
+                            CGContextFillEllipseInRect(ctx, CGRect(x: x, y: y, width: size, height: size))
+                        }
+                        
                         str = NSMutableAttributedString(string: "\(date.day)", attributes: [NSFontAttributeName: font, NSForegroundColorAttributeName: fontHighlightColor, NSParagraphStyleAttributeName: paragraph])
                     }
                     else {

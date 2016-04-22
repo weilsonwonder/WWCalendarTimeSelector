@@ -426,9 +426,9 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        visualEffectDarkView.hidden = optionStyleBlurEffect == .Dark
-        visualEffectLightView.hidden = optionStyleBlurEffect == .Light
-        visualEffectExtraLightView.hidden = optionStyleBlurEffect == .ExtraLight
+        visualEffectDarkView.hidden = optionStyleBlurEffect != .Dark
+        visualEffectLightView.hidden = optionStyleBlurEffect != .Light
+        visualEffectExtraLightView.hidden = optionStyleBlurEffect != .ExtraLight
         
         if optionStyles.count == 0 {
             optionStyles = [.Date, .Year, .Time]

@@ -1481,7 +1481,7 @@ internal class WWCalendarRow: UIView {
     internal var dateFutureHighlightBackgroundColor: UIColor!
     internal var dateFutureFlashBackgroundColor: UIColor!
     internal var flashDuration: NSTimeInterval!
-    internal var multipleSelectionGrouping: WWCalendarTimeSelectorMultipleSelectionGrouping = .Simple
+    internal var multipleSelectionGrouping: WWCalendarTimeSelectorMultipleSelectionGrouping = .Pill
     internal var multipleSelectionEnabled: Bool = false
     
     internal var selectedDates: Set<NSDate> {

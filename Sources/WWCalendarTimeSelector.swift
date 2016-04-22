@@ -146,7 +146,6 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
     /// `WWCalendarTimeSelectorDidDismiss:selector:`
     public var delegate: WWCalendarTimeSelectorProtocol?
     
-    
     /// Set `optionPickerStyle` with one or more of the following:
     ///
     /// `Date`: This shows the the date and month.
@@ -216,6 +215,8 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
     /// - Note:
     /// Selector will show the earliest selected date's month by default.
     public var optionCurrentDates: Set<NSDate> = []
+    
+    public var optionStyleBlurEffect: UIBlurEffectStyle = UIBlurEffectStyle.Dark
     
     // Fonts & Colors
     public var optionCalendarFontMonth = UIFont.systemFontOfSize(14)
@@ -322,6 +323,9 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
     public var optionLayoutLandscapeRatio: CGFloat = 3/8
     
     // All Views
+    @IBOutlet private weak var visualEffectExtraLightView: UIVisualEffectView!
+    @IBOutlet private weak var visualEffectLightView: UIVisualEffectView!
+    @IBOutlet private weak var visualEffectDarkView: UIVisualEffectView!
     @IBOutlet private weak var topContainerView: UIView!
     @IBOutlet private weak var bottomContainerView: UIView!
     @IBOutlet private weak var backgroundDayView: UIView!
@@ -421,6 +425,10 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        
+        visualEffectDarkView.hidden = optionStyleBlurEffect == .Dark
+        visualEffectLightView.hidden = optionStyleBlurEffect == .Light
+        visualEffectExtraLightView.hidden = optionStyleBlurEffect == .ExtraLight
         
         if optionStyles.count == 0 {
             optionStyles = [.Date, .Year, .Time]

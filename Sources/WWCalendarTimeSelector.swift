@@ -391,7 +391,6 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
     private var calRow2StartDate: NSDate = NSDate()
     private var calRow3StartDate: NSDate = NSDate()
     private var yearRow1: Int = 2016
-    private var deviceOrientation: UIDeviceOrientation { return UIDevice.currentDevice().orientation }
     private var multipleDates: [NSDate] { return optionCurrentDates.sort() }
     private var multipleDatesLastAdded: NSDate?
     private var flashDate: NSDate?
@@ -525,8 +524,9 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
     }
     
     internal func didRotate() {
-        if deviceOrientation == .LandscapeLeft || deviceOrientation == .LandscapeRight || deviceOrientation == .Portrait {
-            let isPortrait = deviceOrientation.isPortrait
+        let orientation = UIApplication.sharedApplication().statusBarOrientation
+        if orientation == .LandscapeLeft || orientation == .LandscapeRight || orientation == .Portrait || orientation == .PortraitUpsideDown {
+            let isPortrait = orientation == .Portrait || orientation == .PortraitUpsideDown
             let size = view.bounds.size
             
             topContainerWidthConstraint.constant = isPortrait ? portraitContainerWidth : landscapeTopContainerWidth
@@ -575,6 +575,14 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
                 showDate(false)
             }
         }
+    }
+    
+    public override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return [UIInterfaceOrientationMask.All]
+    }
+    
+    public override func shouldAutorotate() -> Bool {
+        return true
     }
     
     @IBAction func showDate() {

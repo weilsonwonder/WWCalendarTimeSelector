@@ -23,7 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		007161C91CC87C26002CB119 /* WWCalendarTimeSelectorDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WWCalendarTimeSelectorDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		007161C91CC87C26002CB119 /* WWCalendarTimeSelector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WWCalendarTimeSelector.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		007161CC1CC87C26002CB119 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		007161CE1CC87C26002CB119 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		007161D11CC87C26002CB119 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -62,7 +62,7 @@
 		007161CA1CC87C26002CB119 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				007161C91CC87C26002CB119 /* WWCalendarTimeSelectorDemo.app */,
+				007161C91CC87C26002CB119 /* WWCalendarTimeSelector.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -107,9 +107,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		007161C81CC87C26002CB119 /* WWCalendarTimeSelectorDemo */ = {
+		007161C81CC87C26002CB119 /* WWCalendarTimeSelector */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 007161DB1CC87C26002CB119 /* Build configuration list for PBXNativeTarget "WWCalendarTimeSelectorDemo" */;
+			buildConfigurationList = 007161DB1CC87C26002CB119 /* Build configuration list for PBXNativeTarget "WWCalendarTimeSelector" */;
 			buildPhases = (
 				007161C51CC87C26002CB119 /* Sources */,
 				007161C61CC87C26002CB119 /* Frameworks */,
@@ -119,9 +119,9 @@
 			);
 			dependencies = (
 			);
-			name = WWCalendarTimeSelectorDemo;
+			name = WWCalendarTimeSelector;
 			productName = WWCalendarTimeSelectorDemo;
-			productReference = 007161C91CC87C26002CB119 /* WWCalendarTimeSelectorDemo.app */;
+			productReference = 007161C91CC87C26002CB119 /* WWCalendarTimeSelector.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -152,7 +152,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				007161C81CC87C26002CB119 /* WWCalendarTimeSelectorDemo */,
+				007161C81CC87C26002CB119 /* WWCalendarTimeSelector */,
 			);
 		};
 /* End PBXProject section */
@@ -327,7 +327,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		007161DB1CC87C26002CB119 /* Build configuration list for PBXNativeTarget "WWCalendarTimeSelectorDemo" */ = {
+		007161DB1CC87C26002CB119 /* Build configuration list for PBXNativeTarget "WWCalendarTimeSelector" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				007161DC1CC87C26002CB119 /* Debug */,

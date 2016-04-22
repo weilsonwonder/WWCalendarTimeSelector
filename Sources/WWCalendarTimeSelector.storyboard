@@ -29,7 +29,7 @@
                                                 <view clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cmz-PS-Tfb">
                                                     <rect key="frame" x="0.0" y="0.0" width="280" height="28"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Day" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cRz-DT-zDj">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Day" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="cRz-DT-zDj">
                                                             <rect key="frame" x="8" y="4" width="264" height="20"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                             <nil key="highlightedColor"/>
@@ -150,6 +150,16 @@
                                                         <constraint firstItem="yCR-Jq-YHK" firstAttribute="top" secondItem="cWr-1L-l1G" secondAttribute="top" id="z0V-1M-6OD"/>
                                                     </constraints>
                                                 </view>
+                                                <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="515-lv-Im4">
+                                                    <rect key="frame" x="0.0" y="28" width="280" height="156"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <connections>
+                                                        <outlet property="dataSource" destination="guU-fh-eOY" id="94h-IO-zVW"/>
+                                                        <outlet property="delegate" destination="guU-fh-eOY" id="qPz-DQ-RgN"/>
+                                                    </connections>
+                                                </tableView>
                                             </subviews>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
@@ -159,8 +169,12 @@
                                                 <constraint firstAttribute="width" constant="280" id="Fup-nt-LeL"/>
                                                 <constraint firstItem="cWr-1L-l1G" firstAttribute="leading" secondItem="yZx-N2-yKn" secondAttribute="leading" id="JAO-N7-ZNr"/>
                                                 <constraint firstItem="cmz-PS-Tfb" firstAttribute="top" secondItem="yZx-N2-yKn" secondAttribute="top" id="NhO-Qd-W6Y"/>
+                                                <constraint firstAttribute="trailing" secondItem="515-lv-Im4" secondAttribute="trailing" id="Vzo-qG-Pmn"/>
+                                                <constraint firstItem="515-lv-Im4" firstAttribute="leading" secondItem="yZx-N2-yKn" secondAttribute="leading" id="Xyl-2a-WVj"/>
                                                 <constraint firstAttribute="height" constant="184" id="bSR-cD-kZe"/>
+                                                <constraint firstAttribute="bottom" secondItem="515-lv-Im4" secondAttribute="bottom" id="fcG-sT-f7Q"/>
                                                 <constraint firstAttribute="trailing" secondItem="cmz-PS-Tfb" secondAttribute="trailing" id="mlt-KS-qpk"/>
+                                                <constraint firstItem="515-lv-Im4" firstAttribute="top" secondItem="cmz-PS-Tfb" secondAttribute="bottom" id="tUe-OA-hGp"/>
                                                 <constraint firstItem="cmz-PS-Tfb" firstAttribute="leading" secondItem="yZx-N2-yKn" secondAttribute="leading" id="tl4-iW-GeI"/>
                                             </constraints>
                                         </view>
@@ -168,10 +182,22 @@
                                             <rect key="frame" x="20" y="204" width="280" height="344"/>
                                             <subviews>
                                                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M5t-1q-LX1">
-                                                    <rect key="frame" x="0.0" y="0.0" width="280" height="308"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="280" height="306"/>
                                                     <subviews>
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sdw-Mc-C2Q" customClass="WWClock" customModule="WWCalendarTimeSelector">
+                                                            <rect key="frame" x="0.0" y="0.0" width="280" height="306"/>
+                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </view>
+                                                        <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="NEJ-YT-VaV">
+                                                            <rect key="frame" x="0.0" y="0.0" width="280" height="306"/>
+                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <connections>
+                                                                <outlet property="dataSource" destination="guU-fh-eOY" id="3GD-zx-ql8"/>
+                                                                <outlet property="delegate" destination="guU-fh-eOY" id="uiZ-Up-wbh"/>
+                                                            </connections>
+                                                        </tableView>
                                                         <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Qdk-04-U5s">
-                                                            <rect key="frame" x="0.0" y="0.0" width="280" height="308"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="280" height="306"/>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             <connections>
@@ -179,18 +205,6 @@
                                                                 <outlet property="delegate" destination="guU-fh-eOY" id="i2t-dy-att"/>
                                                             </connections>
                                                         </tableView>
-                                                        <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="NEJ-YT-VaV">
-                                                            <rect key="frame" x="0.0" y="0.0" width="280" height="308"/>
-                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <connections>
-                                                                <outlet property="dataSource" destination="guU-fh-eOY" id="3GD-zx-ql8"/>
-                                                                <outlet property="delegate" destination="guU-fh-eOY" id="uiZ-Up-wbh"/>
-                                                            </connections>
-                                                        </tableView>
-                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sdw-Mc-C2Q" customClass="WWClock" customModule="WWCalendarTimeSelector">
-                                                            <rect key="frame" x="0.0" y="0.0" width="280" height="308"/>
-                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </view>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
@@ -209,20 +223,18 @@
                                                     </constraints>
                                                 </view>
                                                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PHa-ht-de9">
-                                                    <rect key="frame" x="0.0" y="308" width="280" height="36"/>
+                                                    <rect key="frame" x="0.0" y="306" width="280" height="38"/>
                                                     <subviews>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MbZ-dk-Lr7">
-                                                            <rect key="frame" x="225" y="0.0" width="55" height="36"/>
-                                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MbZ-dk-Lr7">
+                                                            <rect key="frame" x="221" y="0.0" width="59" height="38"/>
                                                             <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
                                                             <state key="normal" title="Done"/>
                                                             <connections>
                                                                 <action selector="done" destination="guU-fh-eOY" eventType="touchUpInside" id="2ve-C3-ykV"/>
                                                             </connections>
                                                         </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uaO-9T-OmA">
-                                                            <rect key="frame" x="0.0" y="0.0" width="68" height="36"/>
-                                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uaO-9T-OmA">
+                                                            <rect key="frame" x="0.0" y="0.0" width="72" height="38"/>
                                                             <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
                                                             <state key="normal" title="Cancel"/>
                                                             <connections>
@@ -300,6 +312,7 @@
                         <outlet property="selDateYConstraint" destination="SEG-5g-v6e" id="hP7-I6-z2I"/>
                         <outlet property="selMonthXConstraint" destination="qer-CG-x6I" id="08W-AG-ljC"/>
                         <outlet property="selMonthYConstraint" destination="qoz-oB-3J7" id="WzZ-rn-bGK"/>
+                        <outlet property="selMultipleDatesTable" destination="515-lv-Im4" id="UPe-dB-kZP"/>
                         <outlet property="selTimeHeightConstraint" destination="Nfw-6T-iQb" id="aZm-C7-qoV"/>
                         <outlet property="selTimeLeftConstraint" destination="gic-5W-Q8o" id="qh2-V7-DrN"/>
                         <outlet property="selTimeRightConstraint" destination="3vM-RV-9hl" id="Xqr-Er-qSm"/>

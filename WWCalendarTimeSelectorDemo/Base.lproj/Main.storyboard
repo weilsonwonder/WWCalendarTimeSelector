@@ -8,7 +8,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="WWCalendarTimeSelectorDemo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="WWCalendarTimeSelector" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -72,6 +72,13 @@
                                     <action selector="showPicker:" destination="BYZ-38-t0r" eventType="touchUpInside" id="l1e-RB-LZS"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" tag="8" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TTm-7o-CqG">
+                                <rect key="frame" x="133" y="323" width="54" height="30"/>
+                                <state key="normal" title="Demo 8"/>
+                                <connections>
+                                    <action selector="showPicker:" destination="BYZ-38-t0r" eventType="touchUpInside" id="SBp-b2-zfv"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -90,6 +97,8 @@
                             <constraint firstItem="Yxe-KT-oi0" firstAttribute="top" secondItem="7jy-o7-fx9" secondAttribute="bottom" constant="8" symbolic="YES" id="cSo-b0-np5"/>
                             <constraint firstItem="Jq8-G2-md0" firstAttribute="top" secondItem="4Sz-pT-LDn" secondAttribute="bottom" constant="8" symbolic="YES" id="d7z-GQ-xjE"/>
                             <constraint firstItem="Yxe-KT-oi0" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="gHK-fT-y8C"/>
+                            <constraint firstItem="TTm-7o-CqG" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="sAS-d4-ryB"/>
+                            <constraint firstItem="TTm-7o-CqG" firstAttribute="top" secondItem="Jq8-G2-md0" secondAttribute="bottom" constant="8" symbolic="YES" id="tM1-0s-0ff"/>
                             <constraint firstItem="kkW-eJ-sjz" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ycn-Oc-Uy8"/>
                         </constraints>
                     </view>

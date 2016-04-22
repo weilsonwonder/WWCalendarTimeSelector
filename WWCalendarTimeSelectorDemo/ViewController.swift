@@ -11,6 +11,7 @@ import UIKit
 class ViewController: UIViewController, WWCalendarTimeSelectorProtocol {
     
     @IBOutlet weak var dateLabel: UILabel!
+    private var multipleDates: [NSDate] = []
     
     @IBAction func showPicker(sender: UIButton) {
         let picker = WWCalendarTimeSelector.instantiate()
@@ -28,6 +29,11 @@ class ViewController: UIViewController, WWCalendarTimeSelectorProtocol {
             picker.optionPickerStyle = [.Year, .Time]
         case 6:
             picker.optionPickerStyle = [.Date, .Time]
+        case 7:
+            picker.optionPickerStyle = [.Date, .Year, .Time]
+        case 8:
+            picker.optionMultipleSelection = true
+            picker.optionCurrentDates = Set(multipleDates)
         default:
             picker.optionPickerStyle = [.Date, .Year, .Time]
         }
@@ -40,7 +46,13 @@ class ViewController: UIViewController, WWCalendarTimeSelectorProtocol {
         presentViewController(picker, animated: true, completion: nil)
     }
     
-    func WWCalendarTimeSelectorDone(selector: WWCalendarTimeSelector, date: NSDate) {
-        dateLabel.text = date.stringFromFormat("d' 'MMMM' 'yyyy', 'h':'mma")
+    func WWCalendarTimeSelectorDone(selector: WWCalendarTimeSelector, dates: [NSDate]) {
+        if let date = dates.first {
+            dateLabel.text = date.stringFromFormat("d' 'MMMM' 'yyyy', 'h':'mma")
+        }
+        
+        if selector.optionMultipleSelection {
+            multipleDates = dates
+        }
     }
 }

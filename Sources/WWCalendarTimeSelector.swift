@@ -160,7 +160,7 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
     ///
     /// - Note:
     /// Defaults to all styles.
-    public var optionSelectors: Set<WWCalendarTimeSelectorStyle> = [.Date, .Year, .Time]
+    public var optionStyles: Set<WWCalendarTimeSelectorStyle> = [.Date, .Year, .Time]
     
     /// Set `optionTimeStep` to customise the period of time which the users will be able to choose. The step will show the user the available minutes to select (with exception of `OneMinute` step, see *Note*).
     ///
@@ -422,8 +422,8 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        if optionSelectors.count == 0 {
-            optionSelectors = [.Date, .Year, .Time]
+        if optionStyles.count == 0 {
+            optionStyles = [.Date, .Year, .Time]
         }
         
         let seventhRowStartDate = optionCurrentDate.beginningOfMonth
@@ -435,13 +435,7 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
         
         selMultipleDatesTable.hidden = !optionMultipleSelection
         backgroundSelView.hidden = optionMultipleSelection
-        
-        
-        
-        
-        
-        
-        
+
         dayViewHeightConstraint.constant = optionShowTopPanel ? optionLayoutTopPanelHeight : 0
         view.layoutIfNeeded()
         
@@ -502,13 +496,13 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
             selMultipleDatesTable.reloadData()
             didRotate()
             
-            if optionSelectors.contains(.Date) {
+            if optionStyles.contains(.Date) {
                 showDate(true)
             }
-            else if optionSelectors.contains(.Year) {
+            else if optionStyles.contains(.Year) {
                 showYear(true)
             }
-            else if optionSelectors.contains(.Time) {
+            else if optionStyles.contains(.Time) {
                 showTime(true)
             }
         }
@@ -789,14 +783,14 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
         selDateTopConstraint.constant = 0
         selDateLeftConstraint.constant = 0
         selDateRightConstraint.constant = 0
-        selDateHeightConstraint.constant = optionSelectors.count > 1 ? selActiveHeight : selActiveHeightFull
+        selDateHeightConstraint.constant = optionStyles.count > 1 ? selActiveHeight : selActiveHeightFull
         
         selYearLeftConstraint.constant = 0
         selTimeRightConstraint.constant = 0
-        if optionSelectors.contains(.Year) {
+        if optionStyles.contains(.Year) {
             selYearTopConstraint.constant = selActiveHeight
             selYearHeightConstraint.constant = selInactiveHeight
-            if optionSelectors.contains(.Time) {
+            if optionStyles.contains(.Time) {
                 selYearRightConstraint.constant = selInactiveWidth
                 selTimeHeightConstraint.constant = selInactiveHeight
                 selTimeTopConstraint.constant = selActiveHeight
@@ -813,7 +807,7 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
             selYearTopConstraint.constant = 0
             selYearHeightConstraint.constant = 0
             selYearRightConstraint.constant = selInactiveWidthDouble
-            if optionSelectors.contains(.Time) {
+            if optionStyles.contains(.Time) {
                 selTimeHeightConstraint.constant = selInactiveHeight
                 selTimeTopConstraint.constant = selActiveHeight
                 selTimeLeftConstraint.constant = 0
@@ -870,14 +864,14 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
         selYearTopConstraint.constant = 0
         selYearLeftConstraint.constant = 0
         selYearRightConstraint.constant = 0
-        selYearHeightConstraint.constant = optionSelectors.count > 1 ? selActiveHeight : selActiveHeightFull
+        selYearHeightConstraint.constant = optionStyles.count > 1 ? selActiveHeight : selActiveHeightFull
         
         selDateLeftConstraint.constant = 0
         selTimeRightConstraint.constant = 0
-        if optionSelectors.contains(.Date) {
+        if optionStyles.contains(.Date) {
             selDateHeightConstraint.constant = selInactiveHeight
             selDateTopConstraint.constant = selActiveHeight
-            if optionSelectors.contains(.Time) {
+            if optionStyles.contains(.Time) {
                 selDateRightConstraint.constant = selInactiveWidth
                 selTimeHeightConstraint.constant = selInactiveHeight
                 selTimeTopConstraint.constant = selActiveHeight
@@ -894,7 +888,7 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
             selDateHeightConstraint.constant = 0
             selDateTopConstraint.constant = 0
             selDateRightConstraint.constant = selInactiveWidthDouble
-            if optionSelectors.contains(.Time) {
+            if optionStyles.contains(.Time) {
                 selTimeHeightConstraint.constant = selInactiveHeight
                 selTimeTopConstraint.constant = selActiveHeight
                 selTimeLeftConstraint.constant = 0
@@ -951,14 +945,14 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
         selTimeTopConstraint.constant = 0
         selTimeLeftConstraint.constant = 0
         selTimeRightConstraint.constant = 0
-        selTimeHeightConstraint.constant = optionSelectors.count > 1 ? selActiveHeight : selActiveHeightFull
+        selTimeHeightConstraint.constant = optionStyles.count > 1 ? selActiveHeight : selActiveHeightFull
         
         selDateLeftConstraint.constant = 0
         selYearRightConstraint.constant = 0
-        if optionSelectors.contains(.Date) {
+        if optionStyles.contains(.Date) {
             selDateHeightConstraint.constant = selInactiveHeight
             selDateTopConstraint.constant = selActiveHeight
-            if optionSelectors.contains(.Year) {
+            if optionStyles.contains(.Year) {
                 selDateRightConstraint.constant = selInactiveWidth
                 selYearHeightConstraint.constant = selInactiveHeight
                 selYearTopConstraint.constant = selActiveHeight
@@ -975,7 +969,7 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
             selDateHeightConstraint.constant = 0
             selDateTopConstraint.constant = 0
             selDateRightConstraint.constant = selInactiveWidthDouble
-            if optionSelectors.contains(.Year) {
+            if optionStyles.contains(.Year) {
                 selYearHeightConstraint.constant = selInactiveHeight
                 selYearTopConstraint.constant = selActiveHeight
                 selYearLeftConstraint.constant = 0
@@ -1141,9 +1135,12 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if tableView == yearTable {
             let displayYear = yearRow1 + indexPath.row
-            optionCurrentDate = optionCurrentDate.change(year: displayYear)
-            updateDate()
-            tableView.reloadData()
+            let newDate = optionCurrentDate.change(year: displayYear)
+            if delegate?.WWCalendarTimeSelectorShouldSelectDate?(self, date: newDate) ?? true {
+                optionCurrentDate = newDate
+                updateDate()
+                tableView.reloadData()
+            }
         }
         else if tableView == selMultipleDatesTable {
             let date = multipleDates[indexPath.row]

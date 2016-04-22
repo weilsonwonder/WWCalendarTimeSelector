@@ -18,24 +18,24 @@ class ViewController: UIViewController, WWCalendarTimeSelectorProtocol {
         
         switch sender.tag {
         case 1:
-            picker.optionPickerStyle = [.Date]
+            picker.optionStyles = [.Date]
         case 2:
-            picker.optionPickerStyle = [.Year]
+            picker.optionStyles = [.Year]
         case 3:
-            picker.optionPickerStyle = [.Time]
+            picker.optionStyles = [.Time]
         case 4:
-            picker.optionPickerStyle = [.Date, .Year]
+            picker.optionStyles = [.Date, .Year]
         case 5:
-            picker.optionPickerStyle = [.Year, .Time]
+            picker.optionStyles = [.Year, .Time]
         case 6:
-            picker.optionPickerStyle = [.Date, .Time]
+            picker.optionStyles = [.Date, .Time]
         case 7:
-            picker.optionPickerStyle = [.Date, .Year, .Time]
+            picker.optionStyles = [.Date, .Year, .Time]
         case 8:
             picker.optionMultipleSelection = true
             picker.optionCurrentDates = Set(multipleDates)
         default:
-            picker.optionPickerStyle = [.Date, .Year, .Time]
+            picker.optionStyles = [.Date, .Year, .Time]
         }
         picker.delegate = self
         if let t = dateLabel.text {

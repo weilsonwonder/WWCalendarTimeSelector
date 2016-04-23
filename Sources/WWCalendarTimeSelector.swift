@@ -232,8 +232,24 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
     /// Selector will show the earliest selected date's month by default.
     public var optionCurrentDates: Set<NSDate> = []
     
+    /// Set the background blur effect, where background is a `UIVisualEffectView`. Available options are as `UIBlurEffectStyle`:
+    ///
+    /// `Dark`
+    ///
+    /// `Light`
+    ///
+    /// `ExtraLight`
     public var optionStyleBlurEffect: UIBlurEffectStyle = .Dark
+    
+    /// Set `optionMultipleSelectionGrouping` with one of the following:
+    ///
+    /// `Simple`: No grouping for multiple selection. Selected dates are displayed as individual circles.
+    ///
+    /// `Pill`: This is the default. Pill-like grouping where dates are grouped only if they are adjacent to each other (+- 1 day).
+    ///
+    /// `LinkedBalls`: Smaller circular selection, with a bar connecting adjacent dates.
     public var optionMultipleSelectionGrouping: WWCalendarTimeSelectorMultipleSelectionGrouping = .Pill
+    
     
     // Fonts & Colors
     public var optionCalendarFontMonth = UIFont.systemFontOfSize(14)
@@ -293,6 +309,8 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
     public var optionClockBackgroundColorFace = UIColor(white: 0.9, alpha: 1)
     public var optionClockBackgroundColorCenter = UIColor.blackColor()
     
+    public var optionButtonTitleDone: String = "Done"
+    public var optionButtonTitleCancel: String = "Cancel"
     public var optionButtonFontCancel = UIFont.systemFontOfSize(16)
     public var optionButtonFontDone = UIFont.boldSystemFontOfSize(16)
     public var optionButtonFontColorCancel = UIColor.brownColor()
@@ -327,25 +345,47 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
     public var optionMainPanelBackgroundColor = UIColor.whiteColor()
     public var optionBottomPanelBackgroundColor = UIColor.whiteColor()
     
-    // Extras
-    public var optionButtonTitleDone: String = "Done"
-    public var optionButtonTitleCancel: String = "Cancel"
+    /// This is the month's offset when user is in selection of dates mode. A positive number will adjusts the month higher, while a negative number will adjust the month lower.
+    ///
+    /// - Note:
+    /// Defaults to 30.
     public var optionSelectorPanelOffsetHighlightMonth: CGFloat = 30
+    
+    /// This is the date's offset when user is in selection of dates mode. A positive number will adjusts the date lower, while a negative number will adjust the date higher.
+    ///
+    /// - Note:
+    /// Defaults to 24.
     public var optionSelectorPanelOffsetHighlightDate: CGFloat = 24
+    
+    /// This is the scale of the month when it is in active view.
     public var optionSelectorPanelScaleMonth: CGFloat = 2.5
     public var optionSelectorPanelScaleDate: CGFloat = 4.5
     public var optionSelectorPanelScaleYear: CGFloat = 4
     public var optionSelectorPanelScaleTime: CGFloat = 2.75
+    
+    /// This is the height calendar's "title bar". If you wish to hide the Top Panel, consider `optionShowTopPanel`
+    ///
+    /// - SeeAlso:
+    /// `optionShowTopPanel`
     public var optionLayoutTopPanelHeight: CGFloat = 28
+    
+    /// The height of the calendar in portrait mode. This will be translated automatically into the width in landscape mode.
     public var optionLayoutHeight: CGFloat = 528
+    
+    /// The width of the calendar in portrait mode. This will be translated automatically into the height in landscape mode.
     public var optionLayoutWidth: CGFloat = 280
-    public var optionLayoutPotraitRatio: CGFloat = 7/20
+    
+    /// When calendar is in portrait mode, the ratio of *Top Container* to *Bottom Container*.
+    ///
+    /// - Note: Defaults to 7 / 20
+    public var optionLayoutPortraitRatio: CGFloat = 7/20
+    
+    /// When calendar is in landscape mode, the ratio of *Top Container* to *Bottom Container*.
+    ///
+    /// - Note: Defaults to 3 / 8
     public var optionLayoutLandscapeRatio: CGFloat = 3/8
     
     // All Views
-    @IBOutlet private weak var visualEffectExtraLightView: UIVisualEffectView!
-    @IBOutlet private weak var visualEffectLightView: UIVisualEffectView!
-    @IBOutlet private weak var visualEffectDarkView: UIVisualEffectView!
     @IBOutlet private weak var topContainerView: UIView!
     @IBOutlet private weak var bottomContainerView: UIView!
     @IBOutlet private weak var backgroundDayView: UIView!
@@ -398,7 +438,7 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
     private let selAnimationDuration: NSTimeInterval = 0.4
     private let selInactiveHeight: CGFloat = 48
     private var portraitContainerWidth: CGFloat { return optionLayoutWidth }
-    private var portraitTopContainerHeight: CGFloat { return optionLayoutHeight * optionLayoutPotraitRatio }
+    private var portraitTopContainerHeight: CGFloat { return optionLayoutHeight * optionLayoutPortraitRatio }
     private var portraitBottomContainerHeight: CGFloat { return optionLayoutHeight - portraitTopContainerHeight }
     private var landscapeContainerHeight: CGFloat { return optionLayoutWidth }
     private var landscapeTopContainerWidth: CGFloat { return optionLayoutHeight * optionLayoutLandscapeRatio }
@@ -447,9 +487,12 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        visualEffectDarkView.hidden = optionStyleBlurEffect != .Dark
-        visualEffectLightView.hidden = optionStyleBlurEffect != .Light
-        visualEffectExtraLightView.hidden = optionStyleBlurEffect != .ExtraLight
+        // Add background
+        let background = UIVisualEffectView(effect: UIBlurEffect(style: optionStyleBlurEffect))
+        background.translatesAutoresizingMaskIntoConstraints = false
+        view.insertSubview(background, atIndex: 0)
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[bg]|", options: [], metrics: nil, views: ["bg": background]))
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[bg]|", options: [], metrics: nil, views: ["bg": background]))
         
         if optionStyles.count == 0 {
             optionStyles = [.Date, .Year, .Time]

@@ -17,30 +17,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Dh-uC-hmj">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="wA8-ii-W5M">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                </view>
-                                <blurEffect style="extraLight"/>
-                            </visualEffectView>
-                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vam-81-mAf">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="EDn-PT-1Yq">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                </view>
-                                <blurEffect style="light"/>
-                            </visualEffectView>
-                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lau-BG-lC0">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="qnS-cX-kdi">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                </view>
-                                <blurEffect style="dark"/>
-                            </visualEffectView>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yZx-N2-yKn">
                                 <rect key="frame" x="20" y="20" width="280" height="184"/>
                                 <subviews>
@@ -288,22 +264,10 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="5Dh-uC-hmj" secondAttribute="trailing" id="0TS-Oe-0EZ"/>
-                            <constraint firstItem="SIY-e8-2EO" firstAttribute="top" secondItem="Vam-81-mAf" secondAttribute="bottom" id="0Xo-Ev-PyK"/>
                             <constraint firstItem="WyW-5f-hIf" firstAttribute="top" secondItem="zMM-Fk-JLe" secondAttribute="top" constant="204" id="0td-o9-QK4"/>
-                            <constraint firstAttribute="trailing" secondItem="Lau-BG-lC0" secondAttribute="trailing" id="3BZ-dy-L7J"/>
-                            <constraint firstItem="SIY-e8-2EO" firstAttribute="top" secondItem="5Dh-uC-hmj" secondAttribute="bottom" id="3Il-mN-2Hk"/>
                             <constraint firstItem="WyW-5f-hIf" firstAttribute="leading" secondItem="zMM-Fk-JLe" secondAttribute="leading" constant="20" id="C9D-y6-A1S"/>
-                            <constraint firstItem="SIY-e8-2EO" firstAttribute="top" secondItem="Lau-BG-lC0" secondAttribute="bottom" id="NEj-Ma-VYP"/>
                             <constraint firstItem="yZx-N2-yKn" firstAttribute="leading" secondItem="zMM-Fk-JLe" secondAttribute="leading" constant="20" id="P1f-9g-7aZ"/>
-                            <constraint firstItem="5Dh-uC-hmj" firstAttribute="top" secondItem="zMM-Fk-JLe" secondAttribute="top" id="RoZ-gk-Rgc"/>
-                            <constraint firstAttribute="trailing" secondItem="Vam-81-mAf" secondAttribute="trailing" id="dwk-wU-SdV"/>
-                            <constraint firstItem="Vam-81-mAf" firstAttribute="top" secondItem="zMM-Fk-JLe" secondAttribute="top" id="eCy-kh-RcL"/>
                             <constraint firstItem="yZx-N2-yKn" firstAttribute="top" secondItem="zMM-Fk-JLe" secondAttribute="top" constant="20" id="h15-uU-Vex"/>
-                            <constraint firstItem="Lau-BG-lC0" firstAttribute="leading" secondItem="zMM-Fk-JLe" secondAttribute="leading" id="h5v-c6-gPx"/>
-                            <constraint firstItem="Lau-BG-lC0" firstAttribute="top" secondItem="zMM-Fk-JLe" secondAttribute="top" id="iYD-OI-BVD"/>
-                            <constraint firstItem="Vam-81-mAf" firstAttribute="leading" secondItem="zMM-Fk-JLe" secondAttribute="leading" id="yFH-5u-71w"/>
-                            <constraint firstItem="5Dh-uC-hmj" firstAttribute="leading" secondItem="zMM-Fk-JLe" secondAttribute="leading" id="zQl-U5-9Hg"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
@@ -351,9 +315,6 @@
                         <outlet property="topContainerTopConstraint" destination="h15-uU-Vex" id="lkw-GJ-erU"/>
                         <outlet property="topContainerView" destination="yZx-N2-yKn" id="FER-qA-YbE"/>
                         <outlet property="topContainerWidthConstraint" destination="Fup-nt-LeL" id="qjL-Ga-JJk"/>
-                        <outlet property="visualEffectDarkView" destination="Lau-BG-lC0" id="q0f-CX-i5T"/>
-                        <outlet property="visualEffectExtraLightView" destination="5Dh-uC-hmj" id="ICy-AZ-YdL"/>
-                        <outlet property="visualEffectLightView" destination="Vam-81-mAf" id="oOk-sD-W0m"/>
                         <outlet property="yearLabel" destination="U2j-jR-Qet" id="OzW-C3-8Tz"/>
                         <outlet property="yearTable" destination="NEJ-YT-VaV" id="ddo-U0-m85"/>
                     </connections>

@@ -1,7 +1,9 @@
 # WWCalendarTimeSelector
 
+#### Try out the [Demo (powered by appetize)](https://appetize.io/app/9kpgerw2ducxyhqe5b11kqgeym)!
 
-## Preview
+
+## Screenshots
 
 ![WWCalendarTimeSelector](https://github.com/weilsonwonder/WWCalendarTimeSelector/blob/master/Screenshots/ss1.png)
 ![WWCalendarTimeSelector](https://github.com/weilsonwonder/WWCalendarTimeSelector/blob/master/Screenshots/ss2.png)
@@ -13,6 +15,18 @@
 ## Description
 
 An Android themed date-time selector. Select date and time with this highly customizable selector. **WWCalendarTimeSelector** is a component that will make help your users select date or dates intuitively.
+
+
+## Features
+
+- Simple usage
+- Single date selection
+- Multiple dates selection
+- Portrait and Landscape orientation support
+- Font, Color, Size customization
+- 3 styles of grouping for multiple dates selection (Simple, Pill, LinkedBalls)
+- Infinite dates selection
+- Simple restriction of date selection (through protocol)
 
 
 ## Installation
@@ -66,6 +80,47 @@ class YourViewController: UIViewController, WWCalendarTimeSelectorProtocol {
 
 Naturally, everybody would want a selector with their own theme colours and fonts! Hence, below are options that you may customize! Do set the options *before* presenting the selector! Any options set *after* presenting the selector will result in unexpected behaviors.
 
+Protocols:
+
+```swift
+protocol WWCalendarTimeSelectorProtocol {
+    optional func WWCalendarTimeSelectorDone(selector: WWCalendarTimeSelector, dates: [NSDate])
+    optional func WWCalendarTimeSelectorDone(selector: WWCalendarTimeSelector, date: NSDate)
+    optional func WWCalendarTimeSelectorCancel(selector: WWCalendarTimeSelector, dates: [NSDate])
+    optional func WWCalendarTimeSelectorCancel(selector: WWCalendarTimeSelector, date: NSDate)
+    optional func WWCalendarTimeSelectorWillDismiss(selector: WWCalendarTimeSelector)
+    optional func WWCalendarTimeSelectorDidDismiss(selector: WWCalendarTimeSelector)
+    optional func WWCalendarTimeSelectorShouldSelectDate(selector: WWCalendarTimeSelector, date: NSDate) -> Bool
+}
+```
+
+Enumerations:
+
+```swift
+enum WWCalendarTimeSelectorStyle {
+    case Date
+    case Year
+    case Time
+}
+
+enum WWCalendarTimeSelectorMultipleSelectionGrouping {
+    case Simple
+    case Pill
+    case LinkedBalls
+}
+
+enum WWCalendarTimeSelectorTimeStep: Int {
+    case OneMinute = 1
+    case FiveMinutes = 5
+    case TenMinutes = 10
+    case FifteenMinutes = 15
+    case ThirtyMinutes = 30
+    case SixtyMinutes = 60
+}
+```
+
+Below are the available options:
+
 ```swift
 optionStyles: Set<WWCalendarTimeSelectorStyle>
 optionTimeStep: WWCalendarTimeSelectorTimeStep
@@ -76,6 +131,7 @@ optionCurrentDate: NSDate
 optionCurrentDates: Set<NSDate>
 optionStyleBlurEffect: UIBlurEffectStyle
 optionMultipleSelectionGrouping: WWCalendarTimeSelectorMultipleSelectionGrouping
+optionShowTopContainer: Bool
 optionCalendarFontMonth: UIFont
 optionCalendarFontDays: UIFont
 optionCalendarFontToday: UIFont
@@ -170,7 +226,7 @@ optionSelectorPanelScaleTime: CGFloat
 optionLayoutTopPanelHeight: CGFloat
 optionLayoutHeight: CGFloat
 optionLayoutWidth: CGFloat
-optionLayoutPotraitRatio: CGFloat
+optionLayoutPortraitRatio: CGFloat
 optionLayoutLandscapeRatio: CGFloat
 ```
 

@@ -190,6 +190,15 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
     /// Defaults to `OneMinute`.
     public var optionTimeStep: WWCalendarTimeSelectorTimeStep = .OneMinute
     
+    /// Set to `true` will show the entire selector at the top. If you only wish to hide the *title bar*, see `optionShowTopPanel`. Set to `false` will hide the entire top container.
+    ///
+    /// - Note:
+    /// Defaults to `true`.
+    ///
+    /// - SeeAlso:
+    /// `optionShowTopPanel`.
+    public var optionShowTopContainer: Bool = true
+    
     /// Set to `true` to show the weekday name *or* `optionTopPanelTitle` if specified at the top of the selector. Set to `false` will hide the entire panel.
     ///
     /// - Note:
@@ -438,10 +447,10 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
     private let selAnimationDuration: NSTimeInterval = 0.4
     private let selInactiveHeight: CGFloat = 48
     private var portraitContainerWidth: CGFloat { return optionLayoutWidth }
-    private var portraitTopContainerHeight: CGFloat { return optionLayoutHeight * optionLayoutPortraitRatio }
+    private var portraitTopContainerHeight: CGFloat { return optionShowTopContainer ? optionLayoutHeight * optionLayoutPortraitRatio : 0 }
     private var portraitBottomContainerHeight: CGFloat { return optionLayoutHeight - portraitTopContainerHeight }
     private var landscapeContainerHeight: CGFloat { return optionLayoutWidth }
-    private var landscapeTopContainerWidth: CGFloat { return optionLayoutHeight * optionLayoutLandscapeRatio }
+    private var landscapeTopContainerWidth: CGFloat { return optionShowTopContainer ? optionLayoutHeight * optionLayoutLandscapeRatio : 0 }
     private var landscapeBottomContainerWidth: CGFloat { return optionLayoutHeight - landscapeTopContainerWidth }
     private var selActiveHeight: CGFloat { return CGRectGetHeight(backgroundSelView.frame) - selInactiveHeight }
     private var selInactiveWidth: CGFloat { return CGRectGetWidth(backgroundSelView.frame) / 2 }
@@ -475,7 +484,6 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
         if let bundleURL = bundleURL {
             bundle = NSBundle(URL: bundleURL)
         }
-        
         let picker = UIStoryboard(name: "WWCalendarTimeSelector", bundle: bundle).instantiateInitialViewController() as! WWCalendarTimeSelector
         
         picker.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext
@@ -597,8 +605,8 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
             let isPortrait = orientation == .Portrait || orientation == .PortraitUpsideDown
             let size = view.bounds.size
             
-            topContainerWidthConstraint.constant = isPortrait ? portraitContainerWidth : landscapeTopContainerWidth
-            topContainerHeightConstraint.constant = isPortrait ? portraitTopContainerHeight : landscapeContainerHeight
+            topContainerWidthConstraint.constant = isPortrait ? optionShowTopContainer ? portraitContainerWidth : 0 : landscapeTopContainerWidth
+            topContainerHeightConstraint.constant = isPortrait ? portraitTopContainerHeight : optionShowTopContainer ? landscapeContainerHeight : 0
             bottomContainerWidthConstraint.constant = isPortrait ? portraitContainerWidth : landscapeBottomContainerWidth
             bottomContainerHeightConstraint.constant = isPortrait ? portraitBottomContainerHeight : landscapeContainerHeight
             
@@ -608,7 +616,7 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
                 
                 topContainerLeftConstraint.constant = (width - topContainerWidthConstraint.constant) / 2
                 topContainerTopConstraint.constant = (height - (topContainerHeightConstraint.constant + bottomContainerHeightConstraint.constant)) / 2
-                bottomContainerLeftConstraint.constant = topContainerLeftConstraint.constant
+                bottomContainerLeftConstraint.constant = optionShowTopContainer ? topContainerLeftConstraint.constant : (width - bottomContainerWidthConstraint.constant) / 2
                 bottomContainerTopConstraint.constant = topContainerTopConstraint.constant + topContainerHeightConstraint.constant
             }
             else {
@@ -618,7 +626,7 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
                 topContainerLeftConstraint.constant = (width - (topContainerWidthConstraint.constant + bottomContainerWidthConstraint.constant)) / 2
                 topContainerTopConstraint.constant = (height - topContainerHeightConstraint.constant) / 2
                 bottomContainerLeftConstraint.constant = topContainerLeftConstraint.constant + topContainerWidthConstraint.constant
-                bottomContainerTopConstraint.constant = topContainerTopConstraint.constant
+                bottomContainerTopConstraint.constant = optionShowTopContainer ? topContainerTopConstraint.constant : (height - bottomContainerHeightConstraint.constant) / 2
             }
             
             UIView.animateWithDuration(

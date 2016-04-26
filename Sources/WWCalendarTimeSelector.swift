@@ -836,10 +836,10 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
             let minuteRange = NSRange(location: colonIndex + 1, length: 2)
             
             if selTimeStateHour {
-                attrText.setAttributes([NSForegroundColorAttributeName: optionSelectorPanelFontColorTimeHighlight], range: hourRange)
+                attrText.addAttributes([NSForegroundColorAttributeName: optionSelectorPanelFontColorTimeHighlight], range: hourRange)
             }
             else {
-                attrText.setAttributes([NSForegroundColorAttributeName: optionSelectorPanelFontColorTimeHighlight], range: minuteRange)
+                attrText.addAttributes([NSForegroundColorAttributeName: optionSelectorPanelFontColorTimeHighlight], range: minuteRange)
             }
         }
         timeLabel.attributedText = attrText

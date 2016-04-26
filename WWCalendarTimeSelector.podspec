@@ -5,7 +5,7 @@ Pod::Spec.new do |s|
   s.homepage     = "https://github.com/weilsonwonder/WWCalendarTimeSelector"
   s.license      = { :type => "MIT", :file => "LICENSE" }
   s.author             = { "Weilson Wonder" => "weilson@live.com" }
-  s.social_media_url   = "https://sg.linkedin.com/in/weilson-wonder-7a1b1b90"
+  s.social_media_url   = "https://sg.linkedin.com/in/weilson"
 
   s.ios.deployment_target = "8.0"
 

@@ -465,7 +465,7 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
     private var calRow2StartDate: NSDate = NSDate()
     private var calRow3StartDate: NSDate = NSDate()
     private var yearRow1: Int = 2016
-    private var multipleDates: [NSDate] { return optionCurrentDates.sort() }
+    private var multipleDates: [NSDate] { return optionCurrentDates.sort({ $0.compare($1) == NSComparisonResult.OrderedAscending }) }
     private var multipleDatesLastAdded: NSDate?
     private var flashDate: NSDate?
     private let defaultTopPanelTitleForMultipleDates = "Select Multiple Dates"
@@ -1596,7 +1596,7 @@ internal class WWCalendarRow: UIView {
                         fontHighlightColor = dateTodayHighlightFontColor
                         backgroundHighlightColor = dateTodayHighlightBackgroundColor.CGColor
                     }
-                    else if date < today {
+                    else if date.compare(today) == NSComparisonResult.OrderedAscending {
                         font = comparisonDates.contains(date) ? datePastFontHighlight : datePastFont
                         fontColor = datePastFontColor
                         fontHighlightColor = datePastHighlightFontColor
@@ -1707,7 +1707,7 @@ internal class WWCalendarRow: UIView {
                         if flashDate == today {
                             flashColor = dateTodayFlashBackgroundColor
                         }
-                        else if flashDate < today {
+                        else if flashDate.compare(today) == NSComparisonResult.OrderedAscending {
                             flashColor = datePastFlashBackgroundColor
                         }
                         

@@ -572,6 +572,7 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
         super.viewDidLayoutSubviews()
         
         if isFirstLoad {
+            isFirstLoad = false // Temp fix for i6s+ bug?
             calendarTable.reloadData()
             yearTable.reloadData()
             clockView.setNeedsDisplay()

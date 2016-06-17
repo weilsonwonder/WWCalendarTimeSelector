@@ -379,10 +379,16 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
     public var optionLayoutTopPanelHeight: CGFloat = 28
     
     /// The height of the calendar in portrait mode. This will be translated automatically into the width in landscape mode.
-    public var optionLayoutHeight: CGFloat = 528
+    public var optionLayoutHeight: CGFloat?
     
     /// The width of the calendar in portrait mode. This will be translated automatically into the height in landscape mode.
-    public var optionLayoutWidth: CGFloat = 280
+    public var optionLayoutWidth: CGFloat?
+    
+    /// If optionLayoutHeight is not defined, this ratio is used on the screen's height.
+    public var optionLayoutHeightRatio: CGFloat = 0.9
+    
+    /// If optionLayoutWidth is not defined, this ratio is used on the screen's width.
+    public var optionLayoutWidthRatio: CGFloat = 0.85
     
     /// When calendar is in portrait mode, the ratio of *Top Container* to *Bottom Container*.
     ///
@@ -446,12 +452,12 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
     // Private Variables
     private let selAnimationDuration: NSTimeInterval = 0.4
     private let selInactiveHeight: CGFloat = 48
-    private var portraitContainerWidth: CGFloat { return optionLayoutWidth }
-    private var portraitTopContainerHeight: CGFloat { return optionShowTopContainer ? optionLayoutHeight * optionLayoutPortraitRatio : 0 }
-    private var portraitBottomContainerHeight: CGFloat { return optionLayoutHeight - portraitTopContainerHeight }
-    private var landscapeContainerHeight: CGFloat { return optionLayoutWidth }
-    private var landscapeTopContainerWidth: CGFloat { return optionShowTopContainer ? optionLayoutHeight * optionLayoutLandscapeRatio : 0 }
-    private var landscapeBottomContainerWidth: CGFloat { return optionLayoutHeight - landscapeTopContainerWidth }
+    private var portraitContainerWidth: CGFloat { return optionLayoutWidth ?? optionLayoutWidthRatio * portraitWidth }
+    private var portraitTopContainerHeight: CGFloat { return optionShowTopContainer ? (optionLayoutHeight ?? optionLayoutHeightRatio * portraitHeight) * optionLayoutPortraitRatio : 0 }
+    private var portraitBottomContainerHeight: CGFloat { return (optionLayoutHeight ?? optionLayoutHeightRatio * portraitHeight) - portraitTopContainerHeight }
+    private var landscapeContainerHeight: CGFloat { return optionLayoutWidth ?? optionLayoutWidthRatio * portraitWidth }
+    private var landscapeTopContainerWidth: CGFloat { return optionShowTopContainer ? (optionLayoutHeight ?? optionLayoutHeightRatio * portraitHeight) * optionLayoutLandscapeRatio : 0 }
+    private var landscapeBottomContainerWidth: CGFloat { return (optionLayoutHeight ?? optionLayoutHeightRatio * portraitHeight) - landscapeTopContainerWidth }
     private var selActiveHeight: CGFloat { return CGRectGetHeight(backgroundSelView.frame) - selInactiveHeight }
     private var selInactiveWidth: CGFloat { return CGRectGetWidth(backgroundSelView.frame) / 2 }
     private var selActiveWidth: CGFloat { return CGRectGetHeight(backgroundSelView.frame) - selInactiveHeight }
@@ -469,6 +475,8 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
     private var multipleDatesLastAdded: NSDate?
     private var flashDate: NSDate?
     private let defaultTopPanelTitleForMultipleDates = "Select Multiple Dates"
+    private let portraitHeight: CGFloat = max(UIScreen.mainScreen().bounds.height, UIScreen.mainScreen().bounds.width)
+    private let portraitWidth: CGFloat = min(UIScreen.mainScreen().bounds.height, UIScreen.mainScreen().bounds.width)
     
     /// Only use this method to instantiate the selector. All customization should be done before presenting the selector to the user. 
     /// To receive callbacks from selector, set the `delegate` of selector and implement `WWCalendarTimeSelectorProtocol`.

@@ -10,7 +10,9 @@ import UIKit
 
 /// Set `optionPickerStyle` with one or more of the following:
 ///
-/// `Date`: This shows the the date and month.
+/// `DateMonth`: This shows the date and month.
+///
+/// `Month`: This shows the month. This option will be overridden by `DateMonth`
 ///
 /// `Year`: This shows the year.
 ///
@@ -20,11 +22,32 @@ import UIKit
 /// `optionPickerStyle` should contain at least 1 of the following style. It will default to all styles should there be none in the option specified.
 public enum WWCalendarTimeSelectorStyle {
     /// Shows both Month and Date.
-    case Date
+    case DateMonth
+    /// Shows only the Month.
+    case Month
     /// Shows only the Year.
     case Year
     /// Shows only the Time in 12-hour style.
     case Time
+}
+
+/// Set `optionSelectionType` with one of the following:
+///
+/// `Single`: This will only allow the selection of a single date. If applicable, this also allows selection of year and time.
+///
+/// `Multiple`: This will allow the selection of multiple dates. This automatically ignores the attribute of `optionPickerStyle`, hence selection of multiple year and time is currently not available.
+///
+/// `Range`: This will allow the selection of a range of dates. This automatically ignores the attribute of `optionPickerStyle`, hence selection of multiple year and time is currently not available.
+///
+/// - Note:
+/// Selection styles will only affect date selection. It is currently not possible to select multiple/range
+public enum WWCalendarTimeSelectorSelection {
+    /// Single Selection.
+    case Single
+    /// Multiple Selection. Year and Time interface not available.
+    case Multiple
+    /// Range Selection. Year and Time interface not available.
+    case Range
 }
 
 /// Set `optionMultipleSelectionGrouping` with one of the following:
@@ -64,6 +87,35 @@ public enum WWCalendarTimeSelectorTimeStep: Int {
     case ThirtyMinutes = 30
     /// Disables the selection of minutes.
     case SixtyMinutes = 60
+}
+
+public struct WWCalendarTimeSelectorDateRange {
+    private(set) public var start: NSDate = NSDate().beginningOfDay
+    private(set) public var end: NSDate = NSDate().beginningOfDay
+    public var array: [NSDate] {
+        var dates: [NSDate] = []
+        var i = start.beginningOfDay
+        let j = end.beginningOfDay
+        while i.compare(j) != .OrderedDescending {
+            dates.append(i)
+            i = i + 1.day
+        }
+        return dates
+    }
+    
+    public mutating func setStartDate(date: NSDate) {
+        start = date.beginningOfDay
+        if start.compare(end) == .OrderedDescending {
+            end = start
+        }
+    }
+    
+    public mutating func setEndDate(date: NSDate) {
+        end = date.beginningOfDay
+        if start.compare(end) == .OrderedDescending {
+            start = end
+        }
+    }
 }
 
 /// The delegate of `WWCalendarTimeSelector` can adopt the `WWCalendarTimeSelectorProtocol` optional methods. The following Optional methods are available:
@@ -162,9 +214,12 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
     /// `WWCalendarTimeSelectorDidDismiss:selector:`
     public var delegate: WWCalendarTimeSelectorProtocol?
     
+    /// A convenient identifier object. Not used by `WWCalendarTimeSelector`.
+    public var optionIdentifier: AnyObject?
+    
     /// Set `optionPickerStyle` with one or more of the following:
     ///
-    /// `Date`: This shows the the date and month.
+    /// `DateMonth`: This shows the the date and month.
     ///
     /// `Year`: This shows the year.
     ///
@@ -175,7 +230,23 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
     ///
     /// - Note:
     /// Defaults to all styles.
-    public var optionStyles: Set<WWCalendarTimeSelectorStyle> = [.Date, .Year, .Time]
+    public var optionStyles: Set<WWCalendarTimeSelectorStyle> {
+        set {
+            if newValue.count == 0 {
+                privateOptionStyles = [.DateMonth, .Year, .Time]
+            }
+            else {
+                privateOptionStyles = newValue
+            }
+            if privateOptionStyles.contains(.DateMonth) {
+                privateOptionStyles.remove(.Month)
+            }
+        }
+        get {
+            return privateOptionStyles
+        }
+    }
+    private var privateOptionStyles: Set<WWCalendarTimeSelectorStyle> = [.DateMonth, .Year, .Time]
     
     /// Set `optionTimeStep` to customise the period of time which the users will be able to choose. The step will show the user the available minutes to select (with exception of `OneMinute` step, see *Note*).
     ///
@@ -205,23 +276,23 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
     /// Defaults to `true`.
     public var optionShowTopPanel = true
     
-    /// Set to nil to show default title. Default titles are as such:
-    /// 
-    /// - `optionMultipleSelection` = `true`: **Select Multiple Dates**
-    /// - `optionMultipleSelection` = `false`: **(Capitalized Weekday Full Name)**
+    /// Set to nil to show default title. Depending on `privateOptionStyles`, default titles are either **Select Multiple Dates**, **(Capitalized Weekday Full Name)** or **(Capitalized Month Full Name)**.
     ///
     /// - Note:
     /// Defaults to `nil`.
     public var optionTopPanelTitle: String? = nil
     
-    /// Set to true to allow multiple selection of dates. Multiple selection of dates will not be able to select time, as well as select year.
+    /// Set `optionSelectionType` with one of the following:
+    ///
+    /// `Single`: This will only allow the selection of a single date. If applicable, this also allows selection of year and time.
+    ///
+    /// `Multiple`: This will allow the selection of multiple dates. This automatically ignores the attribute of `optionPickerStyle`, hence selection of multiple year and time is currently not available.
+    ///
+    /// `Range`: This will allow the selection of a range of dates. This automatically ignores the attribute of `optionPickerStyle`, hence selection of multiple year and time is currently not available.
     ///
     /// - Note:
-    /// Defaults to `false`.
-    ///
-    /// - ToDo:
-    /// Implement ease to select time.
-    public var optionMultipleSelection = false
+    /// Selection styles will only affect date selection. It is currently not possible to select multiple/range
+    public var optionSelectionType: WWCalendarTimeSelectorSelection = .Single
     
     /// Set to default date when selector is presented.
     ///
@@ -240,6 +311,15 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
     /// - Note:
     /// Selector will show the earliest selected date's month by default.
     public var optionCurrentDates: Set<NSDate> = []
+    
+    /// Set the default dates when selector is presented.
+    ///
+    /// - SeeAlso:
+    /// `optionCurrentDate`
+    ///
+    /// - Note:
+    /// Selector will show the earliest selected date's month by default.
+    public var optionCurrentDateRange: WWCalendarTimeSelectorDateRange = WWCalendarTimeSelectorDateRange()
     
     /// Set the background blur effect, where background is a `UIVisualEffectView`. Available options are as `UIBlurEffectStyle`:
     ///
@@ -405,6 +485,7 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
     @IBOutlet private weak var bottomContainerView: UIView!
     @IBOutlet private weak var backgroundDayView: UIView!
     @IBOutlet private weak var backgroundSelView: UIView!
+    @IBOutlet private weak var backgroundRangeView: UIView!
     @IBOutlet private weak var backgroundContentView: UIView!
     @IBOutlet private weak var backgroundButtonsView: UIView!
     @IBOutlet private weak var cancelButton: UIButton!
@@ -418,9 +499,14 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
     @IBOutlet private weak var dateLabel: UILabel!
     @IBOutlet private weak var yearLabel: UILabel!
     @IBOutlet private weak var timeLabel: UILabel!
+    @IBOutlet private weak var rangeStartLabel: UILabel!
+    @IBOutlet private weak var rangeToLabel: UILabel!
+    @IBOutlet private weak var rangeEndLabel: UILabel!
     @IBOutlet private weak var calendarTable: UITableView!
     @IBOutlet private weak var yearTable: UITableView!
     @IBOutlet private weak var clockView: WWClock!
+    @IBOutlet private weak var monthsView: UIView!
+    @IBOutlet private var monthsButtons: [UIButton]!
     
     // All Constraints
     @IBOutlet private weak var dayViewHeightConstraint: NSLayoutConstraint!
@@ -461,7 +547,7 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
     private var selActiveHeight: CGFloat { return CGRectGetHeight(backgroundSelView.frame) - selInactiveHeight }
     private var selInactiveWidth: CGFloat { return CGRectGetWidth(backgroundSelView.frame) / 2 }
     private var selActiveWidth: CGFloat { return CGRectGetHeight(backgroundSelView.frame) - selInactiveHeight }
-    private var selCurrrent: WWCalendarTimeSelectorStyle = .Date
+    private var selCurrrent: WWCalendarTimeSelectorStyle = .DateMonth
     private var isFirstLoad = false
     private var selTimeStateHour = true
     private var calRow1Type: WWCalendarRowType = WWCalendarRowType.Date
@@ -477,6 +563,8 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
     private let defaultTopPanelTitleForMultipleDates = "Select Multiple Dates"
     private let portraitHeight: CGFloat = max(UIScreen.mainScreen().bounds.height, UIScreen.mainScreen().bounds.width)
     private let portraitWidth: CGFloat = min(UIScreen.mainScreen().bounds.height, UIScreen.mainScreen().bounds.width)
+    private var isSelectingStartRange: Bool = true { didSet { rangeStartLabel.textColor = isSelectingStartRange ? optionSelectorPanelFontColorDateHighlight : optionSelectorPanelFontColorDate; rangeEndLabel.textColor = isSelectingStartRange ? optionSelectorPanelFontColorDate : optionSelectorPanelFontColorDateHighlight } }
+    private var shouldResetRange: Bool = true
     
     /// Only use this method to instantiate the selector. All customization should be done before presenting the selector to the user. 
     /// To receive callbacks from selector, set the `delegate` of selector and implement `WWCalendarTimeSelectorProtocol`.
@@ -510,10 +598,6 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
         view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[bg]|", options: [], metrics: nil, views: ["bg": background]))
         view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[bg]|", options: [], metrics: nil, views: ["bg": background]))
         
-        if optionStyles.count == 0 {
-            optionStyles = [.Date, .Year, .Time]
-        }
-        
         let seventhRowStartDate = optionCurrentDate.beginningOfMonth
         calRow3StartDate = ((seventhRowStartDate - 1.day).beginningOfWeek - 1.day).beginningOfWeek
         calRow2StartDate = (calRow3StartDate - 1.day).beginningOfWeek
@@ -521,8 +605,9 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
         
         yearRow1 = optionCurrentDate.year - 5
         
-        selMultipleDatesTable.hidden = !optionMultipleSelection
-        backgroundSelView.hidden = optionMultipleSelection
+        selMultipleDatesTable.hidden = optionSelectionType != .Multiple
+        backgroundSelView.hidden = optionSelectionType != .Single
+        backgroundRangeView.hidden = optionSelectionType != .Range
 
         dayViewHeightConstraint.constant = optionShowTopPanel ? optionLayoutTopPanelHeight : 0
         view.layoutIfNeeded()
@@ -532,6 +617,7 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
         
         backgroundDayView.backgroundColor = optionTopPanelBackgroundColor
         backgroundSelView.backgroundColor = optionSelectorPanelBackgroundColor
+        backgroundRangeView.backgroundColor = optionSelectorPanelBackgroundColor
         backgroundContentView.backgroundColor = optionMainPanelBackgroundColor
         backgroundButtonsView.backgroundColor = optionBottomPanelBackgroundColor
         selMultipleDatesTable.backgroundColor = optionSelectorPanelBackgroundColor
@@ -548,6 +634,16 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
         monthLabel.font = optionSelectorPanelFontMonth
         dateLabel.font = optionSelectorPanelFontDate
         yearLabel.font = optionSelectorPanelFontYear
+        rangeStartLabel.font = optionSelectorPanelFontDate
+        rangeEndLabel.font = optionSelectorPanelFontDate
+        rangeToLabel.font = optionSelectorPanelFontDate
+        
+        let firstMonth = NSDate().beginningOfYear
+        for button in monthsButtons {
+            button.setTitle((firstMonth + button.tag.month).stringFromFormat("MMM"), forState: .Normal)
+            button.titleLabel?.font = optionCalendarFontMonth
+            button.tintColor = optionCalendarFontColorMonth
+        }
         
         clockView.delegate = self
         clockView.minuteStep = optionTimeStep
@@ -587,8 +683,11 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
             selMultipleDatesTable.reloadData()
             didRotate()
             
-            if optionStyles.contains(.Date) {
+            if optionStyles.contains(.DateMonth) {
                 showDate(true)
+            }
+            else if optionStyles.contains(.Month) {
+                showMonth(true)
             }
             else if optionStyles.contains(.Year) {
                 showYear(true)
@@ -650,14 +749,15 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
                 completion: nil
             )
             
-            if selCurrrent == .Time {
-                showTime(false)
-            }
-            else if selCurrrent == .Year {
-                showYear(false)
-            }
-            else {
+            switch selCurrrent {
+            case .DateMonth:
                 showDate(false)
+            case .Month:
+                showMonth(false)
+            case .Year:
+                showYear(false)
+            case .Time:
+                showTime(false)
             }
         }
     }
@@ -670,8 +770,61 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
         return true
     }
     
+    @IBAction func selectMonth(sender: UIButton) {
+        let date = (optionCurrentDate.beginningOfYear + sender.tag.months).beginningOfDay
+        if delegate?.WWCalendarTimeSelectorShouldSelectDate?(self, date: date) ?? true {
+            optionCurrentDate = optionCurrentDate.change(year: date.year, month: date.month, day: date.day).beginningOfDay
+            updateDate()
+        }
+    }
+    
+    @IBAction func selectStartRange() {
+        if isSelectingStartRange == true {
+            let date = optionCurrentDateRange.start
+            
+            let seventhRowStartDate = date.beginningOfMonth
+            calRow3StartDate = ((seventhRowStartDate - 1.day).beginningOfWeek - 1.day).beginningOfWeek
+            calRow2StartDate = (calRow3StartDate - 1.day).beginningOfWeek
+            calRow1StartDate = (calRow2StartDate - 1.day).beginningOfWeek
+            
+            flashDate = date
+            calendarTable.reloadData()
+            calendarTable.scrollToRowAtIndexPath(NSIndexPath(forRow: 4, inSection: 0), atScrollPosition: UITableViewScrollPosition.Top, animated: true)
+        }
+        else {
+            isSelectingStartRange = true
+            shouldResetRange = false
+        }
+        updateDate()
+    }
+    
+    @IBAction func selectEndRange() {
+        if isSelectingStartRange == false {
+            let date = optionCurrentDateRange.end
+            
+            let seventhRowStartDate = date.beginningOfMonth
+            calRow3StartDate = ((seventhRowStartDate - 1.day).beginningOfWeek - 1.day).beginningOfWeek
+            calRow2StartDate = (calRow3StartDate - 1.day).beginningOfWeek
+            calRow1StartDate = (calRow2StartDate - 1.day).beginningOfWeek
+            
+            flashDate = date
+            calendarTable.reloadData()
+            calendarTable.scrollToRowAtIndexPath(NSIndexPath(forRow: 4, inSection: 0), atScrollPosition: UITableViewScrollPosition.Top, animated: true)
+        }
+        else {
+            isSelectingStartRange = false
+            shouldResetRange = false
+        }
+        updateDate()
+    }
+    
     @IBAction func showDate() {
-        showDate(true)
+        if optionStyles.contains(.DateMonth) {
+            showDate(true)
+        }
+        else {
+            showMonth(true)
+        }
     }
     
     @IBAction func showYear() {
@@ -685,13 +838,12 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
     @IBAction func cancel() {
         let picker = self
         let del = delegate
-        if optionMultipleSelection {
-            del?.WWCalendarTimeSelectorCancel?(picker, dates: multipleDates)
-        }
-        else {
+        if optionSelectionType == .Single {
             del?.WWCalendarTimeSelectorCancel?(picker, date: optionCurrentDate)
         }
-        
+        else {
+            del?.WWCalendarTimeSelectorCancel?(picker, dates: multipleDates)
+        }
         del?.WWCalendarTimeSelectorWillDismiss?(picker)
         dismissViewControllerAnimated(true) { 
             del?.WWCalendarTimeSelectorDidDismiss?(picker)
@@ -701,11 +853,13 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
     @IBAction func done() {
         let picker = self
         let del = delegate
-        if optionMultipleSelection {
-            del?.WWCalendarTimeSelectorDone?(picker, dates: multipleDates)
-        }
-        else {
+        switch optionSelectionType {
+        case .Single:
             del?.WWCalendarTimeSelectorDone?(picker, date: optionCurrentDate)
+        case .Multiple:
+            del?.WWCalendarTimeSelectorDone?(picker, dates: multipleDates)
+        case .Range:
+            del?.WWCalendarTimeSelectorDone?(picker, dates: optionCurrentDateRange.array)
         }
         del?.WWCalendarTimeSelectorWillDismiss?(picker)
         dismissViewControllerAnimated(true) {
@@ -734,6 +888,31 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
             options: [UIViewAnimationOptions.AllowAnimatedContent, UIViewAnimationOptions.BeginFromCurrentState, UIViewAnimationOptions.AllowUserInteraction, UIViewAnimationOptions.CurveEaseOut],
             animations: {
                 self.calendarTable.alpha = 1
+                self.monthsView.alpha = 0
+                self.yearTable.alpha = 0
+                self.clockView.alpha = 0
+            },
+            completion: nil
+        )
+    }
+    
+    private func showMonth(userTap: Bool) {
+        changeSelMonth()
+        
+        if userTap {
+            
+        }
+        else {
+            
+        }
+        
+        UIView.animateWithDuration(
+            selAnimationDuration,
+            delay: 0,
+            options: [UIViewAnimationOptions.AllowAnimatedContent, UIViewAnimationOptions.BeginFromCurrentState, UIViewAnimationOptions.AllowUserInteraction, UIViewAnimationOptions.CurveEaseOut],
+            animations: {
+                self.calendarTable.alpha = 0
+                self.monthsView.alpha = 1
                 self.yearTable.alpha = 0
                 self.clockView.alpha = 0
             },
@@ -759,6 +938,7 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
             options: [UIViewAnimationOptions.AllowAnimatedContent, UIViewAnimationOptions.BeginFromCurrentState, UIViewAnimationOptions.AllowUserInteraction, UIViewAnimationOptions.CurveEaseOut],
             animations: {
                 self.calendarTable.alpha = 0
+                self.monthsView.alpha = 0
                 self.yearTable.alpha = 1
                 self.clockView.alpha = 0
             },
@@ -803,6 +983,7 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
             options: [UIViewAnimationOptions.AllowAnimatedContent, UIViewAnimationOptions.BeginFromCurrentState, UIViewAnimationOptions.AllowUserInteraction, UIViewAnimationOptions.CurveEaseOut],
             animations: {
                 self.calendarTable.alpha = 0
+                self.monthsView.alpha = 0
                 self.yearTable.alpha = 0
                 self.clockView.alpha = 1
             },
@@ -811,31 +992,60 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
     }
     
     private func updateDate() {
-        if optionMultipleSelection {
-            dayLabel.text = optionTopPanelTitle ?? defaultTopPanelTitleForMultipleDates
+        if let topPanelTitle = optionTopPanelTitle {
+            dayLabel.text = topPanelTitle
         }
         else {
-            dayLabel.text = optionTopPanelTitle ?? optionCurrentDate.stringFromFormat("EEEE")
+            if optionSelectionType == .Single {
+                if optionStyles.contains(.Month) {
+                    dayLabel.text = optionCurrentDate.stringFromFormat("MMMM")
+                }
+                else {
+                    dayLabel.text = optionCurrentDate.stringFromFormat("EEEE")
+                }
+            }
+            else {
+                dayLabel.text = defaultTopPanelTitleForMultipleDates
+            }
         }
+        
         monthLabel.text = optionCurrentDate.stringFromFormat("MMM")
-        dateLabel.text = optionCurrentDate.stringFromFormat("d")
+        dateLabel.text = optionStyles.contains(.DateMonth) ? optionCurrentDate.stringFromFormat("d") : nil
         yearLabel.text = optionCurrentDate.stringFromFormat("yyyy")
+        rangeStartLabel.text = optionCurrentDateRange.start.stringFromFormat("d' 'MMM' 'yyyy")
+        rangeEndLabel.text = optionCurrentDateRange.end.stringFromFormat("d' 'MMM' 'yyyy")
+        rangeToLabel.textColor = optionSelectorPanelFontColorDate
+        if shouldResetRange {
+            rangeStartLabel.textColor = optionSelectorPanelFontColorDateHighlight
+            rangeEndLabel.textColor = optionSelectorPanelFontColorDateHighlight
+        }
+        else {
+            rangeStartLabel.textColor = isSelectingStartRange ? optionSelectorPanelFontColorDateHighlight : optionSelectorPanelFontColorDate
+            rangeEndLabel.textColor = isSelectingStartRange ? optionSelectorPanelFontColorDate : optionSelectorPanelFontColorDateHighlight
+        }
         
         let timeText = optionCurrentDate.stringFromFormat("h':'mma").lowercaseString
         let paragraph = NSMutableParagraphStyle()
         paragraph.alignment = NSTextAlignment.Center
         let attrText = NSMutableAttributedString(string: timeText, attributes: [NSFontAttributeName: optionSelectorPanelFontTime, NSForegroundColorAttributeName: optionSelectorPanelFontColorTime, NSParagraphStyleAttributeName: paragraph])
-        if selCurrrent == .Date {
+        
+        switch selCurrrent {
+        case .DateMonth:
             monthLabel.textColor = optionSelectorPanelFontColorMonthHighlight
             dateLabel.textColor = optionSelectorPanelFontColorDateHighlight
             yearLabel.textColor = optionSelectorPanelFontColorYear
-        }
-        else if selCurrrent == .Year {
+            
+        case .Month:
+            monthLabel.textColor = optionSelectorPanelFontColorMonthHighlight
+            dateLabel.textColor = optionSelectorPanelFontColorDateHighlight
+            yearLabel.textColor = optionSelectorPanelFontColorYear
+            
+        case .Year:
             monthLabel.textColor = optionSelectorPanelFontColorMonth
             dateLabel.textColor = optionSelectorPanelFontColorDate
             yearLabel.textColor = optionSelectorPanelFontColorYearHighlight
-        }
-        else if selCurrrent == .Time {
+            
+        case .Time:
             monthLabel.textColor = optionSelectorPanelFontColorMonth
             dateLabel.textColor = optionSelectorPanelFontColorDate
             yearLabel.textColor = optionSelectorPanelFontColorYear
@@ -926,13 +1136,95 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
                 self.view.layoutIfNeeded()
             },
             completion: { _ in
-                if self.selCurrrent == .Date {
+                if self.selCurrrent == .DateMonth {
                     self.yearLabel.contentScaleFactor = UIScreen.mainScreen().scale
                     self.timeLabel.contentScaleFactor = UIScreen.mainScreen().scale
                 }
             }
         )
-        selCurrrent = .Date
+        selCurrrent = .DateMonth
+        updateDate()
+    }
+    
+    private func changeSelMonth() {
+        let selActiveHeight = self.selActiveHeight
+        let selInactiveHeight = self.selInactiveHeight
+        let selInactiveWidth = self.selInactiveWidth
+        let selInactiveWidthDouble = selInactiveWidth * 2
+        let selActiveHeightFull = CGRectGetHeight(backgroundSelView.frame)
+        
+        backgroundSelView.sendSubviewToBack(selYearView)
+        backgroundSelView.sendSubviewToBack(selTimeView)
+        
+        // adjust date view
+        selMonthXConstraint.constant = 0
+        selMonthYConstraint.constant = 0
+        selDateXConstraint.constant = 0
+        selDateYConstraint.constant = 0
+        
+        // adjust positions
+        selDateTopConstraint.constant = 0
+        selDateLeftConstraint.constant = 0
+        selDateRightConstraint.constant = 0
+        selDateHeightConstraint.constant = optionStyles.count > 1 ? selActiveHeight : selActiveHeightFull
+        
+        selYearLeftConstraint.constant = 0
+        selTimeRightConstraint.constant = 0
+        if optionStyles.contains(.Year) {
+            selYearTopConstraint.constant = selActiveHeight
+            selYearHeightConstraint.constant = selInactiveHeight
+            if optionStyles.contains(.Time) {
+                selYearRightConstraint.constant = selInactiveWidth
+                selTimeHeightConstraint.constant = selInactiveHeight
+                selTimeTopConstraint.constant = selActiveHeight
+                selTimeLeftConstraint.constant = selInactiveWidth
+            }
+            else {
+                selYearRightConstraint.constant = 0
+                selTimeHeightConstraint.constant = 0
+                selTimeTopConstraint.constant = 0
+                selTimeLeftConstraint.constant = selInactiveWidthDouble
+            }
+        }
+        else {
+            selYearTopConstraint.constant = 0
+            selYearHeightConstraint.constant = 0
+            selYearRightConstraint.constant = selInactiveWidthDouble
+            if optionStyles.contains(.Time) {
+                selTimeHeightConstraint.constant = selInactiveHeight
+                selTimeTopConstraint.constant = selActiveHeight
+                selTimeLeftConstraint.constant = 0
+            }
+            else {
+                selTimeHeightConstraint.constant = 0
+                selTimeTopConstraint.constant = 0
+                selTimeLeftConstraint.constant = selInactiveWidthDouble
+            }
+        }
+        
+        monthLabel.contentScaleFactor = UIScreen.mainScreen().scale * optionSelectorPanelScaleMonth
+        dateLabel.contentScaleFactor = UIScreen.mainScreen().scale * optionSelectorPanelScaleDate
+        UIView.animateWithDuration(
+            selAnimationDuration,
+            delay: 0,
+            usingSpringWithDamping: 0.8,
+            initialSpringVelocity: 0,
+            options: [UIViewAnimationOptions.AllowAnimatedContent, UIViewAnimationOptions.AllowUserInteraction],
+            animations: {
+                self.monthLabel.transform = CGAffineTransformScale(CGAffineTransformIdentity, self.optionSelectorPanelScaleMonth, self.optionSelectorPanelScaleMonth)
+                self.dateLabel.transform = CGAffineTransformScale(CGAffineTransformIdentity, self.optionSelectorPanelScaleDate, self.optionSelectorPanelScaleDate)
+                self.yearLabel.transform = CGAffineTransformIdentity
+                self.timeLabel.transform = CGAffineTransformIdentity
+                self.view.layoutIfNeeded()
+            },
+            completion: { _ in
+                if self.selCurrrent == .Month {
+                    self.yearLabel.contentScaleFactor = UIScreen.mainScreen().scale
+                    self.timeLabel.contentScaleFactor = UIScreen.mainScreen().scale
+                }
+            }
+        )
+        selCurrrent = .Month
         updateDate()
     }
     
@@ -947,9 +1239,9 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
         backgroundSelView.sendSubviewToBack(selDateView)
         backgroundSelView.sendSubviewToBack(selTimeView)
         
-        selDateXConstraint.constant = -selMonthX
+        selDateXConstraint.constant = optionStyles.contains(.DateMonth) ? -selMonthX : 0
         selDateYConstraint.constant = 0
-        selMonthXConstraint.constant = selMonthX
+        selMonthXConstraint.constant = optionStyles.contains(.DateMonth) ? selMonthX : 0
         selMonthYConstraint.constant = 0
         
         selYearTopConstraint.constant = 0
@@ -959,7 +1251,8 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
         
         selDateLeftConstraint.constant = 0
         selTimeRightConstraint.constant = 0
-        if optionStyles.contains(.Date) {
+        
+        if optionStyles.contains(.DateMonth) || optionStyles.contains(.Month) {
             selDateHeightConstraint.constant = selInactiveHeight
             selDateTopConstraint.constant = selActiveHeight
             if optionStyles.contains(.Time) {
@@ -1028,9 +1321,9 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
         backgroundSelView.sendSubviewToBack(selYearView)
         backgroundSelView.sendSubviewToBack(selDateView)
         
-        selDateXConstraint.constant = -selMonthX
+        selDateXConstraint.constant = optionStyles.contains(.DateMonth) ? -selMonthX : 0
         selDateYConstraint.constant = 0
-        selMonthXConstraint.constant = selMonthX
+        selMonthXConstraint.constant = optionStyles.contains(.DateMonth) ? selMonthX : 0
         selMonthYConstraint.constant = 0
         
         selTimeTopConstraint.constant = 0
@@ -1040,7 +1333,7 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
         
         selDateLeftConstraint.constant = 0
         selYearRightConstraint.constant = 0
-        if optionStyles.contains(.Date) {
+        if optionStyles.contains(.DateMonth) || optionStyles.contains(.Month) {
             selDateHeightConstraint.constant = selInactiveHeight
             selDateTopConstraint.constant = selActiveHeight
             if optionStyles.contains(.Year) {
@@ -1155,7 +1448,7 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
                 calRow.dateFutureFlashBackgroundColor = optionCalendarBackgroundColorFutureDatesFlash
                 calRow.flashDuration = selAnimationDuration
                 calRow.multipleSelectionGrouping = optionMultipleSelectionGrouping
-                calRow.multipleSelectionEnabled = optionMultipleSelection
+                calRow.multipleSelectionEnabled = optionSelectionType != .Single
                 cell.contentView.addSubview(calRow)
                 cell.backgroundColor = UIColor.clearColor()
                 cell.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[cr]|", options: [], metrics: nil, views: ["cr": calRow]))
@@ -1165,11 +1458,13 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
             for sv in cell.contentView.subviews {
                 if let calRow = sv as? WWCalendarRow {
                     calRow.tag = indexPath.row + 1
-                    if optionMultipleSelection {
-                        calRow.selectedDates = optionCurrentDates
-                    }
-                    else {
+                    switch optionSelectionType {
+                    case .Single:
                         calRow.selectedDates = [optionCurrentDate]
+                    case .Multiple:
+                        calRow.selectedDates = optionCurrentDates
+                    case .Range:
+                        calRow.selectedDates = Set(optionCurrentDateRange.array)
                     }
                     calRow.setNeedsDisplay()
                     if let fd = flashDate {
@@ -1406,7 +1701,12 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
     
     internal func WWCalendarRowDidSelect(date: NSDate) {
         if delegate?.WWCalendarTimeSelectorShouldSelectDate?(self, date: date) ?? true {
-            if optionMultipleSelection {
+            switch optionSelectionType {
+            case .Single:
+                optionCurrentDate = optionCurrentDate.change(year: date.year, month: date.month, day: date.day)
+                updateDate()
+                
+            case .Multiple:
                 var indexPath: NSIndexPath
                 var indexPathToReload: NSIndexPath? = nil
                 
@@ -1457,9 +1757,26 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
                         selMultipleDatesTable.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Middle, animated: true)
                     }
                 }
-            }
-            else {
-                optionCurrentDate = optionCurrentDate.change(year: date.year, month: date.month, day: date.day)
+                
+            case .Range:
+                
+                let rangeDate = date.beginningOfDay
+                if shouldResetRange {
+                    optionCurrentDateRange.setStartDate(rangeDate)
+                    optionCurrentDateRange.setEndDate(rangeDate)
+                    isSelectingStartRange = false
+                    shouldResetRange = false
+                }
+                else {
+                    if isSelectingStartRange {
+                        optionCurrentDateRange.setStartDate(rangeDate)
+                        isSelectingStartRange = false
+                    }
+                    else {
+                        optionCurrentDateRange.setEndDate(rangeDate)
+                        shouldResetRange = true
+                    }
+                }
                 updateDate()
             }
             calendarTable.reloadData()
@@ -1644,17 +1961,17 @@ internal class WWCalendarRow: UIView {
                                 break
                             case .Pill:
                                 if comparisonDates.contains(date - 1.day) {
-                                    CGContextFillRect(ctx, CGRect(x: CGFloat(i - 1) * boxWidth, y: y, width: boxWidth / 2, height: maxConnectorSize))
+                                    CGContextFillRect(ctx, CGRect(x: CGFloat(i - 1) * boxWidth, y: y, width: boxWidth / 2 + 1, height: maxConnectorSize))
                                 }
                                 if comparisonDates.contains(date + 1.day) {
-                                    CGContextFillRect(ctx, CGRect(x: CGFloat(i - 1) * boxWidth + boxWidth / 2, y: y, width: boxWidth / 2, height: maxConnectorSize))
+                                    CGContextFillRect(ctx, CGRect(x: CGFloat(i - 1) * boxWidth + boxWidth / 2, y: y, width: boxWidth / 2 + 1, height: maxConnectorSize))
                                 }
                             case .LinkedBalls:
                                 if comparisonDates.contains(date - 1.day) {
-                                    CGContextFillRect(ctx, CGRect(x: CGFloat(i - 1) * boxWidth, y: (boxHeight - multipleSelectionBar) / 2, width: boxWidth / 2, height: multipleSelectionBar))
+                                    CGContextFillRect(ctx, CGRect(x: CGFloat(i - 1) * boxWidth, y: (boxHeight - multipleSelectionBar) / 2, width: boxWidth / 2 + 1, height: multipleSelectionBar))
                                 }
                                 if comparisonDates.contains(date + 1.day) {
-                                    CGContextFillRect(ctx, CGRect(x: CGFloat(i - 1) * boxWidth + boxWidth / 2, y: (boxHeight - multipleSelectionBar) / 2, width: boxWidth / 2, height: multipleSelectionBar))
+                                    CGContextFillRect(ctx, CGRect(x: CGFloat(i - 1) * boxWidth + boxWidth / 2, y: (boxHeight - multipleSelectionBar) / 2, width: boxWidth / 2 + 1, height: multipleSelectionBar))
                                 }
                             }
                             

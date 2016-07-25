@@ -136,7 +136,6 @@
 				TargetAttributes = {
 					007161C81CC87C26002CB119 = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = Q6Z46ZL2W7;
 					};
 				};
 			};
@@ -305,6 +304,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = weilson.wonder.WWCalendarTimeSelectorDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -319,6 +319,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = weilson.wonder.WWCalendarTimeSelectorDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

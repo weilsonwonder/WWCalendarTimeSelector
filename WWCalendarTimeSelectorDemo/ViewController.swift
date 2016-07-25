@@ -17,18 +17,22 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     private var multipleDates: [NSDate] = []
     
     private let demo: [String] = [
-        "Date",
-        "Year",
-        "Time",
-        "Date + Year",
-        "Year + Time",
-        "Date + Time",
-        "Date + Year + Time",
-        "Multiple Selection (Simple)",
-        "Multiple Selection (Pill)",
-        "Multiple Selection (LinkedBalls)",
-        "Date + Year + Time (without Top Panel)",
-        "Date + Year + Time (without Top Container)"
+        "DateMonth",//0
+        "Month",//1
+        "Year",//2
+        "Time",//3
+        "DateMonth + Year",//4
+        "Month + Year",//5
+        "Year + Time",//6
+        "DateMonth + Time",//7
+        "DateMonth + Year + Time",//8
+        "Month + Year + Time",//9
+        "Multiple Selection (Simple)",//10
+        "Multiple Selection (Pill)",//11
+        "Multiple Selection (LinkedBalls)",//12
+        "Date + Year + Time (without Top Panel)",//13
+        "Date + Year + Time (without Top Container)",//14
+        "Date Range Selection"//15
     ]
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -36,37 +40,47 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         selector.delegate = self
         selector.optionCurrentDate = singleDate
         selector.optionCurrentDates = Set(multipleDates)
+        selector.optionCurrentDateRange.setStartDate(multipleDates.first ?? singleDate)
+        selector.optionCurrentDateRange.setEndDate(multipleDates.last ?? singleDate)
         
         switch indexPath.row {
             
         case 0:
-            selector.optionStyles = [.Date]
+            selector.optionStyles = [.DateMonth]
         case 1:
-            selector.optionStyles = [.Year]
+            selector.optionStyles = [.Month]
         case 2:
-            selector.optionStyles = [.Time]
+            selector.optionStyles = [.Year]
         case 3:
-            selector.optionStyles = [.Date, .Year]
+            selector.optionStyles = [.Time]
         case 4:
-            selector.optionStyles = [.Year, .Time]
+            selector.optionStyles = [.DateMonth, .Year]
         case 5:
-            selector.optionStyles = [.Date, .Time]
+            selector.optionStyles = [.Month, .Year]
         case 6:
-            break
+            selector.optionStyles = [.Year, .Time]
         case 7:
-            selector.optionMultipleSelection = true
-            selector.optionMultipleSelectionGrouping = .Simple
+            selector.optionStyles = [.DateMonth, .Time]
         case 8:
-            selector.optionMultipleSelection = true
-            selector.optionMultipleSelectionGrouping = .Pill
+            break
         case 9:
-            selector.optionMultipleSelection = true
-            selector.optionMultipleSelectionGrouping = .LinkedBalls
+            selector.optionStyles = [.Month, .Year,.Time]
         case 10:
-            selector.optionShowTopPanel = false
+            selector.optionSelectionType = WWCalendarTimeSelectorSelection.Multiple
+            selector.optionMultipleSelectionGrouping = .Simple
         case 11:
+            selector.optionSelectionType = WWCalendarTimeSelectorSelection.Multiple
+            selector.optionMultipleSelectionGrouping = .Pill
+        case 12:
+            selector.optionSelectionType = WWCalendarTimeSelectorSelection.Multiple
+            selector.optionMultipleSelectionGrouping = .LinkedBalls
+        case 13:
+            selector.optionShowTopPanel = false
+        case 14:
             selector.optionShowTopContainer = false
             selector.optionLayoutHeight = 300
+        case 15:
+            selector.optionSelectionType = WWCalendarTimeSelectorSelection.Range
             
         default:
             break
@@ -93,11 +107,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func WWCalendarTimeSelectorDone(selector: WWCalendarTimeSelector, date: NSDate) {
+        print("Selected \n\(date)\n---")
         singleDate = date
         dateLabel.text = date.stringFromFormat("d' 'MMMM' 'yyyy', 'h':'mma")
     }
     
     func WWCalendarTimeSelectorDone(selector: WWCalendarTimeSelector, dates: [NSDate]) {
+        print("Selected Multiple Dates \n\(dates)\n---")
         if let date = dates.first {
             singleDate = date
             dateLabel.text = date.stringFromFormat("d' 'MMMM' 'yyyy', 'h':'mma")

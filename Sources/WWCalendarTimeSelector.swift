@@ -818,8 +818,8 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
         }
         else {
             isSelectingStartRange = true
-            shouldResetRange = false
         }
+        shouldResetRange = false
         updateDate()
     }
     
@@ -838,8 +838,8 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
         }
         else {
             isSelectingStartRange = false
-            shouldResetRange = false
         }
+        shouldResetRange = false
         updateDate()
     }
     

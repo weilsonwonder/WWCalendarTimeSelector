@@ -1,6 +1,6 @@
 # WWCalendarTimeSelector
 
-#### Try out the [Demo (powered by appetize)](https://appetize.io/app/9kpgerw2ducxyhqe5b11kqgeym)!
+#### Try out the [Demo (powered by appetize)](https://appetize.io/app/0n12eyb1g2j2n08unffhxn44ww)!
 
 
 ## Screenshots
@@ -10,6 +10,7 @@
 ![WWCalendarTimeSelector](https://github.com/weilsonwonder/WWCalendarTimeSelector/blob/master/Screenshots/ss3.png)
 ![WWCalendarTimeSelector](https://github.com/weilsonwonder/WWCalendarTimeSelector/blob/master/Screenshots/ss4.png)
 ![WWCalendarTimeSelector](https://github.com/weilsonwonder/WWCalendarTimeSelector/blob/master/Screenshots/ss5.png)
+![WWCalendarTimeSelector](https://github.com/weilsonwonder/WWCalendarTimeSelector/blob/master/Screenshots/ss6.png)
 
 
 ## Description
@@ -22,6 +23,7 @@ An Android themed date-time selector. Select date and time with this highly cust
 - Simple usage
 - Single date selection
 - Multiple dates selection
+- Range dates selection
 - Portrait and Landscape orientation support
 - Font, Color, Size customization
 - 3 styles of grouping for multiple dates selection (Simple, Pill, LinkedBalls)
@@ -64,12 +66,12 @@ class YourViewController: UIViewController, WWCalendarTimeSelectorProtocol {
     func showCalendar() {
         let selector = WWCalendarTimeSelector.instantiate()
         selector.delegate = self
-        /* 
+        /*
           Any other options are to be set before presenting selector!
         */
         presentViewController(selector, animated: true, completion: nil)
     }
-    
+
     func WWCalendarTimeSelectorDone(selector: WWCalendarTimeSelector, date: NSDate) {
         print(date)
     }
@@ -83,55 +85,81 @@ Naturally, everybody would want a selector with their own theme colours and font
 Protocols:
 
 ```swift
-protocol WWCalendarTimeSelectorProtocol {
-    optional func WWCalendarTimeSelectorDone(selector: WWCalendarTimeSelector, dates: [NSDate])
-    optional func WWCalendarTimeSelectorDone(selector: WWCalendarTimeSelector, date: NSDate)
-    optional func WWCalendarTimeSelectorCancel(selector: WWCalendarTimeSelector, dates: [NSDate])
-    optional func WWCalendarTimeSelectorCancel(selector: WWCalendarTimeSelector, date: NSDate)
-    optional func WWCalendarTimeSelectorWillDismiss(selector: WWCalendarTimeSelector)
-    optional func WWCalendarTimeSelectorDidDismiss(selector: WWCalendarTimeSelector)
-    optional func WWCalendarTimeSelectorShouldSelectDate(selector: WWCalendarTimeSelector, date: NSDate) -> Bool
+@objc public protocol WWCalendarTimeSelectorProtocol {
+    optional public func WWCalendarTimeSelectorDone(selector: WWCalendarTimeSelector, dates: [NSDate])
+    optional public func WWCalendarTimeSelectorDone(selector: WWCalendarTimeSelector, date: NSDate)
+    optional public func WWCalendarTimeSelectorCancel(selector: WWCalendarTimeSelector, dates: [NSDate])
+    optional public func WWCalendarTimeSelectorCancel(selector: WWCalendarTimeSelector, date: NSDate)
+    optional public func WWCalendarTimeSelectorWillDismiss(selector: WWCalendarTimeSelector)
+    optional public func WWCalendarTimeSelectorDidDismiss(selector: WWCalendarTimeSelector)
+    optional public func WWCalendarTimeSelectorShouldSelectDate(selector: WWCalendarTimeSelector, date: NSDate) -> Bool
 }
 ```
 
 Enumerations:
 
 ```swift
-enum WWCalendarTimeSelectorStyle {
-    case Date
-    case Year
-    case Time
+@objc public enum WWCalendarTimeSelectorSelection : Int {
+    case Single
+    case Multiple
+    case Range
 }
 
-enum WWCalendarTimeSelectorMultipleSelectionGrouping {
+@objc public enum WWCalendarTimeSelectorMultipleSelectionGrouping : Int {
     case Simple
     case Pill
     case LinkedBalls
 }
 
-enum WWCalendarTimeSelectorTimeStep: Int {
-    case OneMinute = 1
-    case FiveMinutes = 5
-    case TenMinutes = 10
-    case FifteenMinutes = 15
-    case ThirtyMinutes = 30
-    case SixtyMinutes = 60
+@objc public enum WWCalendarTimeSelectorTimeStep : Int {
+    case OneMinute
+    case FiveMinutes
+    case TenMinutes
+    case FifteenMinutes
+    case ThirtyMinutes
+    case SixtyMinutes
+}
+```
+
+Helper Classes:
+
+```swift
+@objc public final class WWCalendarTimeSelectorStyle : NSObject {
+    private(set) public var showDateMonth: Bool
+    private(set) public var showMonth: Bool
+    private(set) public var showYear: Bool
+    private(set) public var showTime: Bool
+    public func showDateMonth(show: Bool)
+    public func showMonth(show: Bool)
+    public func showYear(show: Bool)
+    public func showTime(show: Bool)
+}
+
+@objc public class WWCalendarTimeSelectorDateRange : NSObject {
+    private(set) public var start: NSDate
+    private(set) public var end: NSDate
+    public var array: [NSDate] { get }
+    public func setStartDate(date: NSDate)
+    public func setEndDate(date: NSDate)
 }
 ```
 
 Below are the available options:
 
 ```swift
-optionStyles: Set<WWCalendarTimeSelectorStyle>
+delegate: WWCalendarTimeSelectorProtocol?
+optionIdentifier: AnyObject?
+optionStyles: WWCalendarTimeSelectorStyle
 optionTimeStep: WWCalendarTimeSelectorTimeStep
+optionShowTopContainer: Bool
 optionShowTopPanel: Bool
 optionTopPanelTitle: String?
-optionMultipleSelection: Bool
+optionSelectionType: WWCalendarTimeSelectorSelection
 optionCurrentDate: NSDate
 optionCurrentDates: Set<NSDate>
+optionCurrentDateRange: WWCalendarTimeSelectorDateRange
 optionStyleBlurEffect: UIBlurEffectStyle
 optionMultipleSelectionGrouping: WWCalendarTimeSelectorMultipleSelectionGrouping
-optionShowTopContainer: Bool
 optionCalendarFontMonth: UIFont
 optionCalendarFontDays: UIFont
 optionCalendarFontToday: UIFont
@@ -185,6 +213,8 @@ optionClockBackgroundColorMinuteHighlight: UIColor
 optionClockBackgroundColorMinuteHighlightNeedle: UIColor
 optionClockBackgroundColorFace: UIColor
 optionClockBackgroundColorCenter: UIColor
+optionButtonTitleDone: String
+optionButtonTitleCancel: String
 optionButtonFontCancel: UIFont
 optionButtonFontDone: UIFont
 optionButtonFontColorCancel: UIColor
@@ -215,8 +245,6 @@ optionSelectorPanelFontColorMultipleSelectionHighlight: UIColor
 optionSelectorPanelBackgroundColor: UIColor
 optionMainPanelBackgroundColor: UIColor
 optionBottomPanelBackgroundColor: UIColor
-optionButtonTitleDone: String
-optionButtonTitleCancel: String
 optionSelectorPanelOffsetHighlightMonth: CGFloat
 optionSelectorPanelOffsetHighlightDate: CGFloat
 optionSelectorPanelScaleMonth: CGFloat
@@ -224,8 +252,10 @@ optionSelectorPanelScaleDate: CGFloat
 optionSelectorPanelScaleYear: CGFloat
 optionSelectorPanelScaleTime: CGFloat
 optionLayoutTopPanelHeight: CGFloat
-optionLayoutHeight: CGFloat
-optionLayoutWidth: CGFloat
+optionLayoutHeight: CGFloat?
+optionLayoutWidth: CGFloat?
+optionLayoutHeightRatio: CGFloat
+optionLayoutWidthRatio: CGFloat
 optionLayoutPortraitRatio: CGFloat
 optionLayoutLandscapeRatio: CGFloat
 ```

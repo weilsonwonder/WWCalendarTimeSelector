@@ -20,16 +20,49 @@ import UIKit
 ///
 /// - Note: 
 /// `optionPickerStyle` should contain at least 1 of the following style. It will default to all styles should there be none in the option specified.
-@objc public enum WWCalendarTimeSelectorStyle: Int {
-    /// Shows both Month and Date.
-    case DateMonth
-    /// Shows only the Month.
-    case Month
-    /// Shows only the Year.
-    case Year
-    /// Shows only the Time in 12-hour style.
-    case Time
+//@objc public enum WWCalendarTimeSelectorStyle: Int {
+//    /// Shows both Month and Date.
+//    case DateMonth
+//    /// Shows only the Month.
+//    case Month
+//    /// Shows only the Year.
+//    case Year
+//    /// Shows only the Time in 12-hour style.
+//    case Time
+//}
+
+
+public struct WWCalendarTimeSelectorStyle: OptionSetType {
+    public let rawValue: Int
+    public init(rawValue: Int) { self.rawValue = rawValue }
+    
+    public static let DateMonth     = WWCalendarTimeSelectorStyle(rawValue: 1 << 0)
+    public static let Month         = WWCalendarTimeSelectorStyle(rawValue: 1 << 1)
+    public static let Year          = WWCalendarTimeSelectorStyle(rawValue: 1 << 2)
+    public static let Time          = WWCalendarTimeSelectorStyle(rawValue: 1 << 3)
 }
+
+private extension OptionSetType where RawValue : IntegerType {
+    func count() -> Int {
+        var remainingBits = self.rawValue
+        var bitMask: RawValue = 1
+        var counter = 0
+        while remainingBits != 0 {
+            defer { bitMask = bitMask &* 2 }
+            if remainingBits & bitMask != 0 {
+                remainingBits = remainingBits & ~bitMask
+                counter += 1
+            }
+        }
+        return counter
+    }
+}
+
+
+
+
+
+
 
 /// Set `optionSelectionType` with one of the following:
 ///
@@ -117,35 +150,6 @@ import UIKit
         }
     }
 }
-
-//public struct WWCalendarTimeSelectorDateRange {
-//    private(set) public var start: NSDate = NSDate().beginningOfDay
-//    private(set) public var end: NSDate = NSDate().beginningOfDay
-//    public var array: [NSDate] {
-//        var dates: [NSDate] = []
-//        var i = start.beginningOfDay
-//        let j = end.beginningOfDay
-//        while i.compare(j) != .OrderedDescending {
-//            dates.append(i)
-//            i = i + 1.day
-//        }
-//        return dates
-//    }
-//    
-//    public mutating func setStartDate(date: NSDate) {
-//        start = date.beginningOfDay
-//        if start.compare(end) == .OrderedDescending {
-//            end = start
-//        }
-//    }
-//    
-//    public mutating func setEndDate(date: NSDate) {
-//        end = date.beginningOfDay
-//        if start.compare(end) == .OrderedDescending {
-//            start = end
-//        }
-//    }
-//}
 
 /// The delegate of `WWCalendarTimeSelector` can adopt the `WWCalendarTimeSelectorProtocol` optional methods. The following Optional methods are available:
 ///
@@ -259,9 +263,9 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
     ///
     /// - Note:
     /// Defaults to all styles.
-    public var optionStyles: Set<WWCalendarTimeSelectorStyle> {
+    public var optionStyles: WWCalendarTimeSelectorStyle {
         set {
-            if newValue.count == 0 {
+            if newValue.isEmpty {
                 privateOptionStyles = [.DateMonth, .Year, .Time]
             }
             else {
@@ -275,7 +279,7 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
             return privateOptionStyles
         }
     }
-    private var privateOptionStyles: Set<WWCalendarTimeSelectorStyle> = [.DateMonth, .Year, .Time]
+    private var privateOptionStyles: WWCalendarTimeSelectorStyle = [.DateMonth, .Year, .Time]
     
     /// Set `optionTimeStep` to customise the period of time which the users will be able to choose. The step will show the user the available minutes to select (with exception of `OneMinute` step, see *Note*).
     ///
@@ -778,14 +782,16 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
                 completion: nil
             )
             
-            switch selCurrrent {
-            case .DateMonth:
+            if selCurrrent.contains(.DateMonth) {
                 showDate(false)
-            case .Month:
+            }
+            else if selCurrrent.contains(.Month) {
                 showMonth(false)
-            case .Year:
+            }
+            else if selCurrrent.contains(.Year) {
                 showYear(false)
-            case .Time:
+            }
+            else if selCurrrent.contains(.Time) {
                 showTime(false)
             }
         }
@@ -1058,23 +1064,22 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
         paragraph.alignment = NSTextAlignment.Center
         let attrText = NSMutableAttributedString(string: timeText, attributes: [NSFontAttributeName: optionSelectorPanelFontTime, NSForegroundColorAttributeName: optionSelectorPanelFontColorTime, NSParagraphStyleAttributeName: paragraph])
         
-        switch selCurrrent {
-        case .DateMonth:
+        if selCurrrent.contains(.DateMonth) {
             monthLabel.textColor = optionSelectorPanelFontColorMonthHighlight
             dateLabel.textColor = optionSelectorPanelFontColorDateHighlight
             yearLabel.textColor = optionSelectorPanelFontColorYear
-            
-        case .Month:
+        }
+        else if selCurrrent.contains(.Month) {
             monthLabel.textColor = optionSelectorPanelFontColorMonthHighlight
             dateLabel.textColor = optionSelectorPanelFontColorDateHighlight
             yearLabel.textColor = optionSelectorPanelFontColorYear
-            
-        case .Year:
+        }
+        else if selCurrrent.contains(.Year) {
             monthLabel.textColor = optionSelectorPanelFontColorMonth
             dateLabel.textColor = optionSelectorPanelFontColorDate
             yearLabel.textColor = optionSelectorPanelFontColorYearHighlight
-            
-        case .Time:
+        }
+        else if selCurrrent.contains(.Time) {
             monthLabel.textColor = optionSelectorPanelFontColorMonth
             dateLabel.textColor = optionSelectorPanelFontColorDate
             yearLabel.textColor = optionSelectorPanelFontColorYear
@@ -1113,7 +1118,7 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
         selDateTopConstraint.constant = 0
         selDateLeftConstraint.constant = 0
         selDateRightConstraint.constant = 0
-        selDateHeightConstraint.constant = optionStyles.count > 1 ? selActiveHeight : selActiveHeightFull
+        selDateHeightConstraint.constant = optionStyles.count() > 1 ? selActiveHeight : selActiveHeightFull
         
         selYearLeftConstraint.constant = 0
         selTimeRightConstraint.constant = 0
@@ -1195,7 +1200,7 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
         selDateTopConstraint.constant = 0
         selDateLeftConstraint.constant = 0
         selDateRightConstraint.constant = 0
-        selDateHeightConstraint.constant = optionStyles.count > 1 ? selActiveHeight : selActiveHeightFull
+        selDateHeightConstraint.constant = optionStyles.count() > 1 ? selActiveHeight : selActiveHeightFull
         
         selYearLeftConstraint.constant = 0
         selTimeRightConstraint.constant = 0
@@ -1276,7 +1281,7 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
         selYearTopConstraint.constant = 0
         selYearLeftConstraint.constant = 0
         selYearRightConstraint.constant = 0
-        selYearHeightConstraint.constant = optionStyles.count > 1 ? selActiveHeight : selActiveHeightFull
+        selYearHeightConstraint.constant = optionStyles.count() > 1 ? selActiveHeight : selActiveHeightFull
         
         selDateLeftConstraint.constant = 0
         selTimeRightConstraint.constant = 0
@@ -1358,7 +1363,7 @@ public class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITa
         selTimeTopConstraint.constant = 0
         selTimeLeftConstraint.constant = 0
         selTimeRightConstraint.constant = 0
-        selTimeHeightConstraint.constant = optionStyles.count > 1 ? selActiveHeight : selActiveHeightFull
+        selTimeHeightConstraint.constant = optionStyles.count() > 1 ? selActiveHeight : selActiveHeightFull
         
         selDateLeftConstraint.constant = 0
         selYearRightConstraint.constant = 0

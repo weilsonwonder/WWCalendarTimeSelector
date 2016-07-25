@@ -20,7 +20,7 @@ import UIKit
 ///
 /// - Note: 
 /// `optionPickerStyle` should contain at least 1 of the following style. It will default to all styles should there be none in the option specified.
-public enum WWCalendarTimeSelectorStyle {
+@objc public enum WWCalendarTimeSelectorStyle: Int {
     /// Shows both Month and Date.
     case DateMonth
     /// Shows only the Month.
@@ -41,7 +41,7 @@ public enum WWCalendarTimeSelectorStyle {
 ///
 /// - Note:
 /// Selection styles will only affect date selection. It is currently not possible to select multiple/range
-public enum WWCalendarTimeSelectorSelection {
+@objc public enum WWCalendarTimeSelectorSelection: Int {
     /// Single Selection.
     case Single
     /// Multiple Selection. Year and Time interface not available.
@@ -57,7 +57,7 @@ public enum WWCalendarTimeSelectorSelection {
 /// `Pill`: This is the default. Pill-like grouping where dates are grouped only if they are adjacent to each other (+- 1 day).
 ///
 /// `LinkedBalls`: Smaller circular selection, with a bar connecting adjacent dates.
-public enum WWCalendarTimeSelectorMultipleSelectionGrouping {
+@objc public enum WWCalendarTimeSelectorMultipleSelectionGrouping: Int {
     /// Displayed as individual circular selection
     case Simple
     /// Rounded rectangular grouping
@@ -74,7 +74,7 @@ public enum WWCalendarTimeSelectorMultipleSelectionGrouping {
 ///
 /// - Note: 
 /// Setting `optionTimeStep` to `SixtyMinutes` will disable the minutes selection entirely.
-public enum WWCalendarTimeSelectorTimeStep: Int {
+@objc public enum WWCalendarTimeSelectorTimeStep: Int {
     /// 1 Minute interval, but clock will display intervals of 5 minutes.
     case OneMinute = 1
     /// 5 Minutes interval.
@@ -89,7 +89,7 @@ public enum WWCalendarTimeSelectorTimeStep: Int {
     case SixtyMinutes = 60
 }
 
-public struct WWCalendarTimeSelectorDateRange {
+@objc public class WWCalendarTimeSelectorDateRange: NSObject {
     private(set) public var start: NSDate = NSDate().beginningOfDay
     private(set) public var end: NSDate = NSDate().beginningOfDay
     public var array: [NSDate] {
@@ -103,20 +103,49 @@ public struct WWCalendarTimeSelectorDateRange {
         return dates
     }
     
-    public mutating func setStartDate(date: NSDate) {
+    public func setStartDate(date: NSDate) {
         start = date.beginningOfDay
         if start.compare(end) == .OrderedDescending {
             end = start
         }
     }
     
-    public mutating func setEndDate(date: NSDate) {
+    public func setEndDate(date: NSDate) {
         end = date.beginningOfDay
         if start.compare(end) == .OrderedDescending {
             start = end
         }
     }
 }
+
+//public struct WWCalendarTimeSelectorDateRange {
+//    private(set) public var start: NSDate = NSDate().beginningOfDay
+//    private(set) public var end: NSDate = NSDate().beginningOfDay
+//    public var array: [NSDate] {
+//        var dates: [NSDate] = []
+//        var i = start.beginningOfDay
+//        let j = end.beginningOfDay
+//        while i.compare(j) != .OrderedDescending {
+//            dates.append(i)
+//            i = i + 1.day
+//        }
+//        return dates
+//    }
+//    
+//    public mutating func setStartDate(date: NSDate) {
+//        start = date.beginningOfDay
+//        if start.compare(end) == .OrderedDescending {
+//            end = start
+//        }
+//    }
+//    
+//    public mutating func setEndDate(date: NSDate) {
+//        end = date.beginningOfDay
+//        if start.compare(end) == .OrderedDescending {
+//            start = end
+//        }
+//    }
+//}
 
 /// The delegate of `WWCalendarTimeSelector` can adopt the `WWCalendarTimeSelectorProtocol` optional methods. The following Optional methods are available:
 ///

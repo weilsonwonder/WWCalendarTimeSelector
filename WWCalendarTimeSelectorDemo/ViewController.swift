@@ -46,25 +46,49 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         switch indexPath.row {
             
         case 0:
-            selector.optionStyles = [.DateMonth]
+            selector.optionStyles.showDateMonth(true)
+            selector.optionStyles.showMonth(false)
+            selector.optionStyles.showYear(false)
+            selector.optionStyles.showTime(false)
         case 1:
-            selector.optionStyles = [.Month]
+            selector.optionStyles.showDateMonth(false)
+            selector.optionStyles.showMonth(true)
+            selector.optionStyles.showYear(false)
+            selector.optionStyles.showTime(false)
         case 2:
-            selector.optionStyles = [.Year]
+            selector.optionStyles.showDateMonth(false)
+            selector.optionStyles.showMonth(false)
+            selector.optionStyles.showYear(true)
+            selector.optionStyles.showTime(false)
         case 3:
-            selector.optionStyles = [.Time]
+            selector.optionStyles.showDateMonth(false)
+            selector.optionStyles.showMonth(false)
+            selector.optionStyles.showYear(false)
+            selector.optionStyles.showTime(true)
         case 4:
-            selector.optionStyles = [.DateMonth, .Year]
+            selector.optionStyles.showDateMonth(true)
+            selector.optionStyles.showMonth(false)
+            selector.optionStyles.showYear(true)
+            selector.optionStyles.showTime(false)
         case 5:
-            selector.optionStyles = [.Month, .Year]
+            selector.optionStyles.showDateMonth(false)
+            selector.optionStyles.showMonth(true)
+            selector.optionStyles.showYear(true)
+            selector.optionStyles.showTime(false)
         case 6:
-            selector.optionStyles = [.Year, .Time]
+            selector.optionStyles.showDateMonth(false)
+            selector.optionStyles.showMonth(false)
+            selector.optionStyles.showYear(true)
+            selector.optionStyles.showTime(true)
         case 7:
-            selector.optionStyles = [.DateMonth, .Time]
+            selector.optionStyles.showDateMonth(true)
+            selector.optionStyles.showMonth(false)
+            selector.optionStyles.showYear(false)
+            selector.optionStyles.showTime(true)
         case 8:
             break
         case 9:
-            selector.optionStyles = [.Month, .Year,.Time]
+            selector.optionStyles.showMonth(true)
         case 10:
             selector.optionSelectionType = WWCalendarTimeSelectorSelection.Multiple
             selector.optionMultipleSelectionGrouping = .Simple

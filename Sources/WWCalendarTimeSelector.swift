@@ -2015,7 +2015,8 @@ internal class WWCalendarRow: UIView {
                         str = NSMutableAttributedString(string: "\(date.day)", attributes: [NSFontAttributeName: font, NSForegroundColorAttributeName: fontColor, NSParagraphStyleAttributeName: paragraph])
                     }
                     
-                    str.draw(in: CGRect(x: CGFloat(i - 1) * boxWidth, y: y, width: boxWidth, height: dateHeight))
+                    let rect = CGRect(x: CGFloat(i - 1) * boxWidth, y: y, width: boxWidth, height: dateHeight)
+                    str.draw(in: rect)
                     date = date + 1.day
                     if date.month != startDate.month {
                         break

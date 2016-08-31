@@ -14,32 +14,32 @@ prefix func - (duration: Duration) -> (Duration) {
 
 class Duration {
     let value: Int
-    let unit: NSCalendarUnit
-    private let calendar = NSCalendar.currentCalendar()
+    let unit: NSCalendar.Unit
+    fileprivate let calendar = (Calendar.current as NSCalendar)
     
     /**
-        Initialize a date before a duration.
-    */
-    var ago: NSDate {
-        return ago(from: NSDate())
+     Initialize a date before a duration.
+     */
+    var ago: Date {
+        return ago(from: Date())
     }
     
-    func ago(from date: NSDate) -> NSDate {
-        return calendar.dateByAddingDuration(-self, toDate: date, options: .SearchBackwards)!
+    func ago(from date: Date) -> Date {
+        return calendar.dateByAddingDuration(-self, toDate: date, options: .searchBackwards)!
     }
     
     /**
-        Initialize a date after a duration.
-    */
-    var later: NSDate {
-        return later(from: NSDate())
+     Initialize a date after a duration.
+     */
+    var later: Date {
+        return later(from: Date())
     }
     
-    func later(from date: NSDate) -> NSDate {
-        return calendar.dateByAddingDuration(self, toDate: date, options: .SearchBackwards)!
+    func later(from date: Date) -> Date {
+        return calendar.dateByAddingDuration(self, toDate: date, options: .searchBackwards)!
     }
     
-    init(value: Int, unit: NSCalendarUnit) {
+    init(value: Int, unit: NSCalendar.Unit) {
         self.value = value
         self.unit = unit
     }

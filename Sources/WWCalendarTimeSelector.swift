@@ -2016,7 +2016,7 @@ internal class WWCalendarRow: UIView {
                     }
                     
                     let rectangleOfShit = CGRect(x: CGFloat(i - 1) * boxWidth, y: y, width: boxWidth, height: dateHeight)
-                    str.draw(in: rectangleOfShit)
+                    //str.draw(in: rectangleOfShit)
                     date = date + 1.day
                     if date.month != startDate.month {
                         break

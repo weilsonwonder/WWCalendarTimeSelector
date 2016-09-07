@@ -1932,7 +1932,7 @@ internal class WWCalendarRow: UIView {
         else {
             let today = Date().beginningOfDay
             var date = startDate
-            var str: NSMutableAttributedString
+            var str: NSAttributedString
             
             for i in 1...7 {
                 if date.weekday == i {
@@ -2009,14 +2009,14 @@ internal class WWCalendarRow: UIView {
                             ctx?.fillEllipse(in: CGRect(x: x, y: y, width: size, height: size))
                         }
                         
-                        str = NSMutableAttributedString(string: "\(date.day)", attributes: [NSFontAttributeName: font, NSForegroundColorAttributeName: fontHighlightColor, NSParagraphStyleAttributeName: paragraph])
+                        str = NSAttributedString(string: "\(date.day)", attributes: [NSFontAttributeName: font, NSForegroundColorAttributeName: fontHighlightColor, NSParagraphStyleAttributeName: paragraph])
                     }
                     else {
-                        str = NSMutableAttributedString(string: "\(date.day)", attributes: [NSFontAttributeName: font, NSForegroundColorAttributeName: fontColor, NSParagraphStyleAttributeName: paragraph])
+                        str = NSAttributedString(string: "\(date.day)", attributes: [NSFontAttributeName: font, NSForegroundColorAttributeName: fontColor, NSParagraphStyleAttributeName: paragraph])
                     }
                     
                     let rectangleOfShit = CGRect(x: CGFloat(i - 1) * boxWidth, y: y, width: boxWidth, height: dateHeight)
-                    //str.draw(in: rectangleOfShit)
+                    str.draw(in: rectangleOfShit)
                     date = date + 1.day
                     if date.month != startDate.month {
                         break

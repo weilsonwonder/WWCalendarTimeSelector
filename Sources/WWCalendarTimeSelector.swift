@@ -2016,7 +2016,7 @@ internal class WWCalendarRow: UIView {
                     }
                     
                     let rectangleOfShit = CGRect(x: CGFloat(i - 1) * boxWidth, y: y, width: boxWidth, height: dateHeight)
-                    let str = NSAttributedString(string: "1", attributes: [NSFontAttributeName: dayFont, NSForegroundColorAttributeName: dayFontColor, NSParagraphStyleAttributeName: paragraph])
+                    let str = NSAttributedString(string: "1", attributes: [NSFontAttributeName: font, NSForegroundColorAttributeName: fontColor, NSParagraphStyleAttributeName: paragraph])
                     str.draw(in: rectangleOfShit)
                     date = date + 1.day
                     if date.month != startDate.month {

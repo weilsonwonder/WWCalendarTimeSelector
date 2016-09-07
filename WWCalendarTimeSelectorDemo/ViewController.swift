@@ -13,10 +13,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var table: UITableView!
     
-    private var singleDate: NSDate = NSDate()
-    private var multipleDates: [NSDate] = []
+    fileprivate var singleDate: Date = Date()
+    fileprivate var multipleDates: [Date] = []
     
-    private let demo: [String] = [
+    fileprivate let demo: [String] = [
         "DateMonth",//0
         "Month",//1
         "Year",//2
@@ -35,7 +35,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         "Date Range Selection"//15
     ]
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selector = WWCalendarTimeSelector.instantiate()
         selector.delegate = self
         selector.optionCurrentDate = singleDate
@@ -43,7 +43,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         selector.optionCurrentDateRange.setStartDate(multipleDates.first ?? singleDate)
         selector.optionCurrentDateRange.setEndDate(multipleDates.last ?? singleDate)
         
-        switch indexPath.row {
+        switch (indexPath as NSIndexPath).row {
             
         case 0:
             selector.optionStyles.showDateMonth(true)
@@ -90,53 +90,53 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         case 9:
             selector.optionStyles.showMonth(true)
         case 10:
-            selector.optionSelectionType = WWCalendarTimeSelectorSelection.Multiple
-            selector.optionMultipleSelectionGrouping = .Simple
+            selector.optionSelectionType = WWCalendarTimeSelectorSelection.multiple
+            selector.optionMultipleSelectionGrouping = .simple
         case 11:
-            selector.optionSelectionType = WWCalendarTimeSelectorSelection.Multiple
-            selector.optionMultipleSelectionGrouping = .Pill
+            selector.optionSelectionType = WWCalendarTimeSelectorSelection.multiple
+            selector.optionMultipleSelectionGrouping = .pill
         case 12:
-            selector.optionSelectionType = WWCalendarTimeSelectorSelection.Multiple
-            selector.optionMultipleSelectionGrouping = .LinkedBalls
+            selector.optionSelectionType = WWCalendarTimeSelectorSelection.multiple
+            selector.optionMultipleSelectionGrouping = .linkedBalls
         case 13:
             selector.optionShowTopPanel = false
         case 14:
             selector.optionShowTopContainer = false
             selector.optionLayoutHeight = 300
         case 15:
-            selector.optionSelectionType = WWCalendarTimeSelectorSelection.Range
+            selector.optionSelectionType = WWCalendarTimeSelectorSelection.range
             
         default:
             break
         }
         
-        presentViewController(selector, animated: true, completion: nil)
+        present(selector, animated: true, completion: nil)
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return demo.count
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCellWithIdentifier("cell") else {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell") else {
             assertionFailure("cell identifier 'cell' not found!")
             return UITableViewCell()
         }
-        cell.textLabel?.text = demo[indexPath.row]
+        cell.textLabel?.text = demo[(indexPath as NSIndexPath).row]
         return cell
     }
     
-    func WWCalendarTimeSelectorDone(selector: WWCalendarTimeSelector, date: NSDate) {
+    func WWCalendarTimeSelectorDone(_ selector: WWCalendarTimeSelector, date: Date) {
         print("Selected \n\(date)\n---")
         singleDate = date
         dateLabel.text = date.stringFromFormat("d' 'MMMM' 'yyyy', 'h':'mma")
     }
     
-    func WWCalendarTimeSelectorDone(selector: WWCalendarTimeSelector, dates: [NSDate]) {
+    func WWCalendarTimeSelectorDone(_ selector: WWCalendarTimeSelector, dates: [Date]) {
         print("Selected Multiple Dates \n\(dates)\n---")
         if let date = dates.first {
             singleDate = date

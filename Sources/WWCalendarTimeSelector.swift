@@ -599,16 +599,17 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     open static func instantiate() -> WWCalendarTimeSelector {
         let podBundle = Bundle(for: self.classForCoder())
         let bundleURL = podBundle.url(forResource: "WWCalendarTimeSelectorStoryboardBundle", withExtension: "bundle")
-        var bundle: Bundle? = nil
+        var bundle: Bundle?
         if let bundleURL = bundleURL {
             bundle = Bundle(url: bundleURL)
         }
-        let picker = UIStoryboard(name: "WWCalendarTimeSelector", bundle: bundle).instantiateInitialViewController() as! WWCalendarTimeSelector
-        
-        picker.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
-        picker.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
-        
-        return picker
+        return UIStoryboard(name: "WWCalendarTimeSelector", bundle: bundle).instantiateInitialViewController() as! WWCalendarTimeSelector
+    }
+    
+    open override func awakeFromNib() {
+        super.awakeFromNib()
+        modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+        modalTransitionStyle = UIModalTransitionStyle.crossDissolve
     }
     
     open override func viewDidLoad() {

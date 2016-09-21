@@ -705,19 +705,19 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
             yearTable.reloadData()
             clockView.setNeedsDisplay()
             selMultipleDatesTable.reloadData()
-            self.didRotateOrNot()
+            self.didRotateOrNot(animated: false)
             
             if optionStyles.showDateMonth {
-                showDate(true)
+                showDate(true, animated: false)
             }
             else if optionStyles.showMonth {
-                showMonth(true)
+                showMonth(true, animated: false)
             }
             else if optionStyles.showYear {
-                showYear(true)
+                showYear(true, animated: false)
             }
             else if optionStyles.showTime {
-                showTime(true)
+                showTime(true, animated: false)
             }
         }
     }
@@ -731,7 +731,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         return UIStatusBarStyle.lightContent
     }
     
-    internal func didRotateOrNot() {
+    internal func didRotateOrNot(animated: Bool = true) {
         let orientation = UIApplication.shared.statusBarOrientation
         if orientation == .landscapeLeft || orientation == .landscapeRight || orientation == .portrait || orientation == .portraitUpsideDown {
             let isPortrait = orientation == .portrait || orientation == .portraitUpsideDown
@@ -761,29 +761,33 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
                 bottomContainerTopConstraint.constant = optionShowTopContainer ? topContainerTopConstraint.constant : (height - bottomContainerHeightConstraint.constant) / 2
             }
             
-            UIView.animate(
-                withDuration: selAnimationDuration,
-                delay: 0,
-                usingSpringWithDamping: 0.8,
-                initialSpringVelocity: 0,
-                options: [UIViewAnimationOptions.allowAnimatedContent, UIViewAnimationOptions.allowUserInteraction],
-                animations: {
-                    self.view.layoutIfNeeded()
-                },
-                completion: nil
-            )
+            if animated {
+                UIView.animate(
+                    withDuration: selAnimationDuration,
+                    delay: 0,
+                    usingSpringWithDamping: 0.8,
+                    initialSpringVelocity: 0,
+                    options: [UIViewAnimationOptions.allowAnimatedContent, UIViewAnimationOptions.allowUserInteraction],
+                    animations: {
+                        self.view.layoutIfNeeded()
+                    },
+                    completion: nil
+                )
+            } else {
+                self.view.layoutIfNeeded()
+            }
             
             if selCurrrent.showDateMonth {
-                showDate(false)
+                showDate(false, animated: animated)
             }
             else if selCurrrent.showMonth {
-                showMonth(false)
+                showMonth(false, animated: animated)
             }
             else if selCurrrent.showYear {
-                showYear(false)
+                showYear(false, animated: animated)
             }
             else if selCurrrent.showTime {
-                showTime(false)
+                showTime(false, animated: animated)
             }
         }
     }
@@ -893,8 +897,8 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         }
     }
     
-    fileprivate func showDate(_ userTap: Bool) {
-        changeSelDate()
+    fileprivate func showDate(_ userTap: Bool, animated: Bool = true) {
+        changeSelDate(animated: animated)
         
         if userTap {
             let seventhRowStartDate = optionCurrentDate.beginningOfMonth
@@ -902,28 +906,33 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
             calRow2StartDate = (calRow3StartDate - 1.day).beginningOfWeek
             calRow1StartDate = (calRow2StartDate - 1.day).beginningOfWeek
             calendarTable.reloadData()
-            calendarTable.scrollToRow(at: IndexPath(row: 4, section: 0), at: UITableViewScrollPosition.top, animated: true)
+            calendarTable.scrollToRow(at: IndexPath(row: 4, section: 0), at: UITableViewScrollPosition.top, animated: animated)
         }
         else {
             calendarTable.reloadData()
         }
         
-        UIView.animate(
-            withDuration: selAnimationDuration,
-            delay: 0,
-            options: [UIViewAnimationOptions.allowAnimatedContent, UIViewAnimationOptions.beginFromCurrentState, UIViewAnimationOptions.allowUserInteraction, UIViewAnimationOptions.curveEaseOut],
-            animations: {
-                self.calendarTable.alpha = 1
-                self.monthsView.alpha = 0
-                self.yearTable.alpha = 0
-                self.clockView.alpha = 0
-            },
-            completion: nil
-        )
+        let animations = {
+            self.calendarTable.alpha = 1
+            self.monthsView.alpha = 0
+            self.yearTable.alpha = 0
+            self.clockView.alpha = 0
+        }
+        if animated {
+            UIView.animate(
+                withDuration: selAnimationDuration,
+                delay: 0,
+                options: [UIViewAnimationOptions.allowAnimatedContent, UIViewAnimationOptions.beginFromCurrentState, UIViewAnimationOptions.allowUserInteraction, UIViewAnimationOptions.curveEaseOut],
+                animations: animations,
+                completion: nil
+            )
+        } else {
+            animations()
+        }
     }
     
-    fileprivate func showMonth(_ userTap: Bool) {
-        changeSelMonth()
+    fileprivate func showMonth(_ userTap: Bool, animated: Bool = true) {
+        changeSelMonth(animated: animated)
         
         if userTap {
             
@@ -932,47 +941,57 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
             
         }
         
-        UIView.animate(
-            withDuration: selAnimationDuration,
-            delay: 0,
-            options: [UIViewAnimationOptions.allowAnimatedContent, UIViewAnimationOptions.beginFromCurrentState, UIViewAnimationOptions.allowUserInteraction, UIViewAnimationOptions.curveEaseOut],
-            animations: {
-                self.calendarTable.alpha = 0
-                self.monthsView.alpha = 1
-                self.yearTable.alpha = 0
-                self.clockView.alpha = 0
-            },
-            completion: nil
-        )
+        let animations = {
+            self.calendarTable.alpha = 0
+            self.monthsView.alpha = 1
+            self.yearTable.alpha = 0
+            self.clockView.alpha = 0
+        }
+        if animated {
+            UIView.animate(
+                withDuration: selAnimationDuration,
+                delay: 0,
+                options: [UIViewAnimationOptions.allowAnimatedContent, UIViewAnimationOptions.beginFromCurrentState, UIViewAnimationOptions.allowUserInteraction, UIViewAnimationOptions.curveEaseOut],
+                animations: animations,
+                completion: nil
+            )
+        } else {
+            animations()
+        }
     }
     
-    fileprivate func showYear(_ userTap: Bool) {
-        changeSelYear()
+    fileprivate func showYear(_ userTap: Bool, animated: Bool = true) {
+        changeSelYear(animated: animated)
         
         if userTap {
             yearRow1 = optionCurrentDate.year - 5
             yearTable.reloadData()
-            yearTable.scrollToRow(at: IndexPath(row: 3, section: 0), at: UITableViewScrollPosition.top, animated: true)
+            yearTable.scrollToRow(at: IndexPath(row: 3, section: 0), at: UITableViewScrollPosition.top, animated: animated)
         }
         else {
             yearTable.reloadData()
         }
         
-        UIView.animate(
-            withDuration: selAnimationDuration,
-            delay: 0,
-            options: [UIViewAnimationOptions.allowAnimatedContent, UIViewAnimationOptions.beginFromCurrentState, UIViewAnimationOptions.allowUserInteraction, UIViewAnimationOptions.curveEaseOut],
-            animations: {
-                self.calendarTable.alpha = 0
-                self.monthsView.alpha = 0
-                self.yearTable.alpha = 1
-                self.clockView.alpha = 0
-            },
-            completion: nil
-        )
+        let animations = {
+            self.calendarTable.alpha = 0
+            self.monthsView.alpha = 0
+            self.yearTable.alpha = 1
+            self.clockView.alpha = 0
+        }
+        if animated {
+            UIView.animate(
+                withDuration: selAnimationDuration,
+                delay: 0,
+                options: [UIViewAnimationOptions.allowAnimatedContent, UIViewAnimationOptions.beginFromCurrentState, UIViewAnimationOptions.allowUserInteraction, UIViewAnimationOptions.curveEaseOut],
+                animations: animations,
+                completion: nil
+            )
+        } else {
+            animations()
+        }
     }
     
-    fileprivate func showTime(_ userTap: Bool) {
+    fileprivate func showTime(_ userTap: Bool, animated: Bool = true) {
         if userTap {
             if selCurrrent.showTime {
                 selTimeStateHour = !selTimeStateHour
@@ -986,35 +1005,44 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
             selTimeStateHour = true
         }
         
-        changeSelTime()
+        changeSelTime(animated: animated)
         
         if userTap {
             clockView.showingHour = selTimeStateHour
         }
         clockView.setNeedsDisplay()
         
-        UIView.transition(
-            with: clockView,
-            duration: selAnimationDuration / 2,
-            options: [UIViewAnimationOptions.transitionCrossDissolve],
-            animations: {
-                self.clockView.layer.displayIfNeeded()
-            },
-            completion: nil
-        )
+        if animated {
+            UIView.transition(
+                with: clockView,
+                duration: selAnimationDuration / 2,
+                options: [UIViewAnimationOptions.transitionCrossDissolve],
+                animations: {
+                    self.clockView.layer.displayIfNeeded()
+                },
+                completion: nil
+            )
+        } else {
+            self.clockView.layer.displayIfNeeded()
+        }
         
-        UIView.animate(
-            withDuration: selAnimationDuration,
-            delay: 0,
-            options: [UIViewAnimationOptions.allowAnimatedContent, UIViewAnimationOptions.beginFromCurrentState, UIViewAnimationOptions.allowUserInteraction, UIViewAnimationOptions.curveEaseOut],
-            animations: {
-                self.calendarTable.alpha = 0
-                self.monthsView.alpha = 0
-                self.yearTable.alpha = 0
-                self.clockView.alpha = 1
-            },
-            completion: nil
-        )
+        let animations = {
+            self.calendarTable.alpha = 0
+            self.monthsView.alpha = 0
+            self.yearTable.alpha = 0
+            self.clockView.alpha = 1
+        }
+        if animated {
+            UIView.animate(
+                withDuration: selAnimationDuration,
+                delay: 0,
+                options: [UIViewAnimationOptions.allowAnimatedContent, UIViewAnimationOptions.beginFromCurrentState, UIViewAnimationOptions.allowUserInteraction, UIViewAnimationOptions.curveEaseOut],
+                animations: animations,
+                completion: nil
+            )
+        } else {
+            animations()
+        }
     }
     
     fileprivate func updateDate() {
@@ -1089,7 +1117,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         timeLabel.attributedText = attrText
     }
     
-    fileprivate func changeSelDate() {
+    fileprivate func changeSelDate(animated: Bool = true) {
         let selActiveHeight = self.selActiveHeight
         let selInactiveHeight = self.selInactiveHeight
         let selInactiveWidth = self.selInactiveWidth
@@ -1147,31 +1175,38 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         
         monthLabel.contentScaleFactor = UIScreen.main.scale * optionSelectorPanelScaleMonth
         dateLabel.contentScaleFactor = UIScreen.main.scale * optionSelectorPanelScaleDate
-        UIView.animate(
-            withDuration: selAnimationDuration,
-            delay: 0,
-            usingSpringWithDamping: 0.8,
-            initialSpringVelocity: 0,
-            options: [UIViewAnimationOptions.allowAnimatedContent, UIViewAnimationOptions.allowUserInteraction],
-            animations: {
-                self.monthLabel.transform = CGAffineTransform.identity.scaledBy(x: self.optionSelectorPanelScaleMonth, y: self.optionSelectorPanelScaleMonth)
-                self.dateLabel.transform = CGAffineTransform.identity.scaledBy(x: self.optionSelectorPanelScaleDate, y: self.optionSelectorPanelScaleDate)
-                self.yearLabel.transform = CGAffineTransform.identity
-                self.timeLabel.transform = CGAffineTransform.identity
-                self.view.layoutIfNeeded()
-            },
-            completion: { _ in
-                if self.selCurrrent.showDateMonth {
-                    self.yearLabel.contentScaleFactor = UIScreen.main.scale
-                    self.timeLabel.contentScaleFactor = UIScreen.main.scale
-                }
+        let animations = {
+            self.monthLabel.transform = CGAffineTransform.identity.scaledBy(x: self.optionSelectorPanelScaleMonth, y: self.optionSelectorPanelScaleMonth)
+            self.dateLabel.transform = CGAffineTransform.identity.scaledBy(x: self.optionSelectorPanelScaleDate, y: self.optionSelectorPanelScaleDate)
+            self.yearLabel.transform = CGAffineTransform.identity
+            self.timeLabel.transform = CGAffineTransform.identity
+            self.view.layoutIfNeeded()
+        }
+        let completion = { (_: Bool) in
+            if self.selCurrrent.showDateMonth {
+                self.yearLabel.contentScaleFactor = UIScreen.main.scale
+                self.timeLabel.contentScaleFactor = UIScreen.main.scale
             }
-        )
+        }
+        if animated {
+            UIView.animate(
+                withDuration: selAnimationDuration,
+                delay: 0,
+                usingSpringWithDamping: 0.8,
+                initialSpringVelocity: 0,
+                options: [UIViewAnimationOptions.allowAnimatedContent, UIViewAnimationOptions.allowUserInteraction],
+                animations: animations,
+                completion: completion
+            )
+        } else {
+            animations()
+            completion(true)
+        }
         selCurrrent.showDateMonth(true)
         updateDate()
     }
     
-    fileprivate func changeSelMonth() {
+    fileprivate func changeSelMonth(animated: Bool = true) {
         let selActiveHeight = self.selActiveHeight
         let selInactiveHeight = self.selInactiveHeight
         let selInactiveWidth = self.selInactiveWidth
@@ -1229,31 +1264,38 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         
         monthLabel.contentScaleFactor = UIScreen.main.scale * optionSelectorPanelScaleMonth
         dateLabel.contentScaleFactor = UIScreen.main.scale * optionSelectorPanelScaleDate
-        UIView.animate(
-            withDuration: selAnimationDuration,
-            delay: 0,
-            usingSpringWithDamping: 0.8,
-            initialSpringVelocity: 0,
-            options: [UIViewAnimationOptions.allowAnimatedContent, UIViewAnimationOptions.allowUserInteraction],
-            animations: {
-                self.monthLabel.transform = CGAffineTransform.identity.scaledBy(x: self.optionSelectorPanelScaleMonth, y: self.optionSelectorPanelScaleMonth)
-                self.dateLabel.transform = CGAffineTransform.identity.scaledBy(x: self.optionSelectorPanelScaleDate, y: self.optionSelectorPanelScaleDate)
-                self.yearLabel.transform = CGAffineTransform.identity
-                self.timeLabel.transform = CGAffineTransform.identity
-                self.view.layoutIfNeeded()
-            },
-            completion: { _ in
-                if self.selCurrrent.showMonth {
-                    self.yearLabel.contentScaleFactor = UIScreen.main.scale
-                    self.timeLabel.contentScaleFactor = UIScreen.main.scale
-                }
+        let animations = {
+            self.monthLabel.transform = CGAffineTransform.identity.scaledBy(x: self.optionSelectorPanelScaleMonth, y: self.optionSelectorPanelScaleMonth)
+            self.dateLabel.transform = CGAffineTransform.identity.scaledBy(x: self.optionSelectorPanelScaleDate, y: self.optionSelectorPanelScaleDate)
+            self.yearLabel.transform = CGAffineTransform.identity
+            self.timeLabel.transform = CGAffineTransform.identity
+            self.view.layoutIfNeeded()
+        }
+        let completion = { (_: Bool) in
+            if self.selCurrrent.showMonth {
+                self.yearLabel.contentScaleFactor = UIScreen.main.scale
+                self.timeLabel.contentScaleFactor = UIScreen.main.scale
             }
-        )
+        }
+        if animated {
+            UIView.animate(
+                withDuration: selAnimationDuration,
+                delay: 0,
+                usingSpringWithDamping: 0.8,
+                initialSpringVelocity: 0,
+                options: [UIViewAnimationOptions.allowAnimatedContent, UIViewAnimationOptions.allowUserInteraction],
+                animations: animations,
+                completion: completion
+            )
+        } else {
+            animations()
+            completion(true)
+        }
         selCurrrent.showDateMonth(true)
         updateDate()
     }
     
-    fileprivate func changeSelYear() {
+    fileprivate func changeSelYear(animated: Bool = true) {
         let selInactiveHeight = self.selInactiveHeight
         let selActiveHeight = self.selActiveHeight
         let selInactiveWidth = self.selInactiveWidth
@@ -1310,32 +1352,39 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         }
         
         yearLabel.contentScaleFactor = UIScreen.main.scale * optionSelectorPanelScaleYear
-        UIView.animate(
-            withDuration: selAnimationDuration,
-            delay: 0,
-            usingSpringWithDamping: 0.8,
-            initialSpringVelocity: 0,
-            options: [UIViewAnimationOptions.allowAnimatedContent, UIViewAnimationOptions.allowUserInteraction],
-            animations: {
-                self.yearLabel.transform = CGAffineTransform.identity.scaledBy(x: self.optionSelectorPanelScaleYear, y: self.optionSelectorPanelScaleYear)
-                self.monthLabel.transform = CGAffineTransform.identity
-                self.dateLabel.transform = CGAffineTransform.identity
-                self.timeLabel.transform = CGAffineTransform.identity
-                self.view.layoutIfNeeded()
-            },
-            completion: { _ in
-                if self.selCurrrent.showYear {
-                    self.monthLabel.contentScaleFactor = UIScreen.main.scale
-                    self.dateLabel.contentScaleFactor = UIScreen.main.scale
-                    self.timeLabel.contentScaleFactor = UIScreen.main.scale
-                }
+        let animations = {
+            self.yearLabel.transform = CGAffineTransform.identity.scaledBy(x: self.optionSelectorPanelScaleYear, y: self.optionSelectorPanelScaleYear)
+            self.monthLabel.transform = CGAffineTransform.identity
+            self.dateLabel.transform = CGAffineTransform.identity
+            self.timeLabel.transform = CGAffineTransform.identity
+            self.view.layoutIfNeeded()
+        }
+        let completion = { (_: Bool) in
+            if self.selCurrrent.showYear {
+                self.monthLabel.contentScaleFactor = UIScreen.main.scale
+                self.dateLabel.contentScaleFactor = UIScreen.main.scale
+                self.timeLabel.contentScaleFactor = UIScreen.main.scale
             }
-        )
+        }
+        if animated {
+            UIView.animate(
+                withDuration: selAnimationDuration,
+                delay: 0,
+                usingSpringWithDamping: 0.8,
+                initialSpringVelocity: 0,
+                options: [UIViewAnimationOptions.allowAnimatedContent, UIViewAnimationOptions.allowUserInteraction],
+                animations: animations,
+                completion: completion
+            )
+        } else {
+            animations()
+            completion(true)
+        }
         selCurrrent.showYear(true)
         updateDate()
     }
     
-    fileprivate func changeSelTime() {
+    fileprivate func changeSelTime(animated: Bool = true) {
         let selInactiveHeight = self.selInactiveHeight
         let selActiveHeight = self.selActiveHeight
         let selInactiveWidth = self.selInactiveWidth
@@ -1391,27 +1440,34 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         }
         
         timeLabel.contentScaleFactor = UIScreen.main.scale * optionSelectorPanelScaleTime
-        UIView.animate(
-            withDuration: selAnimationDuration,
-            delay: 0,
-            usingSpringWithDamping: 0.8,
-            initialSpringVelocity: 0,
-            options: [UIViewAnimationOptions.allowAnimatedContent, UIViewAnimationOptions.allowUserInteraction],
-            animations: {
-                self.timeLabel.transform = CGAffineTransform.identity.scaledBy(x: self.optionSelectorPanelScaleTime, y: self.optionSelectorPanelScaleTime)
-                self.monthLabel.transform = CGAffineTransform.identity
-                self.dateLabel.transform = CGAffineTransform.identity
-                self.yearLabel.transform = CGAffineTransform.identity
-                self.view.layoutIfNeeded()
-            },
-            completion: { _ in
-                if self.selCurrrent.showTime {
-                    self.monthLabel.contentScaleFactor = UIScreen.main.scale
-                    self.dateLabel.contentScaleFactor = UIScreen.main.scale
-                    self.yearLabel.contentScaleFactor = UIScreen.main.scale
-                }
+        let animations = {
+            self.timeLabel.transform = CGAffineTransform.identity.scaledBy(x: self.optionSelectorPanelScaleTime, y: self.optionSelectorPanelScaleTime)
+            self.monthLabel.transform = CGAffineTransform.identity
+            self.dateLabel.transform = CGAffineTransform.identity
+            self.yearLabel.transform = CGAffineTransform.identity
+            self.view.layoutIfNeeded()
+        }
+        let completion = { (_: Bool) in
+            if self.selCurrrent.showTime {
+                self.monthLabel.contentScaleFactor = UIScreen.main.scale
+                self.dateLabel.contentScaleFactor = UIScreen.main.scale
+                self.yearLabel.contentScaleFactor = UIScreen.main.scale
             }
-        )
+        }
+        if animated {
+            UIView.animate(
+                withDuration: selAnimationDuration,
+                delay: 0,
+                usingSpringWithDamping: 0.8,
+                initialSpringVelocity: 0,
+                options: [UIViewAnimationOptions.allowAnimatedContent, UIViewAnimationOptions.allowUserInteraction],
+                animations: animations,
+                completion: completion
+            )
+        } else {
+            animations()
+            completion(true)
+        }
         selCurrrent.showTime(true)
         updateDate()
     }

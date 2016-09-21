@@ -625,8 +625,20 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     open override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Take up the whole view when pushed from a navigation controller
+        if navigationController != nil {
+            optionLayoutWidthRatio = 1
+            optionLayoutHeightRatio = 1
+        }
+        
         // Add background
-        let background = UIVisualEffectView(effect: UIBlurEffect(style: optionStyleBlurEffect))
+        let background: UIView
+        if navigationController != nil {
+            background = UIView()
+            background.backgroundColor = UIColor.white
+        } else {
+            background = UIVisualEffectView(effect: UIBlurEffect(style: optionStyleBlurEffect))
+        }
         background.translatesAutoresizingMaskIntoConstraints = false
         view.insertSubview(background, at: 0)
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[bg]|", options: [], metrics: nil, views: ["bg": background]))
@@ -880,10 +892,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         else {
             del?.WWCalendarTimeSelectorCancel?(picker, dates: multipleDates)
         }
-        del?.WWCalendarTimeSelectorWillDismiss?(picker)
-        dismiss(animated: true) {
-            del?.WWCalendarTimeSelectorDidDismiss?(picker)
-        }
+        dismiss()
     }
     
     @IBAction func done() {
@@ -897,9 +906,20 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         case .range:
             del?.WWCalendarTimeSelectorDone?(picker, dates: optionCurrentDateRange.array)
         }
+        dismiss()
+    }
+    
+    fileprivate func dismiss() {
+        let picker = self
+        let del = delegate
         del?.WWCalendarTimeSelectorWillDismiss?(picker)
-        dismiss(animated: true) {
+        if let navigationController = self.navigationController {
+            navigationController.popViewController(animated: true)
             del?.WWCalendarTimeSelectorDidDismiss?(picker)
+        } else if presentingViewController != nil {
+            dismiss(animated: true) {
+                del?.WWCalendarTimeSelectorDidDismiss?(picker)
+            }
         }
     }
     

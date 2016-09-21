@@ -584,8 +584,18 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     fileprivate var multipleDatesLastAdded: Date?
     fileprivate var flashDate: Date?
     fileprivate let defaultTopPanelTitleForMultipleDates = "Select Multiple Dates"
-    fileprivate let portraitHeight: CGFloat = max(UIScreen.main.bounds.height, UIScreen.main.bounds.width)
-    fileprivate let portraitWidth: CGFloat = min(UIScreen.main.bounds.height, UIScreen.main.bounds.width)
+    fileprivate var viewBoundsHeight: CGFloat {
+        return view.bounds.height - topLayoutGuide.length - bottomLayoutGuide.length
+    }
+    fileprivate var viewBoundsWidth: CGFloat {
+        return view.bounds.width
+    }
+    fileprivate var portraitHeight: CGFloat {
+        return max(viewBoundsHeight, viewBoundsWidth)
+    }
+    fileprivate var portraitWidth: CGFloat {
+        return min(viewBoundsHeight, viewBoundsWidth)
+    }
     fileprivate var isSelectingStartRange: Bool = true { didSet { rangeStartLabel.textColor = isSelectingStartRange ? optionSelectorPanelFontColorDateHighlight : optionSelectorPanelFontColorDate; rangeEndLabel.textColor = isSelectingStartRange ? optionSelectorPanelFontColorDate : optionSelectorPanelFontColorDateHighlight } }
     fileprivate var shouldResetRange: Bool = true
     
@@ -735,7 +745,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         let orientation = UIApplication.shared.statusBarOrientation
         if orientation == .landscapeLeft || orientation == .landscapeRight || orientation == .portrait || orientation == .portraitUpsideDown {
             let isPortrait = orientation == .portrait || orientation == .portraitUpsideDown
-            let size = view.bounds.size
+            let size = CGSize(width: viewBoundsWidth, height: viewBoundsHeight)
             
             topContainerWidthConstraint.constant = isPortrait ? optionShowTopContainer ? portraitContainerWidth : 0 : landscapeTopContainerWidth
             topContainerHeightConstraint.constant = isPortrait ? portraitTopContainerHeight : optionShowTopContainer ? landscapeContainerHeight : 0

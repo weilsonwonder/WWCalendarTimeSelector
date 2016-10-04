@@ -251,7 +251,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     /// `WWCalendarTimeSelectorCancel:selector:date:`
     /// `WWCalendarTimeSelectorWillDismiss:selector:`
     /// `WWCalendarTimeSelectorDidDismiss:selector:`
-    open var delegate: WWCalendarTimeSelectorProtocol?
+    open weak var delegate: WWCalendarTimeSelectorProtocol?
     
     /// A convenient identifier object. Not used by `WWCalendarTimeSelector`.
     open var optionIdentifier: AnyObject?
@@ -1852,14 +1852,14 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     case month, day, date
 }
 
-internal protocol WWCalendarRowProtocol {
+internal protocol WWCalendarRowProtocol: NSObjectProtocol {
     func WWCalendarRowGetDetails(_ row: Int) -> (type: WWCalendarRowType, startDate: Date)
     func WWCalendarRowDidSelect(_ date: Date)
 }
 
 internal class WWCalendarRow: UIView {
     
-    internal var delegate: WWCalendarRowProtocol!
+    internal weak var delegate: WWCalendarRowProtocol!
     internal var monthFont: UIFont!
     internal var monthFontColor: UIColor!
     internal var dayFont: UIFont!
@@ -2100,7 +2100,7 @@ internal class WWCalendarRow: UIView {
     }
 }
 
-internal protocol WWClockProtocol {
+internal protocol WWClockProtocol: NSObjectProtocol {
     func WWClockGetTime() -> Date
     func WWClockSwitchAMPM(isAM: Bool, isPM: Bool)
     func WWClockSetHourMilitary(_ hour: Int)
@@ -2109,7 +2109,7 @@ internal protocol WWClockProtocol {
 
 internal class WWClock: UIView {
     
-    internal var delegate: WWClockProtocol!
+    internal weak var delegate: WWClockProtocol!
     internal var backgroundColorClockFace: UIColor!
     internal var backgroundColorClockFaceCenter: UIColor!
     internal var fontAMPM: UIFont!

@@ -503,6 +503,9 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     /// - Note: Defaults to 3 / 8
     open var optionLayoutLandscapeRatio: CGFloat = 3/8
     
+    open var optionViewCornerRadius: CGFloat = 0.0
+
+    
     // All Views
     @IBOutlet fileprivate weak var topContainerView: UIView!
     @IBOutlet fileprivate weak var bottomContainerView: UIView!
@@ -634,6 +637,10 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         backgroundRangeView.isHidden = optionSelectionType != .range
         
         dayViewHeightConstraint.constant = optionShowTopPanel ? optionLayoutTopPanelHeight : 0
+        
+        view.layer.cornerRadius = optionViewCornerRadius
+        view.clipsToBounds = true
+        
         view.layoutIfNeeded()
         
         UIDevice.current.beginGeneratingDeviceOrientationNotifications()

@@ -806,8 +806,11 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         maskLayer.path = path.cgPath
         topContainerView.layer.mask = maskLayer
         
-        maskLayer.path = botPath.cgPath
-        backgroundButtonsView.layer.mask = maskLayer
+        let botMaskLayer = CAShapeLayer()
+        botMaskLayer.frame = self.view.bounds
+        botMaskLayer.path = path.cgPath
+        botMaskLayer.path = botPath.cgPath
+        backgroundButtonsView.layer.mask = botMaskLayer
     }
     
     open override var supportedInterfaceOrientations: UIInterfaceOrientationMask {

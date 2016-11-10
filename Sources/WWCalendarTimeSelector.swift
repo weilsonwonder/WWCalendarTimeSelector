@@ -638,8 +638,14 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         
         dayViewHeightConstraint.constant = optionShowTopPanel ? optionLayoutTopPanelHeight : 0
         
-        view.layer.cornerRadius = optionViewCornerRadius
-        view.clipsToBounds = true
+
+        let size = CGSize(width: optionViewCornerRadius, height: optionViewCornerRadius)
+        let path = UIBezierPath(roundedRect: topContainerView.frame, byRoundingCorners: [.topLeft , .topRight], cornerRadii: size)
+        
+        let maskLayer = CAShapeLayer()
+        maskLayer.frame = self.view.bounds
+        maskLayer.path = path.cgPath
+        topContainerView.layer.mask = maskLayer
         
         view.layoutIfNeeded()
         

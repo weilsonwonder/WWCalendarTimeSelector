@@ -640,12 +640,12 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         
 
         let size = CGSize(width: optionViewCornerRadius, height: optionViewCornerRadius)
-        let path = UIBezierPath(roundedRect: topContainerView.frame, byRoundingCorners: [.topLeft , .topRight], cornerRadii: size)
+        let path = UIBezierPath(roundedRect: backgroundDayView.frame, byRoundingCorners: [.topLeft , .topRight], cornerRadii: size)
         
         let maskLayer = CAShapeLayer()
         maskLayer.frame = self.view.bounds
         maskLayer.path = path.cgPath
-        topContainerView.layer.mask = maskLayer
+        backgroundDayView.layer.mask = maskLayer
         
         view.layoutIfNeeded()
         

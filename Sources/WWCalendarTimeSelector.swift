@@ -796,7 +796,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         
         
         let topFrame = CGRect(x: backgroundDayView.frame.origin.x, y: backgroundDayView.frame.origin.y, width: topContainerWidthConstraint.constant, height: topContainerHeightConstraint.constant)
-        let botFrame = CGRect(x: bottomContainerView.frame.origin.x, y: bottomContainerView.frame.origin.y, width: bottomContainerWidthConstraint.constant, height:  bottomContainerHeightConstraint.constant)
+        let botFrame = bottomContainerView.bounds
         let size = CGSize(width: optionViewCornerRadius, height: optionViewCornerRadius)
         let path = UIBezierPath(roundedRect: topFrame, byRoundingCorners: [.topLeft , .topRight], cornerRadii: size)
         let botPath = UIBezierPath(roundedRect: botFrame, byRoundingCorners: [.bottomLeft , .bottomRight], cornerRadii: size)

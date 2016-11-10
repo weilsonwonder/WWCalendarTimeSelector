@@ -794,14 +794,20 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
             }
         }
         
+        
         let topFrame = CGRect(x: backgroundDayView.frame.origin.x, y: backgroundDayView.frame.origin.y, width: topContainerWidthConstraint.constant, height: topContainerHeightConstraint.constant)
+        let botFrame = backgroundButtonsView.frame
         let size = CGSize(width: optionViewCornerRadius, height: optionViewCornerRadius)
         let path = UIBezierPath(roundedRect: topFrame, byRoundingCorners: [.topLeft , .topRight], cornerRadii: size)
-        
+        let botPath = UIBezierPath(roundedRect: botFrame, byRoundingCorners: [.bottomLeft , .bottomRight], cornerRadii: size)
+
         let maskLayer = CAShapeLayer()
         maskLayer.frame = self.view.bounds
         maskLayer.path = path.cgPath
         topContainerView.layer.mask = maskLayer
+        
+        maskLayer.path = botPath.cgPath
+        backgroundButtonsView.layer.mask = maskLayer
     }
     
     open override var supportedInterfaceOrientations: UIInterfaceOrientationMask {

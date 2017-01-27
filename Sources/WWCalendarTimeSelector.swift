@@ -1900,7 +1900,7 @@ internal class WWCalendarRow: UIView {
     }
     fileprivate var originalDates: Set<Date> = []
     fileprivate var comparisonDates: Set<Date> = []
-    fileprivate let days = ["S", "M", "T", "W", "T", "F", "S"]
+    //fileprivate let days = ["S", "M", "T", "W", "T", "F", "S"]
     fileprivate let multipleSelectionBorder: CGFloat = 12
     fileprivate let multipleSelectionBar: CGFloat = 8
     
@@ -1924,7 +1924,8 @@ internal class WWCalendarRow: UIView {
         else if detail.type == .day {
             let dayHeight = ceil(dayFont.lineHeight)
             let y = (boxHeight - dayHeight) / 2
-            
+            let formatter = DateFormatter()
+            let days = formatter.veryShortWeekdaySymbols ?? ["S", "M", "T", "W", "T", "F", "S"]
             for (index, element) in days.enumerated() {
                 let str = NSAttributedString(string: element, attributes: [NSFontAttributeName: dayFont, NSForegroundColorAttributeName: dayFontColor, NSParagraphStyleAttributeName: paragraph])
                 str.draw(in: CGRect(x: CGFloat(index) * boxWidth, y: y, width: boxWidth, height: dayHeight))

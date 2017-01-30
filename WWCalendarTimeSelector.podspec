@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "WWCalendarTimeSelector"
-  s.version      = "1.3.13"
+  s.version      = "1.3.14"
   s.summary      = "Customizable iOS View Controller in Android style for picking date and time."
   s.homepage     = "https://github.com/weilsonwonder/WWCalendarTimeSelector"
   s.license      = { :type => "MIT", :file => "LICENSE" }

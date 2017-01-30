@@ -457,6 +457,77 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     open var optionMainPanelBackgroundColor = UIColor.white
     open var optionBottomPanelBackgroundColor = UIColor.white
     
+    /// Set global tint color.
+    open var optionTintColor : UIColor! {
+        get{
+            return tintColor
+        }
+        set(color){
+            tintColor = color;
+            optionCalendarFontColorMonth = UIColor.black
+            optionCalendarFontColorDays = UIColor.black
+            optionCalendarFontColorToday = UIColor.darkGray
+            optionCalendarFontColorTodayHighlight = UIColor.white
+            optionCalendarBackgroundColorTodayHighlight = tintColor
+            optionCalendarBackgroundColorTodayFlash = UIColor.white
+            optionCalendarFontColorPastDates = UIColor.darkGray
+            optionCalendarFontColorPastDatesHighlight = UIColor.white
+            optionCalendarBackgroundColorPastDatesHighlight = tintColor
+            optionCalendarBackgroundColorPastDatesFlash = UIColor.white
+            optionCalendarFontColorFutureDates = UIColor.darkGray
+            optionCalendarFontColorFutureDatesHighlight = UIColor.white
+            optionCalendarBackgroundColorFutureDatesHighlight = tintColor
+            optionCalendarBackgroundColorFutureDatesFlash = UIColor.white
+            
+            optionCalendarFontColorCurrentYear = UIColor.darkGray
+            optionCalendarFontColorCurrentYearHighlight = UIColor.black
+            optionCalendarFontColorPastYears = UIColor.darkGray
+            optionCalendarFontColorPastYearsHighlight = UIColor.black
+            optionCalendarFontColorFutureYears = UIColor.darkGray
+            optionCalendarFontColorFutureYearsHighlight = UIColor.black
+            
+            optionClockFontColorAMPM = UIColor.black
+            optionClockFontColorAMPMHighlight = UIColor.white
+            optionClockBackgroundColorAMPMHighlight = tintColor
+            optionClockFontColorHour = UIColor.black
+            optionClockFontColorHourHighlight = UIColor.white
+            optionClockBackgroundColorHourHighlight = tintColor
+            optionClockBackgroundColorHourHighlightNeedle = tintColor
+            optionClockFontColorMinute = UIColor.black
+            optionClockFontColorMinuteHighlight = UIColor.white
+            optionClockBackgroundColorMinuteHighlight = tintColor
+            optionClockBackgroundColorMinuteHighlightNeedle = tintColor
+            optionClockBackgroundColorFace = UIColor(white: 0.9, alpha: 1)
+            optionClockBackgroundColorCenter = UIColor.black
+            
+            optionButtonFontColorCancel = tintColor
+            optionButtonFontColorDone = tintColor
+            optionButtonFontColorCancelHighlight = tintColor.withAlphaComponent(0.25)
+            optionButtonFontColorDoneHighlight = tintColor.withAlphaComponent(0.25)
+            optionButtonBackgroundColorCancel = UIColor.clear
+            optionButtonBackgroundColorDone = UIColor.clear
+            
+            optionTopPanelBackgroundColor = tintColor
+            optionTopPanelFontColor = UIColor.white
+            
+            optionSelectorPanelFontColorMonth = UIColor(white: 1, alpha: 0.5)
+            optionSelectorPanelFontColorMonthHighlight = UIColor.white
+            optionSelectorPanelFontColorDate = UIColor(white: 1, alpha: 0.5)
+            optionSelectorPanelFontColorDateHighlight = UIColor.white
+            optionSelectorPanelFontColorYear = UIColor(white: 1, alpha: 0.5)
+            optionSelectorPanelFontColorYearHighlight = UIColor.white
+            optionSelectorPanelFontColorTime = UIColor(white: 1, alpha: 0.5)
+            optionSelectorPanelFontColorTimeHighlight = UIColor.white
+            optionSelectorPanelFontColorMultipleSelection = UIColor.white
+            optionSelectorPanelFontColorMultipleSelectionHighlight = UIColor.white
+            optionSelectorPanelBackgroundColor = tintColor.withAlphaComponent(0.9)
+            
+            optionMainPanelBackgroundColor = UIColor.white
+            optionBottomPanelBackgroundColor = UIColor.white
+        }
+    }
+
+    
     /// This is the month's offset when user is in selection of dates mode. A positive number will adjusts the month higher, while a negative number will adjust the month lower.
     ///
     /// - Note:
@@ -588,6 +659,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     fileprivate let portraitWidth: CGFloat = min(UIScreen.main.bounds.height, UIScreen.main.bounds.width)
     fileprivate var isSelectingStartRange: Bool = true { didSet { rangeStartLabel.textColor = isSelectingStartRange ? optionSelectorPanelFontColorDateHighlight : optionSelectorPanelFontColorDate; rangeEndLabel.textColor = isSelectingStartRange ? optionSelectorPanelFontColorDate : optionSelectorPanelFontColorDateHighlight } }
     fileprivate var shouldResetRange: Bool = true
+    fileprivate var tintColor : UIColor! = UIColor.brown
     
     /// Only use this method to instantiate the selector. All customization should be done before presenting the selector to the user.
     /// To receive callbacks from selector, set the `delegate` of selector and implement `WWCalendarTimeSelectorProtocol`.

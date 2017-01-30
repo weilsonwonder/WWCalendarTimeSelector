@@ -585,8 +585,18 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     fileprivate var multipleDatesLastAdded: Date?
     fileprivate var flashDate: Date?
     fileprivate let defaultTopPanelTitleForMultipleDates = "Select Multiple Dates"
-    fileprivate let portraitHeight: CGFloat = max(UIScreen.main.bounds.height, UIScreen.main.bounds.width)
-    fileprivate let portraitWidth: CGFloat = min(UIScreen.main.bounds.height, UIScreen.main.bounds.width)
+    fileprivate var viewBoundsHeight: CGFloat {
+        return view.bounds.height - topLayoutGuide.length - bottomLayoutGuide.length
+    }
+    fileprivate var viewBoundsWidth: CGFloat {
+        return view.bounds.width
+    }
+    fileprivate var portraitHeight: CGFloat {
+        return max(viewBoundsHeight, viewBoundsWidth)
+    }
+    fileprivate var portraitWidth: CGFloat {
+        return min(viewBoundsHeight, viewBoundsWidth)
+    }
     fileprivate var isSelectingStartRange: Bool = true { didSet { rangeStartLabel.textColor = isSelectingStartRange ? optionSelectorPanelFontColorDateHighlight : optionSelectorPanelFontColorDate; rangeEndLabel.textColor = isSelectingStartRange ? optionSelectorPanelFontColorDate : optionSelectorPanelFontColorDateHighlight } }
     fileprivate var shouldResetRange: Bool = true
     
@@ -616,8 +626,20 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     open override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Take up the whole view when pushed from a navigation controller
+        if navigationController != nil {
+            optionLayoutWidthRatio = 1
+            optionLayoutHeightRatio = 1
+        }
+        
         // Add background
-        let background = UIVisualEffectView(effect: UIBlurEffect(style: optionStyleBlurEffect))
+        let background: UIView
+        if navigationController != nil {
+            background = UIView()
+            background.backgroundColor = UIColor.white
+        } else {
+            background = UIVisualEffectView(effect: UIBlurEffect(style: optionStyleBlurEffect))
+        }
         background.translatesAutoresizingMaskIntoConstraints = false
         view.insertSubview(background, at: 0)
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[bg]|", options: [], metrics: nil, views: ["bg": background]))
@@ -740,7 +762,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         let orientation = UIApplication.shared.statusBarOrientation
         if orientation == .landscapeLeft || orientation == .landscapeRight || orientation == .portrait || orientation == .portraitUpsideDown {
             let isPortrait = orientation == .portrait || orientation == .portraitUpsideDown
-            let size = view.bounds.size
+            let size = CGSize(width: viewBoundsWidth, height: viewBoundsHeight)
             
             topContainerWidthConstraint.constant = isPortrait ? optionShowTopContainer ? portraitContainerWidth : 0 : landscapeTopContainerWidth
             topContainerHeightConstraint.constant = isPortrait ? portraitTopContainerHeight : optionShowTopContainer ? landscapeContainerHeight : 0
@@ -879,10 +901,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         else {
             del?.WWCalendarTimeSelectorCancel?(picker, dates: multipleDates)
         }
-        del?.WWCalendarTimeSelectorWillDismiss?(picker)
-        dismiss(animated: true) {
-            del?.WWCalendarTimeSelectorDidDismiss?(picker)
-        }
+        dismiss()
     }
     
     @IBAction func done() {
@@ -896,9 +915,20 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         case .range:
             del?.WWCalendarTimeSelectorDone?(picker, dates: optionCurrentDateRange.array)
         }
+        dismiss()
+    }
+    
+    fileprivate func dismiss() {
+        let picker = self
+        let del = delegate
         del?.WWCalendarTimeSelectorWillDismiss?(picker)
-        dismiss(animated: true) {
+        if let navigationController = self.navigationController {
+            navigationController.popViewController(animated: true)
             del?.WWCalendarTimeSelectorDidDismiss?(picker)
+        } else if presentingViewController != nil {
+            dismiss(animated: true) {
+                del?.WWCalendarTimeSelectorDidDismiss?(picker)
+            }
         }
     }
     

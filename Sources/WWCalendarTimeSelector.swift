@@ -2263,8 +2263,8 @@ internal class WWClock: UIView {
         }
         
         if showingHour {
-            let textAttr = [NSFontAttributeName: fontHour, NSForegroundColorAttributeName: fontColorHour, NSParagraphStyleAttributeName: paragraph]
-            let textAttrHighlight = [NSFontAttributeName: fontHourHighlight, NSForegroundColorAttributeName: fontColorHourHighlight, NSParagraphStyleAttributeName: paragraph]
+            let textAttr : [String : Any] = [NSFontAttributeName: fontHour, NSForegroundColorAttributeName: fontColorHour, NSParagraphStyleAttributeName: paragraph]
+            let textAttrHighlight : [String : Any] = [NSFontAttributeName: fontHourHighlight, NSForegroundColorAttributeName: fontColorHourHighlight, NSParagraphStyleAttributeName: paragraph]
             
             let templateSize = NSAttributedString(string: "12", attributes: textAttr).size()
             let templateSizeHighlight = NSAttributedString(string: "12", attributes: textAttrHighlight).size()
@@ -2328,8 +2328,8 @@ internal class WWClock: UIView {
             }
         }
         else {
-            let textAttr = [NSFontAttributeName: fontMinute, NSForegroundColorAttributeName: fontColorMinute, NSParagraphStyleAttributeName: paragraph]
-            let textAttrHighlight = [NSFontAttributeName: fontMinuteHighlight, NSForegroundColorAttributeName: fontColorMinuteHighlight, NSParagraphStyleAttributeName: paragraph]
+            let textAttr : [String : Any] = [NSFontAttributeName: fontMinute, NSForegroundColorAttributeName: fontColorMinute, NSParagraphStyleAttributeName: paragraph]
+            let textAttrHighlight : [String : Any] = [NSFontAttributeName: fontMinuteHighlight, NSForegroundColorAttributeName: fontColorMinuteHighlight, NSParagraphStyleAttributeName: paragraph]
             let templateSize = NSAttributedString(string: "60", attributes: textAttr).size()
             let templateSizeHighlight = NSAttributedString(string: "60", attributes: textAttrHighlight).size()
             let maxSize = max(templateSize.width, templateSize.height)

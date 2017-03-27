@@ -1961,7 +1961,10 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
                         isSelectingStartRange = false
                     }
                     else {
-                        optionCurrentDateRange.setEndDate(rangeDate)
+                        let date0:Date = rangeDate
+                        let date1:Date = optionCurrentDateRange.start
+                        optionCurrentDateRange.setStartDate(min(date0, date1))
+                        optionCurrentDateRange.setEndDate(max(date0, date1))
                         shouldResetRange = true
                     }
                 }

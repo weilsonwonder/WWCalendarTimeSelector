@@ -2621,12 +2621,12 @@ internal class WWClock: UIView {
 
 private extension CGFloat {
     var doubleValue:      Double  { return Double(self) }
-    var degreesToRadians: CGFloat { return CGFloat(doubleValue * M_PI / 180) }
-    var radiansToDegrees: CGFloat { return CGFloat(doubleValue * 180 / M_PI) }
+    var degreesToRadians: CGFloat { return CGFloat(doubleValue * Double.pi / 180) }
+    var radiansToDegrees: CGFloat { return CGFloat(doubleValue * 180 / Double.pi) }
 }
 
 private extension Int {
     var doubleValue:      Double  { return Double(self) }
-    var degreesToRadians: CGFloat { return CGFloat(doubleValue * M_PI / 180) }
-    var radiansToDegrees: CGFloat { return CGFloat(doubleValue * 180 / M_PI) }
+    var degreesToRadians: CGFloat { return CGFloat(doubleValue * Double.pi / 180) }
+    var radiansToDegrees: CGFloat { return CGFloat(doubleValue * 180 / Double.pi) }
 }

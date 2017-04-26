@@ -551,7 +551,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     ///
     /// - SeeAlso:
     /// `optionShowTopPanel`
-    open var optionLayoutTopPanelHeight: CGFloat = 28
+    open var optionLayoutTopPanelHeight: CGFloat = 44
     
     /// The height of the calendar in portrait mode. This will be translated automatically into the width in landscape mode.
     open var optionLayoutHeight: CGFloat?
@@ -731,9 +731,6 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         dayViewHeightConstraint.constant = optionShowTopPanel ? optionLayoutTopPanelHeight : 0
         view.layoutIfNeeded()
         
-        UIDevice.current.beginGeneratingDeviceOrientationNotifications()
-        NotificationCenter.default.addObserver(self, selector: #selector(WWCalendarTimeSelector.didRotateOrNot), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
-        
         backgroundDayView.backgroundColor = optionTopPanelBackgroundColor
         backgroundSelView.backgroundColor = optionSelectorPanelBackgroundColor
         backgroundRangeView.backgroundColor = optionSelectorPanelBackgroundColor
@@ -835,30 +832,6 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         if orientation == .landscapeLeft || orientation == .landscapeRight || orientation == .portrait || orientation == .portraitUpsideDown {
             let isPortrait = orientation == .portrait || orientation == .portraitUpsideDown
             let size = CGSize(width: viewBoundsWidth, height: viewBoundsHeight)
-            
-            topContainerWidthConstraint.constant = isPortrait ? optionShowTopContainer ? portraitContainerWidth : 0 : landscapeTopContainerWidth
-            topContainerHeightConstraint.constant = isPortrait ? portraitTopContainerHeight : optionShowTopContainer ? landscapeContainerHeight : 0
-            bottomContainerWidthConstraint.constant = isPortrait ? portraitContainerWidth : landscapeBottomContainerWidth
-            bottomContainerHeightConstraint.constant = isPortrait ? portraitBottomContainerHeight : landscapeContainerHeight
-            
-            if isPortrait {
-                let width = min(size.width, size.height)
-                let height = max(size.width, size.height)
-                
-                topContainerLeftConstraint.constant = (width - topContainerWidthConstraint.constant) / 2
-                topContainerTopConstraint.constant = (height - (topContainerHeightConstraint.constant + bottomContainerHeightConstraint.constant)) / 2
-                bottomContainerLeftConstraint.constant = optionShowTopContainer ? topContainerLeftConstraint.constant : (width - bottomContainerWidthConstraint.constant) / 2
-                bottomContainerTopConstraint.constant = topContainerTopConstraint.constant + topContainerHeightConstraint.constant
-            }
-            else {
-                let width = max(size.width, size.height)
-                let height = min(size.width, size.height)
-                
-                topContainerLeftConstraint.constant = (width - (topContainerWidthConstraint.constant + bottomContainerWidthConstraint.constant)) / 2
-                topContainerTopConstraint.constant = (height - topContainerHeightConstraint.constant) / 2
-                bottomContainerLeftConstraint.constant = topContainerLeftConstraint.constant + topContainerWidthConstraint.constant
-                bottomContainerTopConstraint.constant = optionShowTopContainer ? topContainerTopConstraint.constant : (height - bottomContainerHeightConstraint.constant) / 2
-            }
             
             if animated {
                 UIView.animate(

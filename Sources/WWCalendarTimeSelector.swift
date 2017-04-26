@@ -424,6 +424,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     open var optionButtonShowCancel: Bool = false
     open var optionButtonTitleDone: String = "Done"
     open var optionButtonTitleCancel: String = "Cancel"
+    open var optionButtonIconCancel: UIImage? = nil
     open var optionButtonFontCancel = UIFont.systemFont(ofSize: 16)
     open var optionButtonFontDone = UIFont.boldSystemFont(ofSize: 16)
     open var optionButtonFontColorCancel = UIColor.brown
@@ -744,6 +745,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         cancelButton.setAttributedTitle(NSAttributedString(string: optionButtonTitleCancel, attributes: [NSFontAttributeName: optionButtonFontCancel, NSForegroundColorAttributeName: optionButtonFontColorCancel]), for: UIControlState())
         doneButton.setAttributedTitle(NSAttributedString(string: optionButtonTitleDone, attributes: [NSFontAttributeName: optionButtonFontDone, NSForegroundColorAttributeName: optionButtonFontColorDoneHighlight]), for: UIControlState.highlighted)
         cancelButton.setAttributedTitle(NSAttributedString(string: optionButtonTitleCancel, attributes: [NSFontAttributeName: optionButtonFontCancel, NSForegroundColorAttributeName: optionButtonFontColorCancelHighlight]), for: UIControlState.highlighted)
+        cancelButton.setImage(optionButtonIconCancel, for: .normal)
         
         if !optionButtonShowCancel {
             cancelButton.isHidden = true

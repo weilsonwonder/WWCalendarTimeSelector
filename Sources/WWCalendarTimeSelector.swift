@@ -457,7 +457,6 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     open var optionSelectorPanelBackgroundColor = UIColor.brown.withAlphaComponent(0.9)
     
     open var optionMainPanelBackgroundColor = UIColor.white
-    open var optionBottomPanelBackgroundColor = UIColor.white
     
     /// Set global tint color.
     open var optionTintColor : UIColor! {
@@ -525,7 +524,6 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
             optionSelectorPanelBackgroundColor = tintColor.withAlphaComponent(0.9)
             
             optionMainPanelBackgroundColor = UIColor.white
-            optionBottomPanelBackgroundColor = UIColor.white
         }
     }
 
@@ -736,7 +734,6 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         backgroundSelView.backgroundColor = optionSelectorPanelBackgroundColor
         backgroundRangeView.backgroundColor = optionSelectorPanelBackgroundColor
         backgroundContentView.backgroundColor = optionMainPanelBackgroundColor
-        backgroundButtonsView.backgroundColor = optionBottomPanelBackgroundColor
         selMultipleDatesTable.backgroundColor = optionSelectorPanelBackgroundColor
         
         doneButton.backgroundColor = optionButtonBackgroundColorDone

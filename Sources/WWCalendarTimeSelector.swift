@@ -136,7 +136,7 @@ import UIKit
     //  Today
     case today
     //  Start date to the date range selected
-    case selectedRange
+    case currentRangeStartDate
 }
 
 @objc open class WWCalendarTimeSelectorDateRange: NSObject {
@@ -998,14 +998,15 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         changeSelDate(animated: animated)
         
         if userTap {
-            let seventhRowStartDate: Date = {
+            let calendarTableStartDate: Date = {
                 switch optionCalendarOpenDate {
-                case .selectedRange:
-                    return optionCurrentDateRange.start.beginningOfMonth
-                default:
+                case .today:
                     return optionCurrentDate.beginningOfMonth
+                case .currentRangeStartDate:
+                    return optionCurrentDateRange.start.beginningOfMonth
                 }
             }()
+            let seventhRowStartDate = calendarTableStartDate.beginningOfMonth
             calRow3StartDate = ((seventhRowStartDate - 1.day).beginningOfWeek - 1.day).beginningOfWeek
             calRow2StartDate = (calRow3StartDate - 1.day).beginningOfWeek
             calRow1StartDate = (calRow2StartDate - 1.day).beginningOfWeek

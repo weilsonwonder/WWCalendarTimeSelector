@@ -128,6 +128,17 @@ import UIKit
     case sixtyMinutes = 60
 }
 
+/// Set `optionCalendarOpenDate` to customise date to which calendar opens to when presented. Defaults to today.
+/// 
+/// When set to 'selectedRange' calendar opens to the month startDate of dateRange selected.
+///
+@objc public enum WWCalendartimeSelectorOpenDate: Int {
+    //  Today
+    case today
+    //  Start date to the date range selected
+    case selectedRange
+}
+
 @objc open class WWCalendarTimeSelectorDateRange: NSObject {
     fileprivate(set) open var start: Date = Date().beginningOfDay
     fileprivate(set) open var end: Date = Date().beginningOfDay
@@ -361,6 +372,13 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     ///
     /// `LinkedBalls`: Smaller circular selection, with a bar connecting adjacent dates.
     open var optionMultipleSelectionGrouping: WWCalendarTimeSelectorMultipleSelectionGrouping = .pill
+    
+    /// Set `optionCalendarOpenDate` with one of the following:
+    ///
+    /// `today`: Opens the calendar to today's date (default).
+    ///
+    /// `selectedRange`: Opens calendar to the month of startRange of dateRange.
+    open var optionCalendarOpenDate: WWCalendartimeSelectorOpenDate = .today
     
     
     // Fonts & Colors
@@ -980,7 +998,14 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         changeSelDate(animated: animated)
         
         if userTap {
-            let seventhRowStartDate = optionCurrentDate.beginningOfMonth
+            let seventhRowStartDate: Date = {
+                switch optionCalendarOpenDate {
+                case .selectedRange:
+                    return optionCurrentDateRange.start.beginningOfMonth
+                default:
+                    return optionCurrentDate.beginningOfMonth
+                }
+            }()
             calRow3StartDate = ((seventhRowStartDate - 1.day).beginningOfWeek - 1.day).beginningOfWeek
             calRow2StartDate = (calRow3StartDate - 1.day).beginningOfWeek
             calRow1StartDate = (calRow2StartDate - 1.day).beginningOfWeek

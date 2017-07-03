@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="guU-fh-eOY">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="guU-fh-eOY">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -40,10 +40,9 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uaO-9T-OmA">
-                                                <rect key="frame" x="5" y="5" width="34" height="34"/>
+                                                <rect key="frame" x="13" y="3" width="30" height="38"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="34" id="b2t-iD-dBc"/>
-                                                    <constraint firstAttribute="height" constant="34" id="dXk-vH-p90"/>
+                                                    <constraint firstAttribute="height" constant="38" id="dXk-vH-p90"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -80,7 +79,7 @@
                                             <constraint firstItem="cRz-DT-zDj" firstAttribute="leading" secondItem="cmz-PS-Tfb" secondAttribute="leading" priority="250" id="nAF-Kr-vrx"/>
                                             <constraint firstItem="MbZ-dk-Lr7" firstAttribute="centerY" secondItem="cmz-PS-Tfb" secondAttribute="centerY" id="pgN-MC-Qg4"/>
                                             <constraint firstAttribute="bottom" secondItem="cRz-DT-zDj" secondAttribute="bottom" priority="750" id="qJ8-gL-Iht"/>
-                                            <constraint firstItem="uaO-9T-OmA" firstAttribute="leading" secondItem="cmz-PS-Tfb" secondAttribute="leading" constant="5" id="toH-hG-mtj"/>
+                                            <constraint firstItem="uaO-9T-OmA" firstAttribute="leading" secondItem="cmz-PS-Tfb" secondAttribute="leading" constant="13" id="toH-hG-mtj"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lQK-y4-UhM">

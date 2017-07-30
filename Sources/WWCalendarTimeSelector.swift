@@ -1961,7 +1961,10 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
                         isSelectingStartRange = false
                     }
                     else {
-                        optionCurrentDateRange.setEndDate(rangeDate)
+                        let date0 : Date = rangeDate
+                        let date1 : Date = optionCurrentDateRange.start
+                        optionCurrentDateRange.setStartDate(min(date0, date1))
+                        optionCurrentDateRange.setEndDate(max(date0, date1))
                         shouldResetRange = true
                     }
                 }
@@ -2354,8 +2357,10 @@ internal class WWClock: UIView {
         }
         
         if showingHour {
+
             let textAttr = [NSFontAttributeName: fontHour, NSForegroundColorAttributeName: fontColorHour, NSParagraphStyleAttributeName: paragraph] as [String : Any]
             let textAttrHighlight = [NSFontAttributeName: fontHourHighlight, NSForegroundColorAttributeName: fontColorHourHighlight, NSParagraphStyleAttributeName: paragraph] as [String : Any]
+            
             
             let templateSize = NSAttributedString(string: "12", attributes: textAttr).size()
             let templateSizeHighlight = NSAttributedString(string: "12", attributes: textAttrHighlight).size()
@@ -2421,6 +2426,7 @@ internal class WWClock: UIView {
         else {
             let textAttr = [NSFontAttributeName: fontMinute, NSForegroundColorAttributeName: fontColorMinute, NSParagraphStyleAttributeName: paragraph] as [String : Any]
             let textAttrHighlight = [NSFontAttributeName: fontMinuteHighlight, NSForegroundColorAttributeName: fontColorMinuteHighlight, NSParagraphStyleAttributeName: paragraph] as [String : Any]
+
             let templateSize = NSAttributedString(string: "60", attributes: textAttr).size()
             let templateSizeHighlight = NSAttributedString(string: "60", attributes: textAttrHighlight).size()
             let maxSize = max(templateSize.width, templateSize.height)

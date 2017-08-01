@@ -380,6 +380,11 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     /// `selectedRange`: Opens calendar to the month of startRange of dateRange.
     open var optionCalendarOpenDate: WWCalendartimeSelectorOpenDate = .today
     
+    /// This property is to give the user the intuition that the dates before this date are not available for selecion.
+    /// And this works by giving them the format of past days (greyed out dates) with the exception of the date that represents today.
+    /// Default value for this property is the beginning of the current day
+    /// @Note This doesn't affect the real selection which is handled by `WWCalendarTimeSelectorProtocol`.
+    open var firstAvailableDate: Date = Date().beginningOfDay
     
     // Fonts & Colors
     open var optionCalendarFontMonth = UIFont.systemFont(ofSize: 14)
@@ -1607,6 +1612,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
             else {
                 cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "cell")
                 let calRow = WWCalendarRow()
+                calRow.firstAvailableDate = firstAvailableDate
                 calRow.translatesAutoresizingMaskIntoConstraints = false
                 calRow.delegate = self
                 calRow.backgroundColor = UIColor.clear
@@ -2067,7 +2073,8 @@ internal class WWCalendarRow: UIView {
     //fileprivate let days = ["S", "M", "T", "W", "T", "F", "S"]
     fileprivate let multipleSelectionBorder: CGFloat = 12
     fileprivate let multipleSelectionBar: CGFloat = 8
-    
+    fileprivate var firstAvailableDate: Date = Date().beginningOfDay
+
     internal override func draw(_ rect: CGRect) {
         let detail = delegate.WWCalendarRowGetDetails(tag)
         let startDate = detail.startDate.beginningOfDay
@@ -2112,7 +2119,7 @@ internal class WWCalendarRow: UIView {
                         fontHighlightColor = dateTodayHighlightFontColor
                         backgroundHighlightColor = dateTodayHighlightBackgroundColor.cgColor
                     }
-                    else if date.compare(today) == ComparisonResult.orderedAscending {
+                    else if date < firstAvailableDate {
                         font = comparisonDates.contains(date) ? datePastFontHighlight : datePastFont
                         fontColor = datePastFontColor
                         fontHighlightColor = datePastHighlightFontColor
@@ -2223,7 +2230,7 @@ internal class WWCalendarRow: UIView {
                         if flashDate == today {
                             flashColor = dateTodayFlashBackgroundColor
                         }
-                        else if flashDate.compare(today) == ComparisonResult.orderedAscending {
+                        else if flashDate < firstAvailableDate {
                             flashColor = datePastFlashBackgroundColor
                         }
                         

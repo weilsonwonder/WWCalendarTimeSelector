@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
   s.license      = { :type => "MIT", :file => "LICENSE" }
   s.author       = { "Weilson Wonder" => "weilson@live.com" }
 
-  s.ios.deployment_target = "8.0"
+  s.ios.deployment_target = "9.0"
 
   s.source       = { :git => "https://github.com/weilsonwonder/WWCalendarTimeSelector.git", :tag => s.version }
   s.source_files  = "Classes", "Sources/*.swift"

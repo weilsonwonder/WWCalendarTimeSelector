@@ -197,8 +197,9 @@ extension Date {
     
     // MARK: - Format dates
     
-    func stringFromFormat(_ format: String) -> String {
+    func stringFromFormat(_ format: String, locale: Locale) -> String {
         let formatter = DateFormatter()
+        formatter.locale = locale
         formatter.dateFormat = format
         return formatter.string(from: self)
     }

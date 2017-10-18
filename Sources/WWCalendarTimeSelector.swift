@@ -267,6 +267,9 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     /// A convenient identifier object. Not used by `WWCalendarTimeSelector`.
     open var optionIdentifier: AnyObject?
     
+    /// Selected locale
+    open var selectedLocale: Locale = Locale.current
+    
     /// Set `optionPickerStyle` with one or more of the following:
     ///
     /// `DateMonth`: This shows the the date and month.
@@ -782,7 +785,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         
         let firstMonth = Date().beginningOfYear
         for button in monthsButtons {
-            button.setTitle((firstMonth + button.tag.month).stringFromFormat("MMM"), for: UIControlState())
+            button.setTitle((firstMonth + button.tag.month).stringFromFormat("MMM", locale: selectedLocale), for: UIControlState())
             button.titleLabel?.font = optionCalendarFontMonth
             button.tintColor = optionCalendarFontColorMonth
         }
@@ -1162,10 +1165,10 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         else {
             if optionSelectionType == .single {
                 if optionStyles.showMonth {
-                    dayLabel.text = optionCurrentDate.stringFromFormat("MMMM")
+                    dayLabel.text = optionCurrentDate.stringFromFormat("MMMM", locale: selectedLocale)
                 }
                 else {
-                    dayLabel.text = optionCurrentDate.stringFromFormat("EEEE")
+                    dayLabel.text = optionCurrentDate.stringFromFormat("EEEE", locale: selectedLocale)
                 }
             }
             else {
@@ -1173,11 +1176,15 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
             }
         }
         
-        monthLabel.text = optionCurrentDate.stringFromFormat("MMM")
-        dateLabel.text = optionStyles.showDateMonth ? optionCurrentDate.stringFromFormat("d") : nil
-        yearLabel.text = optionCurrentDate.stringFromFormat("yyyy")
-        rangeStartLabel.text = optionCurrentDateRange.start.stringFromFormat("d' 'MMM' 'yyyy")
-        rangeEndLabel.text = optionCurrentDateRange.end.stringFromFormat("d' 'MMM' 'yyyy")
+        monthLabel.text = optionCurrentDate.stringFromFormat("MMM", locale: selectedLocale)
+        dateLabel.text = optionStyles.showDateMonth ? optionCurrentDate.stringFromFormat("d", locale: selectedLocale) : nil
+        yearLabel.text = optionCurrentDate.stringFromFormat("yyyy", locale: selectedLocale)
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = selectedLocale
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .none
+        rangeStartLabel.text = dateFormatter.string(from: optionCurrentDateRange.start)        
+        rangeEndLabel.text = dateFormatter.string(from: optionCurrentDateRange.end)
         rangeToLabel.textColor = optionSelectorPanelFontColorDate
         if shouldResetRange {
             rangeStartLabel.textColor = optionSelectorPanelFontColorDateHighlight
@@ -1188,7 +1195,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
             rangeEndLabel.textColor = isSelectingStartRange ? optionSelectorPanelFontColorDate : optionSelectorPanelFontColorDateHighlight
         }
         
-        let timeText = optionCurrentDate.stringFromFormat("h':'mma").lowercased()
+        let timeText = optionCurrentDate.stringFromFormat("h':'mma", locale: selectedLocale).lowercased()
         let paragraph = NSMutableParagraphStyle()
         paragraph.alignment = NSTextAlignment.center
         let attrText = NSMutableAttributedString(string: timeText, attributes: [NSFontAttributeName: optionSelectorPanelFontTime, NSForegroundColorAttributeName: optionSelectorPanelFontColorTime, NSParagraphStyleAttributeName: paragraph])
@@ -1641,6 +1648,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
                 calRow.flashDuration = selAnimationDuration
                 calRow.multipleSelectionGrouping = optionMultipleSelectionGrouping
                 calRow.multipleSelectionEnabled = optionSelectionType != .single
+                calRow.selectedLocale = selectedLocale
                 cell.contentView.addSubview(calRow)
                 cell.backgroundColor = UIColor.clear
                 cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[cr]|", options: [], metrics: nil, views: ["cr": calRow]))
@@ -1708,7 +1716,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
             let date = multipleDates[(indexPath as NSIndexPath).row]
             cell.textLabel?.font = date == multipleDatesLastAdded ? optionSelectorPanelFontMultipleSelectionHighlight : optionSelectorPanelFontMultipleSelection
             cell.textLabel?.textColor = date == multipleDatesLastAdded ? optionSelectorPanelFontColorMultipleSelectionHighlight : optionSelectorPanelFontColorMultipleSelection
-            cell.textLabel?.text = date.stringFromFormat("EEE', 'd' 'MMM' 'yyyy")
+            cell.textLabel?.text = date.stringFromFormat("EEE', 'd' 'MMM' 'yyyy", locale: selectedLocale)
         }
         
         return cell
@@ -2055,6 +2063,7 @@ internal class WWCalendarRow: UIView {
     internal var flashDuration: TimeInterval!
     internal var multipleSelectionGrouping: WWCalendarTimeSelectorMultipleSelectionGrouping = .pill
     internal var multipleSelectionEnabled: Bool = false
+    internal var selectedLocale = Locale.current
     
     internal var selectedDates: Set<Date> {
         set {
@@ -2086,7 +2095,7 @@ internal class WWCalendarRow: UIView {
         paragraph.alignment = NSTextAlignment.center
         
         if detail.type == .month {
-            let monthName = startDate.stringFromFormat("MMMM yyyy").capitalized
+            let monthName = startDate.stringFromFormat("MMMM yyyy", locale: selectedLocale).capitalized
             let monthHeight = ceil(monthFont.lineHeight)
             
             let str = NSAttributedString(string: monthName, attributes: [NSFontAttributeName: monthFont, NSForegroundColorAttributeName: monthFontColor, NSParagraphStyleAttributeName: paragraph])
@@ -2096,6 +2105,7 @@ internal class WWCalendarRow: UIView {
             let dayHeight = ceil(dayFont.lineHeight)
             let y = (boxHeight - dayHeight) / 2
             let formatter = DateFormatter()
+            formatter.locale = selectedLocale
             let days = formatter.veryShortWeekdaySymbols ?? ["S", "M", "T", "W", "T", "F", "S"]
             for (index, element) in days.enumerated() {
                 let str = NSAttributedString(string: element, attributes: [NSFontAttributeName: dayFont, NSForegroundColorAttributeName: dayFontColor, NSParagraphStyleAttributeName: paragraph])

@@ -1179,8 +1179,12 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         monthLabel.text = optionCurrentDate.stringFromFormat("MMM", locale: selectedLocale)
         dateLabel.text = optionStyles.showDateMonth ? optionCurrentDate.stringFromFormat("d", locale: selectedLocale) : nil
         yearLabel.text = optionCurrentDate.stringFromFormat("yyyy", locale: selectedLocale)
-        rangeStartLabel.text = optionCurrentDateRange.start.stringFromFormat("d' 'MMM' 'yyyy", locale: selectedLocale)
-        rangeEndLabel.text = optionCurrentDateRange.end.stringFromFormat("d' 'MMM' 'yyyy", locale: selectedLocale)
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = selectedLocale
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .none
+        rangeStartLabel.text = dateFormatter.string(from: optionCurrentDateRange.start)        
+        rangeEndLabel.text = dateFormatter.string(from: optionCurrentDateRange.end)
         rangeToLabel.textColor = optionSelectorPanelFontColorDate
         if shouldResetRange {
             rangeStartLabel.textColor = optionSelectorPanelFontColorDateHighlight

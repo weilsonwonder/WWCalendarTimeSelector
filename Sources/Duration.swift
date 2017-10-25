@@ -12,7 +12,7 @@ prefix func - (duration: Duration) -> (Duration) {
     return Duration(value: -duration.value, unit: duration.unit)
 }
 
-class Duration {
+public class Duration {
     let value: Int
     let unit: NSCalendar.Unit
     fileprivate let calendar = (Calendar.current as NSCalendar)

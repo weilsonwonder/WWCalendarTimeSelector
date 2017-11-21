@@ -200,7 +200,7 @@ public extension Date {
     func stringFromFormat(_ format: String, locale: Locale) -> String {
         let formatter = DateFormatter()
         formatter.locale = locale
-        formatter.dateFormat = format
+        formatter.dateFormat = DateFormatter.dateFormat(fromTemplate: format, options: 0, locale: locale) ?? format
         return formatter.string(from: self)
     }
     

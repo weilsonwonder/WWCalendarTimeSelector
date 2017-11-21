@@ -2095,7 +2095,7 @@ internal class WWCalendarRow: UIView {
         paragraph.alignment = NSTextAlignment.center
         
         if detail.type == .month {
-            let monthName = startDate.stringFromFormat("MMMM yyyy", locale: selectedLocale).capitalized
+            let monthName = startDate.stringFromFormat("MMMM yyyy", locale: selectedLocale)
             let monthHeight = ceil(monthFont.lineHeight)
             
             let str = NSAttributedString(string: monthName, attributes: [NSFontAttributeName: monthFont, NSForegroundColorAttributeName: monthFontColor, NSParagraphStyleAttributeName: paragraph])

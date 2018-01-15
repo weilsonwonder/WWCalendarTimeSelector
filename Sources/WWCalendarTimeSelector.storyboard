@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="guU-fh-eOY">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="guU-fh-eOY">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -477,13 +477,23 @@
                                             <constraint firstAttribute="trailing" secondItem="NEJ-YT-VaV" secondAttribute="trailing" id="y1H-v2-TLU"/>
                                         </constraints>
                                     </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dWc-pT-Mik" userLabel="Content Separator View">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="1"/>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="d1R-pm-wjt"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="M5t-1q-LX1" firstAttribute="top" secondItem="WyW-5f-hIf" secondAttribute="top" id="V5m-7b-ekA"/>
                                     <constraint firstAttribute="trailing" secondItem="M5t-1q-LX1" secondAttribute="trailing" id="XZ3-Hs-wVx"/>
                                     <constraint firstAttribute="bottom" secondItem="M5t-1q-LX1" secondAttribute="bottom" id="Yaa-EN-jjk"/>
+                                    <constraint firstAttribute="trailing" secondItem="dWc-pT-Mik" secondAttribute="trailing" id="bky-BM-RtB"/>
                                     <constraint firstItem="M5t-1q-LX1" firstAttribute="leading" secondItem="WyW-5f-hIf" secondAttribute="leading" id="kPY-Xk-c09"/>
+                                    <constraint firstItem="dWc-pT-Mik" firstAttribute="leading" secondItem="WyW-5f-hIf" secondAttribute="leading" id="qdT-Nl-0hj"/>
+                                    <constraint firstItem="dWc-pT-Mik" firstAttribute="top" secondItem="WyW-5f-hIf" secondAttribute="top" id="wfw-ko-xyK"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -511,6 +521,7 @@
                         <outlet property="calendarTable" destination="Qdk-04-U5s" id="J2k-Q9-W78"/>
                         <outlet property="cancelButton" destination="uaO-9T-OmA" id="Nfa-Tv-E62"/>
                         <outlet property="clockView" destination="Sdw-Mc-C2Q" id="AnO-Bu-31q"/>
+                        <outlet property="contentSeparatorView" destination="dWc-pT-Mik" id="lKw-l9-7H0"/>
                         <outlet property="dateLabel" destination="Yrt-vu-FRn" id="J1Z-iR-uqs"/>
                         <outlet property="dayLabel" destination="cRz-DT-zDj" id="WBC-zT-MZf"/>
                         <outlet property="dayViewHeightConstraint" destination="VOY-qT-L2z" id="5oj-qs-ThL"/>

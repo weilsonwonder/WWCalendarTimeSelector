@@ -606,6 +606,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     @IBOutlet fileprivate weak var backgroundDayView: UIView!
     @IBOutlet fileprivate weak var backgroundSelView: UIView!
     @IBOutlet fileprivate weak var backgroundRangeView: UIView!
+    @IBOutlet weak var contentSeparatorView: UIView!
     @IBOutlet fileprivate weak var backgroundContentView: UIView!
     @IBOutlet fileprivate weak var backgroundButtonsView: UIView!
     @IBOutlet fileprivate weak var cancelButton: UIButton!
@@ -773,6 +774,13 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         if !optionButtonShowCancel {
             cancelButton.isHidden = true
         }
+        
+        // add a shadow to range separator view
+        contentSeparatorView.layer.shadowOffset = CGSize(width: 0, height: 0)
+        contentSeparatorView.layer.shadowRadius = 10
+        contentSeparatorView.layer.shadowColor = UIColor.black.cgColor
+        contentSeparatorView.layer.shadowOpacity = 0.07
+
         
         dayLabel.textColor = optionTopPanelFontColor
         dayLabel.font = optionTopPanelFont

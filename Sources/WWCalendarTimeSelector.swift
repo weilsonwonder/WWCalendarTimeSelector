@@ -401,7 +401,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     
     open var optionCalendarFontColorMonth = UIColor.black
     open var optionCalendarFontColorDays = UIColor.black
-    open var optionCalendarFontColorToday = UIColor.darkGray
+    open var optionCalendarFontColorToday = UIColor.brown
     open var optionCalendarFontColorTodayHighlight = UIColor.white
     open var optionCalendarBackgroundColorTodayHighlight = UIColor.brown
     open var optionCalendarBackgroundColorTodayFlash = UIColor.white
@@ -2204,6 +2204,17 @@ internal class WWCalendarRow: UIView {
                     }
                     else {
                         str = NSMutableAttributedString(string: "\(date.day)", attributes: [NSFontAttributeName: font!, NSForegroundColorAttributeName: fontColor!, NSParagraphStyleAttributeName: paragraph])
+                        
+                        if date == today {
+                            let testStringSize = NSAttributedString(string: "00", attributes: [NSFontAttributeName: dateTodayFontHighlight, NSParagraphStyleAttributeName: paragraph]).size()
+                            let dateMaxWidth = testStringSize.width
+                            let size = min(max(dateHeight, dateMaxWidth) + multipleSelectionBorder, min(boxHeight, boxWidth))
+
+                            let x = CGFloat(i - 1) * boxWidth + (boxWidth - size) / 2
+                            let y = (boxHeight - size) / 2
+                            ctx?.setStrokeColor(dateTodayFontColor.cgColor)
+                            ctx?.strokeEllipse(in: CGRect(x: x, y: y, width: size, height: size))
+                        }
                     }
                     
                     str.draw(in: CGRect(x: CGFloat(i - 1) * boxWidth, y: y, width: boxWidth, height: dateHeight))

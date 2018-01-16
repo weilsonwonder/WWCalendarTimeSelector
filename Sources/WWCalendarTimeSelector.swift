@@ -401,7 +401,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     
     open var optionCalendarFontColorMonth = UIColor.black
     open var optionCalendarFontColorDays = UIColor.black
-    open var optionCalendarFontColorToday = UIColor.darkGray
+    open var optionCalendarFontColorToday = UIColor.brown
     open var optionCalendarFontColorTodayHighlight = UIColor.white
     open var optionCalendarBackgroundColorTodayHighlight = UIColor.brown
     open var optionCalendarBackgroundColorTodayFlash = UIColor.white
@@ -606,6 +606,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     @IBOutlet fileprivate weak var backgroundDayView: UIView!
     @IBOutlet fileprivate weak var backgroundSelView: UIView!
     @IBOutlet fileprivate weak var backgroundRangeView: UIView!
+    @IBOutlet open weak var contentSeparatorView: UIView!
     @IBOutlet fileprivate weak var backgroundContentView: UIView!
     @IBOutlet fileprivate weak var backgroundButtonsView: UIView!
     @IBOutlet fileprivate weak var cancelButton: UIButton!
@@ -728,20 +729,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
             optionLayoutWidthRatio = 1
             optionLayoutHeightRatio = 1
         }
-        
-        // Add background
-        let background: UIView
-        if navigationController != nil {
-            background = UIView()
-            background.backgroundColor = UIColor.white
-        } else {
-            background = UIVisualEffectView(effect: UIBlurEffect(style: optionStyleBlurEffect))
-        }
-        background.translatesAutoresizingMaskIntoConstraints = false
-        view.insertSubview(background, at: 0)
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[bg]|", options: [], metrics: nil, views: ["bg": background]))
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[bg]|", options: [], metrics: nil, views: ["bg": background]))
-        
+    
         let seventhRowStartDate = optionCurrentDate.beginningOfMonth
         calRow3StartDate = ((seventhRowStartDate - 1.day).beginningOfWeek - 1.day).beginningOfWeek
         calRow2StartDate = (calRow3StartDate - 1.day).beginningOfWeek
@@ -773,6 +761,13 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         if !optionButtonShowCancel {
             cancelButton.isHidden = true
         }
+        
+        // add a shadow to range separator view
+        contentSeparatorView.layer.shadowOffset = CGSize(width: 0, height: 0)
+        contentSeparatorView.layer.shadowRadius = 10
+        contentSeparatorView.layer.shadowColor = UIColor.black.cgColor
+        contentSeparatorView.layer.shadowOpacity = 0.07
+
         
         dayLabel.textColor = optionTopPanelFontColor
         dayLabel.font = optionTopPanelFont
@@ -2157,7 +2152,7 @@ internal class WWCalendarRow: UIView {
                                 dateMaxHeight = testStringSize.height
                             }
                             
-                            let size = min(max(dateHeight, dateMaxWidth) + multipleSelectionBorder, min(boxHeight, boxWidth))
+                            let size = min(max(dateMaxHeight, dateMaxWidth) + multipleSelectionBorder, min(boxHeight, boxWidth))
                             let maxConnectorSize = min(max(dateMaxHeight, dateMaxWidth) + multipleSelectionBorder, min(boxHeight, boxWidth))
                             let x = CGFloat(i - 1) * boxWidth + (boxWidth - size) / 2
                             let y = (boxHeight - size) / 2
@@ -2196,6 +2191,16 @@ internal class WWCalendarRow: UIView {
                     }
                     else {
                         str = NSMutableAttributedString(string: "\(date.day)", attributes: [NSFontAttributeName: font!, NSForegroundColorAttributeName: fontColor!, NSParagraphStyleAttributeName: paragraph])
+                        
+                        if date == today {
+                            let testStringSize = NSAttributedString(string: "00", attributes: [NSFontAttributeName: dateTodayFontHighlight, NSParagraphStyleAttributeName: paragraph]).size()
+                            let size = min(max(testStringSize.height, testStringSize.width) + multipleSelectionBorder, min(boxHeight, boxWidth))
+
+                            let x = CGFloat(i - 1) * boxWidth + (boxWidth - size) / 2
+                            let y = (boxHeight - size) / 2
+                            ctx?.setStrokeColor(dateTodayFontColor.cgColor)
+                            ctx?.strokeEllipse(in: CGRect(x: x, y: y, width: size, height: size))
+                        }
                     }
                     
                     str.draw(in: CGRect(x: CGFloat(i - 1) * boxWidth, y: y, width: boxWidth, height: dateHeight))

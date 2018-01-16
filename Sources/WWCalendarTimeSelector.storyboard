@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="guU-fh-eOY">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="guU-fh-eOY">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -21,10 +21,6 @@
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yZx-N2-yKn">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="184"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MRb-Tv-cRi">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="20"/>
-                                        <color key="backgroundColor" red="0.090196078430000007" green="0.52549019610000003" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    </view>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cmz-PS-Tfb">
                                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                         <subviews>
@@ -249,7 +245,6 @@
                                         </connections>
                                     </tableView>
                                 </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="lQK-y4-UhM" secondAttribute="bottom" id="4R0-AD-cU3"/>
                                     <constraint firstItem="lQK-y4-UhM" firstAttribute="leading" secondItem="yZx-N2-yKn" secondAttribute="leading" id="64Y-oV-qAA"/>
@@ -259,12 +254,9 @@
                                     <constraint firstItem="lQK-y4-UhM" firstAttribute="top" secondItem="cmz-PS-Tfb" secondAttribute="bottom" id="Hri-IE-pma"/>
                                     <constraint firstAttribute="trailing" secondItem="lQK-y4-UhM" secondAttribute="trailing" id="IgZ-6V-1lY"/>
                                     <constraint firstItem="cWr-1L-l1G" firstAttribute="leading" secondItem="yZx-N2-yKn" secondAttribute="leading" id="JAO-N7-ZNr"/>
-                                    <constraint firstItem="MRb-Tv-cRi" firstAttribute="top" secondItem="yZx-N2-yKn" secondAttribute="top" id="T9V-nj-Xc1"/>
                                     <constraint firstAttribute="trailing" secondItem="515-lv-Im4" secondAttribute="trailing" id="Vzo-qG-Pmn"/>
-                                    <constraint firstItem="MRb-Tv-cRi" firstAttribute="leading" secondItem="yZx-N2-yKn" secondAttribute="leading" id="WJE-zE-OEg"/>
                                     <constraint firstItem="515-lv-Im4" firstAttribute="leading" secondItem="yZx-N2-yKn" secondAttribute="leading" id="Xyl-2a-WVj"/>
                                     <constraint firstAttribute="height" constant="184" id="bSR-cD-kZe"/>
-                                    <constraint firstAttribute="trailing" secondItem="MRb-Tv-cRi" secondAttribute="trailing" id="ca5-8p-MA8"/>
                                     <constraint firstAttribute="bottom" secondItem="515-lv-Im4" secondAttribute="bottom" id="fcG-sT-f7Q"/>
                                     <constraint firstAttribute="trailing" secondItem="cmz-PS-Tfb" secondAttribute="trailing" id="mlt-KS-qpk"/>
                                     <constraint firstItem="515-lv-Im4" firstAttribute="top" secondItem="cmz-PS-Tfb" secondAttribute="bottom" id="tUe-OA-hGp"/>
@@ -477,17 +469,27 @@
                                             <constraint firstAttribute="trailing" secondItem="NEJ-YT-VaV" secondAttribute="trailing" id="y1H-v2-TLU"/>
                                         </constraints>
                                     </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dWc-pT-Mik" userLabel="Content Separator View">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="1"/>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="d1R-pm-wjt"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="M5t-1q-LX1" firstAttribute="top" secondItem="WyW-5f-hIf" secondAttribute="top" id="V5m-7b-ekA"/>
                                     <constraint firstAttribute="trailing" secondItem="M5t-1q-LX1" secondAttribute="trailing" id="XZ3-Hs-wVx"/>
                                     <constraint firstAttribute="bottom" secondItem="M5t-1q-LX1" secondAttribute="bottom" id="Yaa-EN-jjk"/>
+                                    <constraint firstAttribute="trailing" secondItem="dWc-pT-Mik" secondAttribute="trailing" id="bky-BM-RtB"/>
                                     <constraint firstItem="M5t-1q-LX1" firstAttribute="leading" secondItem="WyW-5f-hIf" secondAttribute="leading" id="kPY-Xk-c09"/>
+                                    <constraint firstItem="dWc-pT-Mik" firstAttribute="leading" secondItem="WyW-5f-hIf" secondAttribute="leading" id="qdT-Nl-0hj"/>
+                                    <constraint firstItem="dWc-pT-Mik" firstAttribute="top" secondItem="WyW-5f-hIf" secondAttribute="top" id="wfw-ko-xyK"/>
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.090196078430000007" green="0.52549019610000003" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="yZx-N2-yKn" firstAttribute="top" secondItem="zMM-Fk-JLe" secondAttribute="top" id="8zh-G0-Xlg"/>
                             <constraint firstItem="WyW-5f-hIf" firstAttribute="leading" secondItem="YZ1-SA-Vkb" secondAttribute="leading" id="C9D-y6-A1S"/>
@@ -497,7 +499,6 @@
                             <constraint firstItem="WyW-5f-hIf" firstAttribute="top" secondItem="yZx-N2-yKn" secondAttribute="bottom" id="UmR-fZ-wtH"/>
                             <constraint firstItem="YZ1-SA-Vkb" firstAttribute="trailing" secondItem="WyW-5f-hIf" secondAttribute="trailing" id="dja-Qr-MDW"/>
                             <constraint firstItem="cmz-PS-Tfb" firstAttribute="top" secondItem="YZ1-SA-Vkb" secondAttribute="top" id="mfC-wc-nHS"/>
-                            <constraint firstItem="MRb-Tv-cRi" firstAttribute="bottom" secondItem="YZ1-SA-Vkb" secondAttribute="top" id="yVl-qc-YV5"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="YZ1-SA-Vkb"/>
                     </view>
@@ -511,6 +512,7 @@
                         <outlet property="calendarTable" destination="Qdk-04-U5s" id="J2k-Q9-W78"/>
                         <outlet property="cancelButton" destination="uaO-9T-OmA" id="Nfa-Tv-E62"/>
                         <outlet property="clockView" destination="Sdw-Mc-C2Q" id="AnO-Bu-31q"/>
+                        <outlet property="contentSeparatorView" destination="dWc-pT-Mik" id="lKw-l9-7H0"/>
                         <outlet property="dateLabel" destination="Yrt-vu-FRn" id="J1Z-iR-uqs"/>
                         <outlet property="dayLabel" destination="cRz-DT-zDj" id="WBC-zT-MZf"/>
                         <outlet property="dayViewHeightConstraint" destination="VOY-qT-L2z" id="5oj-qs-ThL"/>

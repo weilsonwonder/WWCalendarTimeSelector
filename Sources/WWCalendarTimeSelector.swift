@@ -729,20 +729,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
             optionLayoutWidthRatio = 1
             optionLayoutHeightRatio = 1
         }
-        
-        // Add background
-        let background: UIView
-        if navigationController != nil {
-            background = UIView()
-            background.backgroundColor = UIColor.white
-        } else {
-            background = UIVisualEffectView(effect: UIBlurEffect(style: optionStyleBlurEffect))
-        }
-        background.translatesAutoresizingMaskIntoConstraints = false
-        view.insertSubview(background, at: 0)
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[bg]|", options: [], metrics: nil, views: ["bg": background]))
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[bg]|", options: [], metrics: nil, views: ["bg": background]))
-        
+    
         let seventhRowStartDate = optionCurrentDate.beginningOfMonth
         calRow3StartDate = ((seventhRowStartDate - 1.day).beginningOfWeek - 1.day).beginningOfWeek
         calRow2StartDate = (calRow3StartDate - 1.day).beginningOfWeek

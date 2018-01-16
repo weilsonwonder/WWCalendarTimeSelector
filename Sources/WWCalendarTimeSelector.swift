@@ -606,7 +606,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     @IBOutlet fileprivate weak var backgroundDayView: UIView!
     @IBOutlet fileprivate weak var backgroundSelView: UIView!
     @IBOutlet fileprivate weak var backgroundRangeView: UIView!
-    @IBOutlet weak var contentSeparatorView: UIView!
+    @IBOutlet open weak var contentSeparatorView: UIView!
     @IBOutlet fileprivate weak var backgroundContentView: UIView!
     @IBOutlet fileprivate weak var backgroundButtonsView: UIView!
     @IBOutlet fileprivate weak var cancelButton: UIButton!

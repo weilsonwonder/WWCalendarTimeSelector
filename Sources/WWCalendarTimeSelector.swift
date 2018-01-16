@@ -2152,7 +2152,7 @@ internal class WWCalendarRow: UIView {
                                 dateMaxHeight = testStringSize.height
                             }
                             
-                            let size = min(max(dateHeight, dateMaxWidth) + multipleSelectionBorder, min(boxHeight, boxWidth))
+                            let size = min(max(dateMaxHeight, dateMaxWidth) + multipleSelectionBorder, min(boxHeight, boxWidth))
                             let maxConnectorSize = min(max(dateMaxHeight, dateMaxWidth) + multipleSelectionBorder, min(boxHeight, boxWidth))
                             let x = CGFloat(i - 1) * boxWidth + (boxWidth - size) / 2
                             let y = (boxHeight - size) / 2
@@ -2194,8 +2194,7 @@ internal class WWCalendarRow: UIView {
                         
                         if date == today {
                             let testStringSize = NSAttributedString(string: "00", attributes: [NSFontAttributeName: dateTodayFontHighlight, NSParagraphStyleAttributeName: paragraph]).size()
-                            let dateMaxWidth = testStringSize.width
-                            let size = min(max(dateHeight, dateMaxWidth) + multipleSelectionBorder, min(boxHeight, boxWidth))
+                            let size = min(max(testStringSize.height, testStringSize.width) + multipleSelectionBorder, min(boxHeight, boxWidth))
 
                             let x = CGFloat(i - 1) * boxWidth + (boxWidth - size) / 2
                             let y = (boxHeight - size) / 2

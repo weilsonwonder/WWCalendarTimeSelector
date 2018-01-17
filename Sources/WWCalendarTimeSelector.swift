@@ -389,6 +389,9 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     /// @Note This doesn't affect the real selection which is handled by `WWCalendarTimeSelectorProtocol`.
     open var firstAvailableDate: Date = Date().beginningOfDay
     
+    /// The height ratio of the calendar row height to the content view height
+    open var calendarRowHeightRatio: CGFloat = 0.1
+    
     // Fonts & Colors
     open var optionCalendarFontMonth = UIFont.systemFont(ofSize: 14)
     open var optionCalendarFontDays = UIFont.systemFont(ofSize: 13)
@@ -1586,7 +1589,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     
     open func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if tableView == calendarTable {
-            return tableView.frame.height / 8
+            return tableView.frame.height * calendarRowHeightRatio
         }
         else if tableView == yearTable {
             return tableView.frame.height / 5
@@ -1746,7 +1749,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         let offsetY = scrollView.contentOffset.y
         
         if scrollView == calendarTable {
-            let twoRow = backgroundContentView.frame.height / 4
+            let twoRow = backgroundContentView.frame.height * calendarRowHeightRatio * 2
             if offsetY < twoRow {
                 // every row shift by 4 to the back, recalculate top 3 towards earlier dates
                 

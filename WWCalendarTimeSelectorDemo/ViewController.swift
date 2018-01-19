@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, WWCalendarTimeSelectorProtocol {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var table: UITableView!
@@ -32,7 +32,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         "Multiple Selection (LinkedBalls)",//12
         "Date + Year + Time (without Top Panel)",//13
         "Date + Year + Time (without Top Container)",//14
-        "Date Range Selection"//15
+        "Date Range Selection",//15
+        "Picker" //16
     ]
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -106,6 +107,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             selector.optionLayoutHeight = 300
         case 15:
             selector.optionSelectionType = WWCalendarTimeSelectorSelection.range
+        case 16:
+            // Example of using options picker
+            selector.pickerOptions = ["3 nights", "1 week (7 days)", "2 weeks (14 days)"]
+            selector.pickerSelectedOption = "1 week (7 days)"
+            selector.optionPickerBackgroundColor = .brown
+            selector.optionStyles.showDateMonth(true)
+            selector.optionStyles.showMonth(false)
+            selector.optionStyles.showYear(false)
+            selector.optionStyles.showTime(false)
+            selector.optionStyles.showPicker(true)
             
         default:
             break
@@ -130,15 +141,22 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         cell.textLabel?.text = demo[(indexPath as NSIndexPath).row]
         return cell
     }
+}
+
+// MARK: - WWCalendarTimeSelectorProtocol
+
+extension ViewController: WWCalendarTimeSelectorProtocol {
     
-    func WWCalendarTimeSelectorDone(_ selector: WWCalendarTimeSelector, date: Date) {
+    func WWCalendarTimeSelectorDone(_ selector: WWCalendarTimeSelector, date: Date, selectedOption: String?) {
         print("Selected \n\(date)\n---")
+        print("Selected option \(selectedOption ?? "nil")")
         singleDate = date
         dateLabel.text = date.stringFromFormat("d' 'MMMM' 'yyyy', 'h':'mma", locale: Locale.current)
     }
     
-    func WWCalendarTimeSelectorDone(_ selector: WWCalendarTimeSelector, dates: [Date]) {
+    func WWCalendarTimeSelectorDone(_ selector: WWCalendarTimeSelector, dates: [Date], selectedOption: String?) {
         print("Selected Multiple Dates \n\(dates)\n---")
+        print("Selected option \(selectedOption ?? "nil")")
         if let date = dates.first {
             singleDate = date
             dateLabel.text = date.stringFromFormat("d' 'MMMM' 'yyyy', 'h':'mma", locale: Locale.current)
@@ -149,4 +167,3 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         multipleDates = dates
     }
 }
-

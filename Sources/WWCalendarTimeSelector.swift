@@ -69,11 +69,14 @@ import UIKit
     }
     
     fileprivate func countComponents() -> Int {
-        return (showDateMonth ? 1 : 0) +
-            (showMonth ? 1 : 0) +
-            (showYear ? 1 : 0) +
-            (showTime ? 1 : 0) +
-            (showPicker ? 1 : 0)
+        return
+            [showDateMonth,
+             showMonth,
+             showYear,
+             showTime,
+             showPicker]
+                .map { $0 ? 1 : 0 }
+                .reduce(0, +)
     }
     
     fileprivate convenience init(isSingular: Bool) {

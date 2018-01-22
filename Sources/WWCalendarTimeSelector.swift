@@ -75,8 +75,8 @@ import UIKit
              showYear,
              showTime,
              showPicker]
-                .map { $0 ? 1 : 0 }
-                .reduce(0, +)
+                .filter { $0 }
+                .count
     }
     
     fileprivate convenience init(isSingular: Bool) {

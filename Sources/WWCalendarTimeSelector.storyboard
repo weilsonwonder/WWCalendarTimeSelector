@@ -244,6 +244,10 @@
                                             <outlet property="delegate" destination="guU-fh-eOY" id="qPz-DQ-RgN"/>
                                         </connections>
                                     </tableView>
+                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vWV-6b-0FQ">
+                                        <rect key="frame" x="0.0" y="64" width="375" height="120"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </pickerView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="lQK-y4-UhM" secondAttribute="bottom" id="4R0-AD-cU3"/>
@@ -258,9 +262,13 @@
                                     <constraint firstItem="515-lv-Im4" firstAttribute="leading" secondItem="yZx-N2-yKn" secondAttribute="leading" id="Xyl-2a-WVj"/>
                                     <constraint firstAttribute="height" constant="184" id="bSR-cD-kZe"/>
                                     <constraint firstAttribute="bottom" secondItem="515-lv-Im4" secondAttribute="bottom" id="fcG-sT-f7Q"/>
+                                    <constraint firstItem="vWV-6b-0FQ" firstAttribute="leading" secondItem="yZx-N2-yKn" secondAttribute="leading" id="j56-Av-gbN"/>
+                                    <constraint firstAttribute="trailing" secondItem="vWV-6b-0FQ" secondAttribute="trailing" id="j8A-cA-0aN"/>
                                     <constraint firstAttribute="trailing" secondItem="cmz-PS-Tfb" secondAttribute="trailing" id="mlt-KS-qpk"/>
+                                    <constraint firstItem="vWV-6b-0FQ" firstAttribute="top" secondItem="cmz-PS-Tfb" secondAttribute="bottom" id="muY-dt-7ks"/>
                                     <constraint firstItem="515-lv-Im4" firstAttribute="top" secondItem="cmz-PS-Tfb" secondAttribute="bottom" id="tUe-OA-hGp"/>
                                     <constraint firstItem="cmz-PS-Tfb" firstAttribute="leading" secondItem="yZx-N2-yKn" secondAttribute="leading" id="tl4-iW-GeI"/>
+                                    <constraint firstAttribute="bottom" secondItem="vWV-6b-0FQ" secondAttribute="bottom" id="tld-5y-xlR"/>
                                 </constraints>
                             </view>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WyW-5f-hIf">
@@ -519,6 +527,7 @@
                         <outlet property="doneButton" destination="MbZ-dk-Lr7" id="YMv-Pf-w94"/>
                         <outlet property="monthLabel" destination="TE8-jR-vLh" id="Amd-mb-fPG"/>
                         <outlet property="monthsView" destination="sYP-fa-FFm" id="RT9-7z-TEQ"/>
+                        <outlet property="pickerView" destination="vWV-6b-0FQ" id="I3T-Sc-9Nv"/>
                         <outlet property="rangeEndLabel" destination="bMc-b5-1mw" id="D2Z-mK-OUu"/>
                         <outlet property="rangeStartLabel" destination="6KR-IR-Y73" id="cH7-4P-MIl"/>
                         <outlet property="rangeToLabel" destination="4WB-OT-Xs4" id="rut-qP-WIL"/>

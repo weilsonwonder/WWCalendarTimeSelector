@@ -2189,22 +2189,23 @@ internal class WWCalendarRow: UIView {
                     if comparisonDates.contains(date) {
                         ctx?.setFillColor(backgroundHighlightColor)
                         
+                        var testStringSize = NSAttributedString(string: "00", attributes: [NSFontAttributeName: dateTodayFontHighlight, NSParagraphStyleAttributeName: paragraph]).size()
+                        var dateMaxWidth = testStringSize.width
+                        var dateMaxHeight = testStringSize.height
+                        if dateFutureFontHighlight.lineHeight > dateTodayFontHighlight.lineHeight {
+                            testStringSize = NSAttributedString(string: "00", attributes: [NSFontAttributeName: dateFutureFontHighlight, NSParagraphStyleAttributeName: paragraph]).size()
+                            dateMaxWidth = testStringSize.width
+                            dateMaxHeight = testStringSize.height
+                        }
+                        if datePastFontHighlight.lineHeight > dateFutureFontHighlight.lineHeight {
+                            testStringSize = NSAttributedString(string: "00", attributes: [NSFontAttributeName: datePastFontHighlight, NSParagraphStyleAttributeName: paragraph]).size()
+                            dateMaxWidth = testStringSize.width
+                            dateMaxHeight = testStringSize.height
+                        }
+                        
+                        let size = min(max(dateMaxHeight, dateMaxWidth) + multipleSelectionBorder, min(boxHeight, boxWidth))
+                        
                         if multipleSelectionEnabled {
-                            var testStringSize = NSAttributedString(string: "00", attributes: [NSFontAttributeName: dateTodayFontHighlight, NSParagraphStyleAttributeName: paragraph]).size()
-                            var dateMaxWidth = testStringSize.width
-                            var dateMaxHeight = testStringSize.height
-                            if dateFutureFontHighlight.lineHeight > dateTodayFontHighlight.lineHeight {
-                                testStringSize = NSAttributedString(string: "00", attributes: [NSFontAttributeName: dateFutureFontHighlight, NSParagraphStyleAttributeName: paragraph]).size()
-                                dateMaxWidth = testStringSize.width
-                                dateMaxHeight = testStringSize.height
-                            }
-                            if datePastFontHighlight.lineHeight > dateFutureFontHighlight.lineHeight {
-                                testStringSize = NSAttributedString(string: "00", attributes: [NSFontAttributeName: datePastFontHighlight, NSParagraphStyleAttributeName: paragraph]).size()
-                                dateMaxWidth = testStringSize.width
-                                dateMaxHeight = testStringSize.height
-                            }
-                            
-                            let size = min(max(dateMaxHeight, dateMaxWidth) + multipleSelectionBorder, min(boxHeight, boxWidth))
                             let maxConnectorSize = min(max(dateMaxHeight, dateMaxWidth) + multipleSelectionBorder, min(boxHeight, boxWidth))
                             let x = CGFloat(i - 1) * boxWidth + (boxWidth - size) / 2
                             let y = (boxHeight - size) / 2
@@ -2233,7 +2234,6 @@ internal class WWCalendarRow: UIView {
                             ctx?.fillEllipse(in: CGRect(x: x, y: y, width: size, height: size))
                         }
                         else {
-                            let size = min(boxHeight, boxWidth)
                             let x = CGFloat(i - 1) * boxWidth + (boxWidth - size) / 2
                             let y = (boxHeight - size) / 2
                             ctx?.fillEllipse(in: CGRect(x: x, y: y, width: size, height: size))
@@ -2245,7 +2245,7 @@ internal class WWCalendarRow: UIView {
                         str = NSMutableAttributedString(string: "\(date.day)", attributes: [NSFontAttributeName: font!, NSForegroundColorAttributeName: fontColor!, NSParagraphStyleAttributeName: paragraph])
                         
                         if date == today {
-                            let testStringSize = NSAttributedString(string: "00", attributes: [NSFontAttributeName: dateTodayFontHighlight, NSParagraphStyleAttributeName: paragraph]).size()
+                            let testStringSize = str.size()
                             let size = min(max(testStringSize.height, testStringSize.width) + multipleSelectionBorder, min(boxHeight, boxWidth))
 
                             let x = CGFloat(i - 1) * boxWidth + (boxWidth - size) / 2

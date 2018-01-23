@@ -422,6 +422,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     }
     
     open var pickerSelectedOption: String?
+    open var contentTitle: String?
     
     // Fonts & Colors
     open var optionCalendarFontMonth = UIFont.systemFont(ofSize: 14)
@@ -489,6 +490,8 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
             }
         }
     }
+    open var contentTitleFont = UIFont.systemFont(ofSize: 16)
+    open var contentTitleColor = UIColor.black
 
     
     open var optionButtonShowCancel: Bool = false
@@ -673,6 +676,8 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     @IBOutlet fileprivate weak var monthsView: UIView!
     @IBOutlet fileprivate var monthsButtons: [UIButton]!
     @IBOutlet fileprivate weak var pickerView: UIPickerView!
+    @IBOutlet fileprivate weak var contentTitleContainerView: UIView!
+    @IBOutlet fileprivate weak var contentTitleLabel: UILabel!
     
     // All Constraints
     @IBOutlet fileprivate weak var dayViewHeightConstraint: NSLayoutConstraint!
@@ -700,6 +705,10 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     @IBOutlet fileprivate weak var selTimeLeftConstraint: NSLayoutConstraint!
     @IBOutlet fileprivate weak var selTimeRightConstraint: NSLayoutConstraint!
     @IBOutlet fileprivate weak var selTimeHeightConstraint: NSLayoutConstraint!
+    
+    // You might want to make these two constraints strong in case you want to change their activity back and forth
+    @IBOutlet fileprivate weak var contentSeparatorTopToContainerTopConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate weak var contentSeparatorTopToTitleConstraint: NSLayoutConstraint!
     
     // Private Variables
     fileprivate let selAnimationDuration: TimeInterval = 0.4
@@ -742,6 +751,12 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     fileprivate var isSelectingStartRange: Bool = true { didSet { rangeStartLabel.textColor = isSelectingStartRange ? optionSelectorPanelFontColorDateHighlight : optionSelectorPanelFontColorDate; rangeEndLabel.textColor = isSelectingStartRange ? optionSelectorPanelFontColorDate : optionSelectorPanelFontColorDateHighlight } }
     fileprivate var shouldResetRange: Bool = true
     fileprivate var tintColor : UIColor! = UIColor.brown
+    fileprivate var countOfFittingCalendarRows: Int {
+        if let backgroundContentView = backgroundContentView {
+            return Int(ceil(backgroundContentView.frame.height * calendarRowHeightRatio))
+        }
+        return 0
+    }
     
     /// Only use this method to instantiate the selector. All customization should be done before presenting the selector to the user.
     /// To receive callbacks from selector, set the `delegate` of selector and implement `WWCalendarTimeSelectorProtocol`.
@@ -863,6 +878,11 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
             pickerView.selectRow(selectedIndex, inComponent: 0, animated: true)
         }
         
+        // update content title
+        contentTitleLabel.text = contentTitle
+        contentTitleLabel.font = contentTitleFont
+        contentTitleLabel.textColor = contentTitleColor
+        
         isFirstLoad = true
     }
     
@@ -890,6 +910,10 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
                 showTime(true, animated: false)
             }
             pickerView.isHidden = !optionStyles.showPicker
+            
+            contentTitleContainerView.isHidden = contentTitle == nil
+            contentSeparatorTopToTitleConstraint.isActive = contentTitle != nil
+            contentSeparatorTopToContainerTopConstraint.isActive = contentTitle == nil
         }
     }
     
@@ -1641,7 +1665,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     
     open func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if tableView == calendarTable {
-            return tableView.frame.height * calendarRowHeightRatio
+            return backgroundContentView.frame.height * calendarRowHeightRatio
         }
         else if tableView == yearTable {
             return tableView.frame.height / 5
@@ -1651,7 +1675,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     
     open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == calendarTable {
-            return 16
+            return countOfFittingCalendarRows * 2
         }
         else if tableView == yearTable {
             return 11
@@ -1801,10 +1825,12 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         let offsetY = scrollView.contentOffset.y
         
         if scrollView == calendarTable {
-            let twoRow = backgroundContentView.frame.height * calendarRowHeightRatio * 2
-            if offsetY < twoRow {
+            let oneRowHeight = backgroundContentView.frame.height * calendarRowHeightRatio
+            let headRows:CGFloat = CGFloat(countOfFittingCalendarRows) * 0.25 // number of rows that can fit in backgroundContentView * 0.25
+            let tailRows:CGFloat = CGFloat(countOfFittingCalendarRows) * 0.75 // number of rows that can fit in backgroundContentView * 0.75
+            
+            if offsetY <= oneRowHeight * headRows {
                 // every row shift by 4 to the back, recalculate top 3 towards earlier dates
-                
                 let detail1 = WWCalendarRowGetDetails(-3)
                 let detail2 = WWCalendarRowGetDetails(-2)
                 let detail3 = WWCalendarRowGetDetails(-1)
@@ -1815,12 +1841,11 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
                 calRow3Type = detail3.type
                 calRow3StartDate = detail3.startDate
                 
-                scrollView.contentOffset = CGPoint(x: 0, y: offsetY + twoRow * 2)
+                scrollView.contentOffset = CGPoint(x: 0, y: offsetY + oneRowHeight * 4)
                 calendarTable.reloadData()
             }
-            else if offsetY > twoRow * 3 {
+            else if offsetY >= oneRowHeight * tailRows {
                 // every row shift by 4 to the front, recalculate top 3 towards later dates
-                
                 let detail1 = WWCalendarRowGetDetails(5)
                 let detail2 = WWCalendarRowGetDetails(6)
                 let detail3 = WWCalendarRowGetDetails(7)
@@ -1831,7 +1856,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
                 calRow3Type = detail3.type
                 calRow3StartDate = detail3.startDate
                 
-                scrollView.contentOffset = CGPoint(x: 0, y: offsetY - twoRow * 2)
+                scrollView.contentOffset = CGPoint(x: 0, y: offsetY - oneRowHeight * 4)
                 calendarTable.reloadData()
             }
         }

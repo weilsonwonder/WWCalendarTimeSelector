@@ -117,7 +117,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             selector.optionStyles.showYear(false)
             selector.optionStyles.showTime(false)
             selector.optionStyles.showPicker(true)
-            
+            selector.contentTitle = "Choose date"
+
         default:
             break
         }

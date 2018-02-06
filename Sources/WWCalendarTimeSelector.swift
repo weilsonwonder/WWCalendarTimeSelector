@@ -483,6 +483,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     open var optionClockBackgroundColorCenter = UIColor.black
     open var optionPickerFont = UIFont.systemFont(ofSize: 14)
     open var optionPickerTextColor = UIColor.black
+    open var optionPickerDividerColor: UIColor?
     open var optionPickerBackgroundColor = UIColor.clear {
         didSet {
             if let view = pickerView {
@@ -2099,6 +2100,17 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         updateDate()
         clockView.setNeedsDisplay()
     }
+    
+    fileprivate func updatePickerDividers() {
+        if let optionPickerDividerColor = optionPickerDividerColor {
+            // HACK: Find the divider views by their height
+            pickerView.subviews.forEach {
+                if $0.bounds.height <= 1.0 {
+                    $0.backgroundColor = optionPickerDividerColor
+                }
+            }
+        }
+    }
 }
 
 @objc internal enum WWCalendarRowType: Int {
@@ -2741,6 +2753,9 @@ extension WWCalendarTimeSelector: UIPickerViewDelegate {
         label.textColor = optionPickerTextColor
         label.textAlignment = .center
         label.text = pickerOptions[row]
+        
+        // HACK: update the dividers colors everytime the picker is re-rendered
+        updatePickerDividers()
         return label
     }
     

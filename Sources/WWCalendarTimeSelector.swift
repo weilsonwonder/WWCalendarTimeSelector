@@ -2093,6 +2093,8 @@ internal class WWCalendarRow: UIView {
             let dayHeight = ceil(dayFont.lineHeight)
             let y = (boxHeight - dayHeight) / 2
             let formatter = DateFormatter()
+            formatter.locale = Locale.autoupdatingCurrent
+            formatter.calendar = Calendar.autoupdatingCurrent
             let days = formatter.veryShortWeekdaySymbols ?? ["S", "M", "T", "W", "T", "F", "S"]
             for (index, element) in days.enumerated() {
                 let str = NSAttributedString(string: element, attributes: [NSAttributedStringKey.font: dayFont, NSAttributedStringKey.foregroundColor: dayFontColor, NSAttributedStringKey.paragraphStyle: paragraph])

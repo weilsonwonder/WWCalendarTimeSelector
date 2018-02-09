@@ -12,11 +12,11 @@ import ObjectiveC
 // MARK: - Calculation
 
 func + (lhs: Date, rhs: Duration) -> Date {
-    return (NSCalendar.current as NSCalendar).dateByAddingDuration(rhs, toDate: lhs, options: .searchBackwards)!
+    return (NSCalendar.autoupdatingCurrent as NSCalendar).dateByAddingDuration(rhs, toDate: lhs, options: .searchBackwards)!
 }
 
 func - (lhs: Date, rhs: Duration) -> Date {
-    return (NSCalendar.current as NSCalendar).dateByAddingDuration(-rhs, toDate: lhs, options: .searchBackwards)!
+    return (NSCalendar.autoupdatingCurrent as NSCalendar).dateByAddingDuration(-rhs, toDate: lhs, options: .searchBackwards)!
 }
 
 func - (lhs: Date, rhs: Date) -> TimeInterval {
@@ -85,7 +85,7 @@ extension Date {
     }
     
     fileprivate var calendar: NSCalendar {
-        return (NSCalendar.current as NSCalendar)
+        return (NSCalendar.autoupdatingCurrent as NSCalendar)
     }
     
     // MARK: - Initialize

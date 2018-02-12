@@ -11,15 +11,15 @@ import ObjectiveC
 
 // MARK: - Calculation
 
-func + (lhs: Date, rhs: Duration) -> Date {
+public func + (lhs: Date, rhs: Duration) -> Date {
     return (NSCalendar.current as NSCalendar).dateByAddingDuration(rhs, toDate: lhs, options: .searchBackwards)!
 }
 
-func - (lhs: Date, rhs: Duration) -> Date {
+public func - (lhs: Date, rhs: Duration) -> Date {
     return (NSCalendar.current as NSCalendar).dateByAddingDuration(-rhs, toDate: lhs, options: .searchBackwards)!
 }
 
-func - (lhs: Date, rhs: Date) -> TimeInterval {
+public func - (lhs: Date, rhs: Date) -> TimeInterval {
     return lhs.timeIntervalSince(rhs)
 }
 
@@ -41,7 +41,7 @@ func - (lhs: Date, rhs: Date) -> TimeInterval {
 
 // MARK: -
 
-extension Date {
+public extension Date {
     fileprivate struct AssociatedKeys {
         static var TimeZone = "timepiece_TimeZone"
     }
@@ -197,9 +197,10 @@ extension Date {
     
     // MARK: - Format dates
     
-    func stringFromFormat(_ format: String) -> String {
+    func stringFromFormat(_ format: String, locale: Locale) -> String {
         let formatter = DateFormatter()
-        formatter.dateFormat = format
+        formatter.locale = locale
+        formatter.dateFormat = DateFormatter.dateFormat(fromTemplate: format, options: 0, locale: locale) ?? format
         return formatter.string(from: self)
     }
     

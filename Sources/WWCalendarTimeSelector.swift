@@ -532,6 +532,37 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     
     open var optionMainPanelBackgroundColor = UIColor.white
     
+    open var contentSeparatorColor = UIColor.gray {
+        didSet {
+            if let contentSeparatorView = contentSeparatorView {
+                contentSeparatorView.backgroundColor = contentSeparatorColor
+            }
+        }
+    }
+    
+    open var contentSeparatorShadowHeight: CGFloat = 10 {
+        didSet {
+            if let contentSeparatorShadowHeightConstraint = contentSeparatorShadowHeightConstraint {
+                contentSeparatorShadowHeightConstraint.constant = contentSeparatorShadowHeight
+                view.layoutIfNeeded()
+                updateContentSeparatorShadow()
+            }
+        }
+    }
+
+    open var contentSeparatorShadowStartColor = UIColor.clear {
+        didSet {
+            updateContentSeparatorShadow()
+        }
+    }
+    
+    open var contentSeparatorShadowEndColor = UIColor.clear {
+        didSet {
+            updateContentSeparatorShadow()
+        }
+    }
+    
+    
     /// Set global tint color.
     open var optionTintColor : UIColor! {
         get{
@@ -654,7 +685,8 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     @IBOutlet fileprivate weak var backgroundDayView: UIView!
     @IBOutlet fileprivate weak var backgroundSelView: UIView!
     @IBOutlet fileprivate weak var backgroundRangeView: UIView!
-    @IBOutlet open weak var contentSeparatorView: UIView!
+    @IBOutlet fileprivate weak var contentSeparatorView: UIView!
+    @IBOutlet fileprivate weak var contentSeparatorShadowView: UIView!
     @IBOutlet fileprivate weak var backgroundContentView: UIView!
     @IBOutlet fileprivate weak var backgroundButtonsView: UIView!
     @IBOutlet fileprivate weak var cancelButton: UIButton!
@@ -706,6 +738,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     @IBOutlet fileprivate weak var selTimeLeftConstraint: NSLayoutConstraint!
     @IBOutlet fileprivate weak var selTimeRightConstraint: NSLayoutConstraint!
     @IBOutlet fileprivate weak var selTimeHeightConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate weak var contentSeparatorShadowHeightConstraint: NSLayoutConstraint!
     
     // You might want to make these two constraints strong in case you want to change their activity back and forth
     @IBOutlet fileprivate weak var contentSeparatorTopToContainerTopConstraint: NSLayoutConstraint!
@@ -822,13 +855,12 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
             cancelButton.isHidden = true
         }
         
-        // add a shadow to range separator view
-        contentSeparatorView.layer.shadowOffset = CGSize(width: 0, height: 0)
-        contentSeparatorView.layer.shadowRadius = 10
-        contentSeparatorView.layer.shadowColor = UIColor.black.cgColor
-        contentSeparatorView.layer.shadowOpacity = 0.07
-
+        contentSeparatorView.backgroundColor = contentSeparatorColor
+        contentSeparatorShadowHeightConstraint.constant = contentSeparatorShadowHeight
+        view.layoutIfNeeded()
+        updateContentSeparatorShadow()
         
+
         dayLabel.textColor = optionTopPanelFontColor
         dayLabel.font = optionTopPanelFont
         monthLabel.font = optionSelectorPanelFontMonth
@@ -2111,6 +2143,26 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
             }
         }
     }
+    
+    fileprivate func updateContentSeparatorShadow() {
+        if let contentSeparatorShadowView = contentSeparatorShadowView {
+            
+            let gradient: CAGradientLayer = {
+                if let gradient = contentSeparatorShadowView.layer.sublayers?.first as? CAGradientLayer {
+                    return gradient
+                }
+                let gradient = CAGradientLayer()
+                contentSeparatorShadowView.layer.insertSublayer(gradient, at: 0)
+                return gradient
+            } ()
+            
+            gradient.frame = contentSeparatorShadowView.bounds
+            gradient.colors = [contentSeparatorShadowStartColor.cgColor, contentSeparatorShadowEndColor.cgColor]
+            gradient.startPoint = CGPoint (x: 0, y: 0)
+            gradient.endPoint = CGPoint(x: 0, y: 1)
+        }
+    }
+
 }
 
 @objc internal enum WWCalendarRowType: Int {

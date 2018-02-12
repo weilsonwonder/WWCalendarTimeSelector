@@ -502,20 +502,30 @@
                                             <constraint firstAttribute="height" constant="1" id="d1R-pm-wjt"/>
                                         </constraints>
                                     </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WX8-xd-Xca" userLabel="Content Separator Shadow View">
+                                        <rect key="frame" x="0.0" y="17" width="375" height="10"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="10" id="oIC-0f-KRJ"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="FAb-Bs-rcS" firstAttribute="top" secondItem="WyW-5f-hIf" secondAttribute="top" id="KKg-h7-clL"/>
                                     <constraint firstItem="dWc-pT-Mik" firstAttribute="top" secondItem="WyW-5f-hIf" secondAttribute="top" id="L8u-EV-i5n"/>
+                                    <constraint firstItem="WX8-xd-Xca" firstAttribute="top" secondItem="dWc-pT-Mik" secondAttribute="bottom" id="OOz-aD-yNf"/>
                                     <constraint firstItem="FAb-Bs-rcS" firstAttribute="leading" secondItem="WyW-5f-hIf" secondAttribute="leading" id="T37-e3-3tN"/>
                                     <constraint firstItem="M5t-1q-LX1" firstAttribute="top" secondItem="dWc-pT-Mik" secondAttribute="top" id="V5m-7b-ekA"/>
                                     <constraint firstAttribute="trailing" secondItem="M5t-1q-LX1" secondAttribute="trailing" id="XZ3-Hs-wVx"/>
                                     <constraint firstAttribute="bottom" secondItem="M5t-1q-LX1" secondAttribute="bottom" id="Yaa-EN-jjk"/>
                                     <constraint firstAttribute="trailing" secondItem="dWc-pT-Mik" secondAttribute="trailing" id="bky-BM-RtB"/>
                                     <constraint firstItem="dWc-pT-Mik" firstAttribute="top" secondItem="FAb-Bs-rcS" secondAttribute="bottom" id="bn3-V4-32t"/>
+                                    <constraint firstItem="WX8-xd-Xca" firstAttribute="leading" secondItem="dWc-pT-Mik" secondAttribute="leading" id="e8H-RE-wTL"/>
                                     <constraint firstAttribute="trailing" secondItem="FAb-Bs-rcS" secondAttribute="trailing" id="hvf-yf-b89"/>
                                     <constraint firstItem="M5t-1q-LX1" firstAttribute="leading" secondItem="WyW-5f-hIf" secondAttribute="leading" id="kPY-Xk-c09"/>
                                     <constraint firstItem="dWc-pT-Mik" firstAttribute="leading" secondItem="WyW-5f-hIf" secondAttribute="leading" id="qdT-Nl-0hj"/>
+                                    <constraint firstItem="WX8-xd-Xca" firstAttribute="trailing" secondItem="dWc-pT-Mik" secondAttribute="trailing" id="xan-bm-fOL"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
@@ -547,6 +557,8 @@
                         <outlet property="calendarTable" destination="Qdk-04-U5s" id="J2k-Q9-W78"/>
                         <outlet property="cancelButton" destination="uaO-9T-OmA" id="Nfa-Tv-E62"/>
                         <outlet property="clockView" destination="Sdw-Mc-C2Q" id="AnO-Bu-31q"/>
+                        <outlet property="contentSeparatorShadowHeightConstraint" destination="oIC-0f-KRJ" id="pme-vs-8xw"/>
+                        <outlet property="contentSeparatorShadowView" destination="WX8-xd-Xca" id="93h-Mn-dEe"/>
                         <outlet property="contentSeparatorTopToContainerTopConstraint" destination="L8u-EV-i5n" id="wB7-Rm-BgI"/>
                         <outlet property="contentSeparatorTopToTitleConstraint" destination="bn3-V4-32t" id="J6v-Yg-cEZ"/>
                         <outlet property="contentSeparatorView" destination="dWc-pT-Mik" id="lKw-l9-7H0"/>

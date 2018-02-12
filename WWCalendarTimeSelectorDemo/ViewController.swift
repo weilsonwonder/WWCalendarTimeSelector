@@ -118,6 +118,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             selector.optionStyles.showTime(false)
             selector.optionStyles.showPicker(true)
             selector.contentTitle = "Choose date"
+            selector.contentSeparatorColor = UIColor.gray.withAlphaComponent(0.3)
+            selector.contentSeparatorShadowHeight = 5.0
+            selector.contentSeparatorShadowStartColor = UIColor.gray.withAlphaComponent(0.3)
+            selector.contentSeparatorShadowEndColor = UIColor.clear
 
         default:
             break

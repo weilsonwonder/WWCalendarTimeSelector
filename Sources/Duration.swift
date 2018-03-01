@@ -15,7 +15,7 @@ prefix func - (duration: Duration) -> (Duration) {
 class Duration {
     let value: Int
     let unit: NSCalendar.Unit
-    fileprivate let calendar = (Calendar.current as NSCalendar)
+    fileprivate let calendar = (Calendar.autoupdatingCurrent as NSCalendar)
     
     /**
      Initialize a date before a duration.

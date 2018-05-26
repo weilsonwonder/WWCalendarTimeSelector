@@ -129,6 +129,19 @@ import UIKit
 }
 
 @objc open class WWCalendarTimeSelectorEnabledDateRange: NSObject {
+    
+    public static let past: WWCalendarTimeSelectorEnabledDateRange = {
+        let dateRange = WWCalendarTimeSelectorEnabledDateRange()
+        dateRange.end = Date().beginningOfDay
+        return dateRange
+    }()
+    
+    public static let future: WWCalendarTimeSelectorEnabledDateRange = {
+        let dateRange = WWCalendarTimeSelectorEnabledDateRange()
+        dateRange.start = Date().beginningOfDay
+        return dateRange
+    }()
+    
     fileprivate(set) open var start: Date? = nil
     fileprivate(set) open var end: Date? = nil
     

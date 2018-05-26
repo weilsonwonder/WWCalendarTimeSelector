@@ -220,7 +220,7 @@ import UIKit
     ///
     /// - Parameters:
     ///     - selector: The selector that will be dismissed.
-    ///     - dates: Selected date.
+    ///     - date: Selected date.
     @objc optional func WWCalendarTimeSelectorDone(_ selector: WWCalendarTimeSelector, date: Date)
     
     /// Method called before the selector is dismissed, and when user Cancel the selector.
@@ -244,7 +244,7 @@ import UIKit
     ///
     /// - Parameters:
     ///     - selector: The selector that will be dismissed.
-    ///     - dates: Selected date.
+    ///     - date: Selected date.
     @objc optional func WWCalendarTimeSelectorCancel(_ selector: WWCalendarTimeSelector, date: Date)
     
     /// Method called before the selector is dismissed.

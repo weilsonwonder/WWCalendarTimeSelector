@@ -132,7 +132,7 @@ import UIKit
     
     public static let past: WWCalendarTimeSelectorEnabledDateRange = {
         let dateRange = WWCalendarTimeSelectorEnabledDateRange()
-        dateRange.end = Date().beginningOfDay
+        dateRange.end = Date().endOfDay
         return dateRange
     }()
     
@@ -146,14 +146,14 @@ import UIKit
     fileprivate(set) open var end: Date? = nil
     
     open func setStartDate(_ date: Date?) {
-        start = date?.beginningOfDay
+        start = date
         if let endTmp = end, start?.compare(endTmp) == .orderedDescending {
             end = start
         }
     }
     
     open func setEndDate(_ date: Date?) {
-        end = date?.beginningOfDay
+        end = date
         if let endTmp = end, start?.compare(endTmp) == .orderedDescending {
             start = end
         }

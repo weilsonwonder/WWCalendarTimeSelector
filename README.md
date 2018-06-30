@@ -2,6 +2,10 @@
 
 #### Try out the [Demo (powered by appetize)](https://appetize.io/app/0n12eyb1g2j2n08unffhxn44ww)!
 
+# [INACTIVE]
+
+My deepest apologies for being highly inactive these recent months. But I have been away, and was not able to maintain the project. I open this project up for pull requests and merge requests for anyone kind enough to assist in maintaining this project (: 
+
 
 ## Screenshots
 

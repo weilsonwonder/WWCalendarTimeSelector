@@ -153,45 +153,49 @@ extension Date {
     
     // MARK: - Initialize a date at beginning/end of each units
     
-    var beginningOfYear: Date {
+    public var beginningOfYear: Date {
         return change(month: 1, day: 1, hour: 0, minute: 0, second: 0)
     }
-    var endOfYear: Date {
+    
+    public var endOfYear: Date {
         return (beginningOfYear + 1.year).addingTimeInterval(-1)
     }
     
-    var beginningOfMonth: Date {
+    public var beginningOfMonth: Date {
         return change(day: 1, hour: 0, minute: 0, second: 0)
     }
-    var endOfMonth: Date {
+    public var endOfMonth: Date {
         return (beginningOfMonth + 1.month).addingTimeInterval(-1)
     }
     
-    var beginningOfWeek: Date {
+    public var beginningOfWeek: Date {
         return change(weekday: 1).beginningOfDay
     }
-    var endOfWeek: Date {
+    
+    public var endOfWeek: Date {
         return (beginningOfWeek + 1.week).addingTimeInterval(-1)
     }
     
-    var beginningOfDay: Date {
+    public var beginningOfDay: Date {
         return change(hour: 0, minute: 0, second: 0)
     }
-    var endOfDay: Date {
+    
+    public var endOfDay: Date {
         return (beginningOfDay + 1.day).addingTimeInterval(-1)
     }
     
-    var beginningOfHour: Date {
+    public var beginningOfHour: Date {
         return change(minute: 0, second: 0)
     }
-    var endOfHour: Date {
+    public var endOfHour: Date {
         return (beginningOfHour + 1.hour).addingTimeInterval(-1)
     }
     
-    var beginningOfMinute: Date {
+    public var beginningOfMinute: Date {
         return change(second: 0)
     }
-    var endOfMinute: Date {
+    
+    public var endOfMinute: Date {
         return (beginningOfMinute + 1.minute).addingTimeInterval(-1)
     }
     

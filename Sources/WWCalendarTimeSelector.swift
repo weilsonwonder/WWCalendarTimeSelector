@@ -105,18 +105,6 @@ import UIKit
     case linkedBalls
 }
 
-/// Set `optionMultipleDateOutputFormat` with one of the following:
-///
-/// `English`: Displayed as "EEE', 'd' 'MMM' 'yyyy": for example, Tue, 17 Jul 2018
-///
-/// `Japanese`: "yyyy'年 'MMM' 'd'日 'EEE": for example, 2018年 7月 15日 日
-@objc public enum WWCalendarTimeSelectorMultipleDateOutputFormat: Int {
-    /// English format
-    case english
-    /// Japanese format
-    case japanese
-}
-
 /// Set `optionTimeStep` to customise the period of time which the users will be able to choose. The step will show the user the available minutes to select (with exception of `OneMinute` step, see *Note*).
 ///
 /// - Note:
@@ -388,6 +376,15 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     /// Selector will show the earliest selected date's month by default.
     open var optionCurrentDateRange: WWCalendarTimeSelectorDateRange = WWCalendarTimeSelectorDateRange()
     
+    /// Set the default dates when selector is presented.
+    ///
+    /// - SeeAlso:
+    /// `optionCurrentDate`
+    ///
+    /// - Note:
+    /// Selector will show the earliest selected date's month by default.
+    open var optionUnderlinedDates: Set<Date> = []
+
     open var optionRangeOfEnabledDates: WWCalendarTimeSelectorEnabledDateRange = WWCalendarTimeSelectorEnabledDateRange()
     
     /// Set the background blur effect, where background is a `UIVisualEffectView`. Available options are as `UIBlurEffectStyle`:
@@ -408,12 +405,6 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     /// `LinkedBalls`: Smaller circular selection, with a bar connecting adjacent dates.
     open var optionMultipleSelectionGrouping: WWCalendarTimeSelectorMultipleSelectionGrouping = .pill
     
-    /// Set `optionMultipleDateOutputFormat` with one of the following:
-    ///
-    /// `English`: Displayed as "EEE', 'd' 'MMM' 'yyyy": for example, Tue, 17 Jul 2018
-    ///
-    /// `Japanese`: "yyyy', 'MMM' 'd' 'EEE": for example, 2018, 7月 13 火
-    open var optionMultipleDateOutputFormat: WWCalendarTimeSelectorMultipleDateOutputFormat = .english
     
     // Fonts & Colors
     open var optionCalendarFontMonth = UIFont.systemFont(ofSize: 14)
@@ -441,6 +432,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     open var optionCalendarFontColorFutureDatesHighlight = UIColor.white
     open var optionCalendarBackgroundColorFutureDatesHighlight = UIColor.brown
     open var optionCalendarBackgroundColorFutureDatesFlash = UIColor.white
+    open var optionCalendarUnderlinedBackgroundColor = UIColor.brown
     
     open var optionCalendarFontCurrentYear = UIFont.boldSystemFont(ofSize: 18)
     open var optionCalendarFontCurrentYearHighlight = UIFont.boldSystemFont(ofSize: 20)
@@ -1697,6 +1689,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
                 calRow.dateFutureHighlightFontColor = optionCalendarFontColorFutureDatesHighlight
                 calRow.dateFutureHighlightBackgroundColor = optionCalendarBackgroundColorFutureDatesHighlight
                 calRow.dateFutureFlashBackgroundColor = optionCalendarBackgroundColorFutureDatesFlash
+                calRow.dateUnderlinedBackgroundColor = optionCalendarUnderlinedBackgroundColor
                 calRow.flashDuration = selAnimationDuration
                 calRow.multipleSelectionGrouping = optionMultipleSelectionGrouping
                 calRow.multipleSelectionEnabled = optionSelectionType != .single
@@ -1717,6 +1710,9 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
                     case .range:
                         calRow.selectedDates = Set(optionCurrentDateRange.array)
                     }
+
+                    calRow.underlinedDates = optionUnderlinedDates
+
                     calRow.setNeedsDisplay()
                     if let fd = flashDate {
                         if calRow.flashDate(fd) {
@@ -1767,15 +1763,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
             let date = multipleDates[(indexPath as NSIndexPath).row]
             cell.textLabel?.font = date == multipleDatesLastAdded ? optionSelectorPanelFontMultipleSelectionHighlight : optionSelectorPanelFontMultipleSelection
             cell.textLabel?.textColor = date == multipleDatesLastAdded ? optionSelectorPanelFontColorMultipleSelectionHighlight : optionSelectorPanelFontColorMultipleSelection
-
-            // output date format
-            switch optionMultipleDateOutputFormat {
-            case .english:
-                cell.textLabel?.text = date.stringFromFormat("EEE', 'd' 'MMM' 'yyyy")
-            case .japanese:
-                cell.textLabel?.text = date.stringFromFormat("yyyy'年 'MMM' 'd'日 'EEE")
-            }
-            
+            cell.textLabel?.text = date.stringFromFormat("EEE', 'd' 'MMM' 'yyyy")
         }
         
         return cell
@@ -2133,6 +2121,7 @@ internal class WWCalendarRow: UIView {
     internal var dateFutureHighlightFontColor: UIColor!
     internal var dateFutureHighlightBackgroundColor: UIColor!
     internal var dateFutureFlashBackgroundColor: UIColor!
+    internal var dateUnderlinedBackgroundColor: UIColor!
     internal var dateDisableFontColor: UIColor!
     internal var dateDisableFont: UIFont!
     internal var flashDuration: TimeInterval!
@@ -2153,6 +2142,22 @@ internal class WWCalendarRow: UIView {
     }
     fileprivate var originalDates: Set<Date> = []
     fileprivate var comparisonDates: Set<Date> = []
+
+    internal var underlinedDates: Set<Date> {
+        set {
+            originalUnderlinedDates = newValue
+            comparisonUnderlinedDates = []
+            for date in newValue {
+                comparisonUnderlinedDates.insert(date.beginningOfDay)
+            }
+        }
+        get {
+            return originalUnderlinedDates
+        }
+    }
+    fileprivate var originalUnderlinedDates: Set<Date> = []
+    fileprivate var comparisonUnderlinedDates: Set<Date> = []
+
     //fileprivate let days = ["S", "M", "T", "W", "T", "F", "S"]
     fileprivate let multipleSelectionBorder: CGFloat = 12
     fileprivate let multipleSelectionBar: CGFloat = 8
@@ -2197,6 +2202,7 @@ internal class WWCalendarRow: UIView {
                     var fontColor = dateFutureFontColor
                     var fontHighlightColor = dateFutureHighlightFontColor
                     var backgroundHighlightColor = dateFutureHighlightBackgroundColor.cgColor
+                    let underlinedBackgroundColor = dateUnderlinedBackgroundColor.cgColor
                     if !delegate.WWCalendarRowDateIsEnable(date) {
                         font = dateDisableFont
                         fontColor = dateDisableFontColor
@@ -2275,7 +2281,15 @@ internal class WWCalendarRow: UIView {
                     else {
                         str = NSMutableAttributedString(string: "\(date.day)", attributes: [NSAttributedStringKey.font: font!, NSAttributedStringKey.foregroundColor: fontColor!, NSAttributedStringKey.paragraphStyle: paragraph])
                     }
-                    
+                    // underlined rect
+                    if comparisonUnderlinedDates.contains(date) {
+                        ctx?.setFillColor(underlinedBackgroundColor)
+                        let size = min(boxHeight, boxWidth)
+                        let x = CGFloat(i - 1) * boxWidth + (boxWidth - size) / 2
+                        let dx = CGFloat(7.0)
+                        let h = CGFloat(7.0)
+                        ctx?.fill(CGRect(x: x + dx, y: boxHeight - h, width: size - 2 * dx, height: h))
+                    }
                     str.draw(in: CGRect(x: CGFloat(i - 1) * boxWidth, y: y, width: boxWidth, height: dateHeight))
                     date = date + 1.day
                     if date.month != startDate.month {

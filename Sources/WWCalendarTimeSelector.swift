@@ -2312,8 +2312,8 @@ internal class WWCalendarRow: UIView {
                         ctx?.setFillColor(underlinedBackgroundColor)
                         let size = min(boxHeight, boxWidth)
                         let x = CGFloat(i - 1) * boxWidth + (boxWidth - size) / 2
-                        let dx = CGFloat(7.0)
-                        let h = CGFloat(7.0)
+                        let dx = CGFloat(12.0)
+                        let h = CGFloat(3.0)
                         ctx?.fill(CGRect(x: x + dx, y: boxHeight - h, width: size - 2 * dx, height: h))
                     }
                     str.draw(in: CGRect(x: CGFloat(i - 1) * boxWidth, y: y, width: boxWidth, height: dateHeight))

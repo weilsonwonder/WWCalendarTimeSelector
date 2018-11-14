@@ -1,10 +1,10 @@
 Pod::Spec.new do |s|
-  s.name         = "WWCalendarTimeSelector"
+  s.name         = "LaserCalendarTimeSelector"
   s.version      = "1.5.0"
   s.summary      = "Customizable iOS View Controller in Android style for picking date and time."
   s.homepage     = "https://github.com/LaserSrl/LaserCalendarTimeSelector"
   s.license      = { :type => "MIT", :file => "LICENSE" }
-  s.author       = { "Weilson Wonder" => "weilson@live.com" }
+  s.author       = { "Patrick Laser" => "patrick.negretto@laser-group.com" }
 
   s.ios.deployment_target = "8.0"
 

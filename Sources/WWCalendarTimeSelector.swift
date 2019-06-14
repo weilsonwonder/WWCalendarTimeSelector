@@ -654,10 +654,10 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         
         doneButton.backgroundColor = optionButtonBackgroundColorDone
         cancelButton.backgroundColor = optionButtonBackgroundColorCancel
-        doneButton.setAttributedTitle(NSAttributedString(string: optionButtonTitleDone, attributes: [NSAttributedStringKey.font: optionButtonFontDone, NSAttributedStringKey.foregroundColor: optionButtonFontColorDone]), for: UIControlState())
-        cancelButton.setAttributedTitle(NSAttributedString(string: optionButtonTitleCancel, attributes: [NSAttributedStringKey.font: optionButtonFontCancel, NSAttributedStringKey.foregroundColor: optionButtonFontColorCancel]), for: UIControlState())
-        doneButton.setAttributedTitle(NSAttributedString(string: optionButtonTitleDone, attributes: [NSAttributedStringKey.font: optionButtonFontDone, NSAttributedStringKey.foregroundColor: optionButtonFontColorDoneHighlight]), for: UIControlState.highlighted)
-        cancelButton.setAttributedTitle(NSAttributedString(string: optionButtonTitleCancel, attributes: [NSAttributedStringKey.font: optionButtonFontCancel, NSAttributedStringKey.foregroundColor: optionButtonFontColorCancelHighlight]), for: UIControlState.highlighted)
+        doneButton.setAttributedTitle(NSAttributedString(string: optionButtonTitleDone, attributes: [.font: optionButtonFontDone, .foregroundColor: optionButtonFontColorDone]), for: UIControlState())
+        cancelButton.setAttributedTitle(NSAttributedString(string: optionButtonTitleCancel, attributes: [.font: optionButtonFontCancel, .foregroundColor: optionButtonFontColorCancel]), for: UIControlState())
+        doneButton.setAttributedTitle(NSAttributedString(string: optionButtonTitleDone, attributes: [.font: optionButtonFontDone, .foregroundColor: optionButtonFontColorDoneHighlight]), for: UIControlState.highlighted)
+        cancelButton.setAttributedTitle(NSAttributedString(string: optionButtonTitleCancel, attributes: [.font: optionButtonFontCancel, .foregroundColor: optionButtonFontColorCancelHighlight]), for: UIControlState.highlighted)
         
         dayLabel.textColor = optionTopPanelFontColor
         dayLabel.font = optionTopPanelFont
@@ -1078,7 +1078,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         let timeText = optionCurrentDate.stringFromFormat("h':'mma").lowercased()
         let paragraph = NSMutableParagraphStyle()
         paragraph.alignment = NSTextAlignment.center
-        let attrText = NSMutableAttributedString(string: timeText, attributes: [NSAttributedStringKey.font: optionSelectorPanelFontTime, NSAttributedStringKey.foregroundColor: optionSelectorPanelFontColorTime, NSAttributedStringKey.paragraphStyle: paragraph])
+        let attrText = NSMutableAttributedString(string: timeText, attributes: [.font: optionSelectorPanelFontTime, .foregroundColor: optionSelectorPanelFontColorTime, .paragraphStyle: paragraph])
         
         if selCurrrent.showDateMonth {
             monthLabel.textColor = optionSelectorPanelFontColorMonthHighlight
@@ -1105,10 +1105,10 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
             let minuteRange = NSRange(location: colonIndex + 1, length: 2)
             
             if selTimeStateHour {
-                attrText.addAttributes([NSAttributedStringKey.foregroundColor: optionSelectorPanelFontColorTimeHighlight], range: hourRange)
+                attrText.addAttributes([.foregroundColor: optionSelectorPanelFontColorTimeHighlight], range: hourRange)
             }
             else {
-                attrText.addAttributes([NSAttributedStringKey.foregroundColor: optionSelectorPanelFontColorTimeHighlight], range: minuteRange)
+                attrText.addAttributes([.foregroundColor: optionSelectorPanelFontColorTimeHighlight], range: minuteRange)
             }
         }
         timeLabel.attributedText = attrText
@@ -1943,7 +1943,7 @@ internal class WWCalendarRow: UIView {
             let monthName = startDate.stringFromFormat("MMMM yyyy").capitalized
             let monthHeight = ceil(monthFont.lineHeight)
             
-            let str = NSAttributedString(string: monthName, attributes: [NSAttributedStringKey.font: monthFont, NSAttributedStringKey.foregroundColor: monthFontColor, NSAttributedStringKey.paragraphStyle: paragraph])
+            let str = NSAttributedString(string: monthName, attributes: [.font: monthFont, .foregroundColor: monthFontColor, .paragraphStyle: paragraph])
             str.draw(in: CGRect(x: 0, y: boxHeight - monthHeight, width: rect.width, height: monthHeight))
         }
         else if detail.type == .day {
@@ -1951,7 +1951,7 @@ internal class WWCalendarRow: UIView {
             let y = (boxHeight - dayHeight) / 2
             
             for (index, element) in days.enumerated() {
-                let str = NSAttributedString(string: element, attributes: [NSAttributedStringKey.font: dayFont, NSAttributedStringKey.foregroundColor: dayFontColor, NSAttributedStringKey.paragraphStyle: paragraph])
+                let str = NSAttributedString(string: element, attributes: [.font: dayFont, .foregroundColor: dayFontColor, .paragraphStyle: paragraph])
                 str.draw(in: CGRect(x: CGFloat(index) * boxWidth, y: y, width: boxWidth, height: dayHeight))
             }
         }
@@ -1986,16 +1986,16 @@ internal class WWCalendarRow: UIView {
                         ctx?.setFillColor(backgroundHighlightColor)
                         
                         if multipleSelectionEnabled {
-                            var testStringSize = NSAttributedString(string: "00", attributes: [NSAttributedStringKey.font: dateTodayFontHighlight, NSAttributedStringKey.paragraphStyle: paragraph]).size()
+                            var testStringSize = NSAttributedString(string: "00", attributes: [.font: dateTodayFontHighlight, .paragraphStyle: paragraph]).size()
                             var dateMaxWidth = testStringSize.width
                             var dateMaxHeight = testStringSize.height
                             if dateFutureFontHighlight.lineHeight > dateTodayFontHighlight.lineHeight {
-                                testStringSize = NSAttributedString(string: "00", attributes: [NSAttributedStringKey.font: dateFutureFontHighlight, NSAttributedStringKey.paragraphStyle: paragraph]).size()
+                                testStringSize = NSAttributedString(string: "00", attributes: [.font: dateFutureFontHighlight, .paragraphStyle: paragraph]).size()
                                 dateMaxWidth = testStringSize.width
                                 dateMaxHeight = testStringSize.height
                             }
                             if datePastFontHighlight.lineHeight > dateFutureFontHighlight.lineHeight {
-                                testStringSize = NSAttributedString(string: "00", attributes: [NSAttributedStringKey.font: datePastFontHighlight, NSAttributedStringKey.paragraphStyle: paragraph]).size()
+                                testStringSize = NSAttributedString(string: "00", attributes: [.font: datePastFontHighlight, .paragraphStyle: paragraph]).size()
                                 dateMaxWidth = testStringSize.width
                                 dateMaxHeight = testStringSize.height
                             }
@@ -2035,10 +2035,10 @@ internal class WWCalendarRow: UIView {
                             ctx?.fillEllipse(in: CGRect(x: x, y: y, width: size, height: size))
                         }
                         
-                        str = NSMutableAttributedString(string: "\(date.day)", attributes: [NSAttributedStringKey.font: font!, NSAttributedStringKey.foregroundColor: fontHighlightColor!, NSAttributedStringKey.paragraphStyle: paragraph])
+                        str = NSMutableAttributedString(string: "\(date.day)", attributes: [.font: font!, .foregroundColor: fontHighlightColor!, .paragraphStyle: paragraph])
                     }
                     else {
-                        str = NSMutableAttributedString(string: "\(date.day)", attributes: [NSAttributedStringKey.font: font!, NSAttributedStringKey.foregroundColor: fontColor!, NSAttributedStringKey.paragraphStyle: paragraph])
+                        str = NSMutableAttributedString(string: "\(date.day)", attributes: [.font: font!, .foregroundColor: fontColor!, .paragraphStyle: paragraph])
                     }
                     
                     str.draw(in: CGRect(x: CGFloat(i - 1) * boxWidth, y: y, width: boxWidth, height: dateHeight))
@@ -2197,26 +2197,26 @@ internal class WWClock: UIView {
         ctx?.setFillColor(backgroundColorAMPMHighlight.cgColor)
         if time.hour < 12 {
             ctx?.fillEllipse(in: CGRect(x: amX, y: ampmY, width: ampmSize, height: ampmSize))
-            var str = NSAttributedString(string: "AM", attributes: [NSAttributedStringKey.font: fontAMPMHighlight, NSAttributedStringKey.foregroundColor: fontColorAMPMHighlight, NSAttributedStringKey.paragraphStyle: paragraph])
+            var str = NSAttributedString(string: "AM", attributes: [.font: fontAMPMHighlight, .foregroundColor: fontColorAMPMHighlight, .paragraphStyle: paragraph])
             var ampmHeight = fontAMPMHighlight.lineHeight
             str.draw(in: CGRect(x: amX, y: ampmY + (ampmSize - ampmHeight) / 2, width: ampmSize, height: ampmHeight))
-            str = NSAttributedString(string: "PM", attributes: [NSAttributedStringKey.font: fontAMPM, NSAttributedStringKey.foregroundColor: fontColorAMPM, NSAttributedStringKey.paragraphStyle: paragraph])
+            str = NSAttributedString(string: "PM", attributes: [.font: fontAMPM, .foregroundColor: fontColorAMPM, .paragraphStyle: paragraph])
             ampmHeight = fontAMPM.lineHeight
             str.draw(in: CGRect(x: pmX, y: ampmY + (ampmSize - ampmHeight) / 2, width: ampmSize, height: ampmHeight))
         }
         else {
             ctx?.fillEllipse(in: CGRect(x: pmX, y: ampmY, width: ampmSize, height: ampmSize))
-            var str = NSAttributedString(string: "AM", attributes: [NSAttributedStringKey.font: fontAMPM, NSAttributedStringKey.foregroundColor: fontColorAMPM, NSAttributedStringKey.paragraphStyle: paragraph])
+            var str = NSAttributedString(string: "AM", attributes: [.font: fontAMPM, .foregroundColor: fontColorAMPM, .paragraphStyle: paragraph])
             var ampmHeight = fontAMPM.lineHeight
             str.draw(in: CGRect(x: amX, y: ampmY + (ampmSize - ampmHeight) / 2, width: ampmSize, height: ampmHeight))
-            str = NSAttributedString(string: "PM", attributes: [NSAttributedStringKey.font: fontAMPMHighlight, NSAttributedStringKey.foregroundColor: fontColorAMPMHighlight, NSAttributedStringKey.paragraphStyle: paragraph])
+            str = NSAttributedString(string: "PM", attributes: [.font: fontAMPMHighlight, .foregroundColor: fontColorAMPMHighlight, .paragraphStyle: paragraph])
             ampmHeight = fontAMPMHighlight.lineHeight
             str.draw(in: CGRect(x: pmX, y: ampmY + (ampmSize - ampmHeight) / 2, width: ampmSize, height: ampmHeight))
         }
         
         if showingHour {
-            let textAttr = [NSAttributedStringKey.font: fontHour, NSAttributedStringKey.foregroundColor: fontColorHour, NSAttributedStringKey.paragraphStyle: paragraph] as! [NSAttributedStringKey : Any]
-            let textAttrHighlight = [NSAttributedStringKey.font: fontHourHighlight, NSAttributedStringKey.foregroundColor: fontColorHourHighlight, NSAttributedStringKey.paragraphStyle: paragraph] as [NSAttributedStringKey : Any]
+            let textAttr:[NSAttributedStringKey:Any] = [.font: fontHour, .foregroundColor: fontColorHour, .paragraphStyle: paragraph]
+            let textAttrHighlight:[NSAttributedStringKey:Any]  = [.font: fontHourHighlight, .foregroundColor: fontColorHourHighlight, .paragraphStyle: paragraph]
             
             let templateSize = NSAttributedString(string: "12", attributes: textAttr).size()
             let templateSizeHighlight = NSAttributedString(string: "12", attributes: textAttrHighlight).size()
@@ -2280,8 +2280,8 @@ internal class WWClock: UIView {
             }
         }
         else {
-            let textAttr = [NSAttributedStringKey.font: fontMinute, NSAttributedStringKey.foregroundColor: fontColorMinute, NSAttributedStringKey.paragraphStyle: paragraph] as [NSAttributedStringKey : Any]
-            let textAttrHighlight = [NSAttributedStringKey.font: fontMinuteHighlight, NSAttributedStringKey.foregroundColor: fontColorMinuteHighlight, NSAttributedStringKey.paragraphStyle: paragraph] as [NSAttributedStringKey : Any]
+            let textAttr:[NSAttributedStringKey:Any]  = [.font: fontMinute, .foregroundColor: fontColorMinute, .paragraphStyle: paragraph]
+            let textAttrHighlight:[NSAttributedStringKey:Any]  = [.font: fontMinuteHighlight, .foregroundColor: fontColorMinuteHighlight, .paragraphStyle: paragraph]
             let templateSize = NSAttributedString(string: "60", attributes: textAttr).size()
             let templateSizeHighlight = NSAttributedString(string: "60", attributes: textAttrHighlight).size()
             let maxSize = max(templateSize.width, templateSize.height)
@@ -2479,12 +2479,12 @@ internal class WWClock: UIView {
 
 private extension CGFloat {
     var doubleValue:      Double  { return Double(self) }
-    var degreesToRadians: CGFloat { return CGFloat(doubleValue * M_PI / 180) }
-    var radiansToDegrees: CGFloat { return CGFloat(doubleValue * 180 / M_PI) }
+    var degreesToRadians: CGFloat { return CGFloat(doubleValue * .pi / 180) }
+    var radiansToDegrees: CGFloat { return CGFloat(doubleValue * 180 / .pi) }
 }
 
 private extension Int {
     var doubleValue:      Double  { return Double(self) }
-    var degreesToRadians: CGFloat { return CGFloat(doubleValue * M_PI / 180) }
-    var radiansToDegrees: CGFloat { return CGFloat(doubleValue * 180 / M_PI) }
+    var degreesToRadians: CGFloat { return CGFloat(doubleValue * .pi / 180) }
+    var radiansToDegrees: CGFloat { return CGFloat(doubleValue * 180 / .pi) }
 }

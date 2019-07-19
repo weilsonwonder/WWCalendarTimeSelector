@@ -918,7 +918,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     @objc internal func didRotateOrNot(animated: Bool = true) {
         let orientation = UIApplication.shared.statusBarOrientation
         if orientation == .landscapeLeft || orientation == .landscapeRight || orientation == .portrait || orientation == .portraitUpsideDown {
-            let isPortrait = orientation == .portrait || orientation == .portraitUpsideDown
+            let isPortrait = orientation == .portrait || orientation == .portraitUpsideDown || presentingViewController?.modalPresentationStyle == .formSheet
             let size = CGSize(width: viewBoundsWidth, height: viewBoundsHeight)
             
             topContainerWidthConstraint.constant = isPortrait ? optionShowTopContainer ? portraitContainerWidth : 0 : landscapeTopContainerWidth

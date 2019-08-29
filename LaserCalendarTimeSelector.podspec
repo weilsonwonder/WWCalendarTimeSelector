@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "LaserCalendarTimeSelector"
-  s.version      = "1.5.1"
+  s.version      = "1.5.2"
   s.summary      = "Customizable iOS View Controller in Android style for picking date and time."
   s.homepage     = "https://github.com/LaserSrl/LaserCalendarTimeSelector"
   s.license      = { :type => "MIT", :file => "LICENSE" }

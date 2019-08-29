@@ -761,7 +761,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     ///     selector.delegate = self
     ///     presentViewController(selector, animated: true, completion: nil)
     ///
-    open static func instantiate() -> WWCalendarTimeSelector {
+    public static func instantiate() -> WWCalendarTimeSelector {
         let podBundle = Bundle(for: self.classForCoder())
         let bundleURL = podBundle.url(forResource: "WWCalendarTimeSelectorStoryboardBundle", withExtension: "bundle")
         var bundle: Bundle?

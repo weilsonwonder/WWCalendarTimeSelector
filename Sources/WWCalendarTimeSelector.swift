@@ -8,26 +8,6 @@
 
 import UIKit
 
-#if swift(>=4.2)
-fileprivate let orientationDidChangeNotification = UIDevice.orientationDidChangeNotification
-fileprivate let attributedStringKey = NSAttributedString.Key.self
-fileprivate let controlState = UIControl.State.self
-fileprivate let animationOptions = UIView.AnimationOptions.self
-fileprivate let tableViewScrollPosition = UITableView.ScrollPosition.self
-fileprivate let tableViewCellStyle = UITableViewCell.CellStyle.self
-fileprivate let tableViewCellSelectionStyle = UITableViewCell.SelectionStyle.self
-fileprivate let tableViewRowAnimation = UITableView.RowAnimation.self
-#else
-fileprivate let orientationDidChangeNotification = NSNotification.Name.UIDeviceOrientationDidChange
-fileprivate let attributedStringKey = NSAttributedStringKey.self
-fileprivate let controlState = UIControlState.self
-fileprivate let animationOptions = UIViewAnimationOptions.self
-fileprivate let tableViewScrollPosition = UITableViewScrollPosition.self
-fileprivate let tableViewCellStyle = UITableViewCellStyle.self
-fileprivate let tableViewCellSelectionStyle = UITableViewCellSelectionStyle.self
-fileprivate let tableViewRowAnimation = UITableViewRowAnimation.self
-#endif
-
 @objc public final class WWCalendarTimeSelectorStyle: NSObject {
     fileprivate(set) public var showDateMonth: Bool = true
     fileprivate(set) public var showMonth: Bool = false
@@ -307,7 +287,6 @@ fileprivate let tableViewRowAnimation = UITableViewRowAnimation.self
 
 open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITableViewDataSource, WWCalendarRowProtocol, WWClockProtocol {
     
-    
     /// The delegate of `WWCalendarTimeSelector` can adopt the `WWCalendarTimeSelectorProtocol` optional methods. The following Optional methods are available:
     ///
     /// `WWCalendarTimeSelectorDone:selector:dates:`
@@ -427,11 +406,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     /// `Light`
     ///
     /// `ExtraLight`
-    #if swift(>=4.2)
-    open var optionStyleBlurEffect: UIBlurEffect.Style = .dark
-    #else
     open var optionStyleBlurEffect: UIBlurEffectStyle = .dark
-    #endif
     
     /// Set `optionMultipleSelectionGrouping` with one of the following:
     ///
@@ -771,7 +746,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     ///     selector.delegate = self
     ///     presentViewController(selector, animated: true, completion: nil)
     ///
-    public static func instantiate() -> WWCalendarTimeSelector {
+    open static func instantiate() -> WWCalendarTimeSelector {
         let podBundle = Bundle(for: self.classForCoder())
         let bundleURL = podBundle.url(forResource: "WWCalendarTimeSelectorStoryboardBundle", withExtension: "bundle")
         var bundle: Bundle?
@@ -824,8 +799,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         view.layoutIfNeeded()
         
         UIDevice.current.beginGeneratingDeviceOrientationNotifications()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(WWCalendarTimeSelector.didRotateOrNot), name: orientationDidChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(WWCalendarTimeSelector.didRotateOrNot), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
         
         backgroundDayView.backgroundColor = optionTopPanelBackgroundColor
         backgroundSelView.backgroundColor = optionSelectorPanelBackgroundColor
@@ -836,10 +810,10 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         
         doneButton.backgroundColor = optionButtonBackgroundColorDone
         cancelButton.backgroundColor = optionButtonBackgroundColorCancel
-        doneButton.setAttributedTitle(NSAttributedString(string: optionButtonTitleDone, attributes: [attributedStringKey.font: optionButtonFontDone, attributedStringKey.foregroundColor: optionButtonFontColorDone]), for: controlState.init())
-        cancelButton.setAttributedTitle(NSAttributedString(string: optionButtonTitleCancel, attributes: [attributedStringKey.font: optionButtonFontCancel, attributedStringKey.foregroundColor: optionButtonFontColorCancel]), for: controlState.init())
-        doneButton.setAttributedTitle(NSAttributedString(string: optionButtonTitleDone, attributes: [attributedStringKey.font: optionButtonFontDone, attributedStringKey.foregroundColor: optionButtonFontColorDoneHighlight]), for: controlState.highlighted)
-        cancelButton.setAttributedTitle(NSAttributedString(string: optionButtonTitleCancel, attributes: [attributedStringKey.font: optionButtonFontCancel, attributedStringKey.foregroundColor: optionButtonFontColorCancelHighlight]), for: controlState.highlighted)
+        doneButton.setAttributedTitle(NSAttributedString(string: optionButtonTitleDone, attributes: [NSAttributedStringKey.font: optionButtonFontDone, NSAttributedStringKey.foregroundColor: optionButtonFontColorDone]), for: UIControlState())
+        cancelButton.setAttributedTitle(NSAttributedString(string: optionButtonTitleCancel, attributes: [NSAttributedStringKey.font: optionButtonFontCancel, NSAttributedStringKey.foregroundColor: optionButtonFontColorCancel]), for: UIControlState())
+        doneButton.setAttributedTitle(NSAttributedString(string: optionButtonTitleDone, attributes: [NSAttributedStringKey.font: optionButtonFontDone, NSAttributedStringKey.foregroundColor: optionButtonFontColorDoneHighlight]), for: UIControlState.highlighted)
+        cancelButton.setAttributedTitle(NSAttributedString(string: optionButtonTitleCancel, attributes: [NSAttributedStringKey.font: optionButtonFontCancel, NSAttributedStringKey.foregroundColor: optionButtonFontColorCancelHighlight]), for: UIControlState.highlighted)
         
         rangeToLabel.text = optionLabelTextRangeTo
         
@@ -858,7 +832,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         
         let firstMonth = Date().beginningOfYear
         for button in monthsButtons {
-            button.setTitle((firstMonth + button.tag.month).stringFromFormat("MMM"), for: controlState.init())
+            button.setTitle((firstMonth + button.tag.month).stringFromFormat("MMM"), for: UIControlState())
             button.titleLabel?.font = optionCalendarFontMonth
             button.tintColor = optionCalendarFontColorMonth
         }
@@ -928,7 +902,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     @objc internal func didRotateOrNot(animated: Bool = true) {
         let orientation = UIApplication.shared.statusBarOrientation
         if orientation == .landscapeLeft || orientation == .landscapeRight || orientation == .portrait || orientation == .portraitUpsideDown {
-            let isPortrait = orientation == .portrait || orientation == .portraitUpsideDown || presentingViewController?.modalPresentationStyle == .formSheet
+            let isPortrait = orientation == .portrait || orientation == .portraitUpsideDown
             let size = CGSize(width: viewBoundsWidth, height: viewBoundsHeight)
             
             topContainerWidthConstraint.constant = isPortrait ? optionShowTopContainer ? portraitContainerWidth : 0 : landscapeTopContainerWidth
@@ -961,7 +935,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
                     delay: 0,
                     usingSpringWithDamping: 0.8,
                     initialSpringVelocity: 0,
-                    options: [animationOptions.allowAnimatedContent, animationOptions.allowUserInteraction],
+                    options: [UIViewAnimationOptions.allowAnimatedContent, UIViewAnimationOptions.allowUserInteraction],
                     animations: {
                         self.view.layoutIfNeeded()
                     },
@@ -1013,7 +987,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
             
             flashDate = date
             calendarTable.reloadData()
-            calendarTable.scrollToRow(at: IndexPath(row: 4, section: 0), at: tableViewScrollPosition.top, animated: true)
+            calendarTable.scrollToRow(at: IndexPath(row: 4, section: 0), at: UITableViewScrollPosition.top, animated: true)
         }
         else {
             isSelectingStartRange = true
@@ -1033,7 +1007,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
             
             flashDate = date
             calendarTable.reloadData()
-            calendarTable.scrollToRow(at: IndexPath(row: 4, section: 0), at: tableViewScrollPosition.top, animated: true)
+            calendarTable.scrollToRow(at: IndexPath(row: 4, section: 0), at: UITableViewScrollPosition.top, animated: true)
         }
         else {
             isSelectingStartRange = false
@@ -1108,7 +1082,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
             calRow2StartDate = (calRow3StartDate - 1.day).beginningOfWeek
             calRow1StartDate = (calRow2StartDate - 1.day).beginningOfWeek
             calendarTable.reloadData()
-            calendarTable.scrollToRow(at: IndexPath(row: 4, section: 0), at: tableViewScrollPosition.top, animated: animated)
+            calendarTable.scrollToRow(at: IndexPath(row: 4, section: 0), at: UITableViewScrollPosition.top, animated: animated)
         }
         else {
             calendarTable.reloadData()
@@ -1124,7 +1098,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
             UIView.animate(
                 withDuration: selAnimationDuration,
                 delay: 0,
-                options: [animationOptions.allowAnimatedContent, animationOptions.beginFromCurrentState, animationOptions.allowUserInteraction, animationOptions.curveEaseOut],
+                options: [UIViewAnimationOptions.allowAnimatedContent, UIViewAnimationOptions.beginFromCurrentState, UIViewAnimationOptions.allowUserInteraction, UIViewAnimationOptions.curveEaseOut],
                 animations: animations,
                 completion: nil
             )
@@ -1153,7 +1127,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
             UIView.animate(
                 withDuration: selAnimationDuration,
                 delay: 0,
-                options: [animationOptions.allowAnimatedContent, animationOptions.beginFromCurrentState, animationOptions.allowUserInteraction, animationOptions.curveEaseOut],
+                options: [UIViewAnimationOptions.allowAnimatedContent, UIViewAnimationOptions.beginFromCurrentState, UIViewAnimationOptions.allowUserInteraction, UIViewAnimationOptions.curveEaseOut],
                 animations: animations,
                 completion: nil
             )
@@ -1168,7 +1142,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         if userTap {
             yearRow1 = optionCurrentDate.year - 5
             yearTable.reloadData()
-            yearTable.scrollToRow(at: IndexPath(row: 3, section: 0), at: tableViewScrollPosition.top, animated: animated)
+            yearTable.scrollToRow(at: IndexPath(row: 3, section: 0), at: UITableViewScrollPosition.top, animated: animated)
         }
         else {
             yearTable.reloadData()
@@ -1184,7 +1158,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
             UIView.animate(
                 withDuration: selAnimationDuration,
                 delay: 0,
-                options: [animationOptions.allowAnimatedContent, animationOptions.beginFromCurrentState, animationOptions.allowUserInteraction, animationOptions.curveEaseOut],
+                options: [UIViewAnimationOptions.allowAnimatedContent, UIViewAnimationOptions.beginFromCurrentState, UIViewAnimationOptions.allowUserInteraction, UIViewAnimationOptions.curveEaseOut],
                 animations: animations,
                 completion: nil
             )
@@ -1218,7 +1192,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
             UIView.transition(
                 with: clockView,
                 duration: selAnimationDuration / 2,
-                options: [animationOptions.transitionCrossDissolve],
+                options: [UIViewAnimationOptions.transitionCrossDissolve],
                 animations: {
                     self.clockView.layer.displayIfNeeded()
                 },
@@ -1238,7 +1212,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
             UIView.animate(
                 withDuration: selAnimationDuration,
                 delay: 0,
-                options: [animationOptions.allowAnimatedContent, animationOptions.beginFromCurrentState, animationOptions.allowUserInteraction, animationOptions.curveEaseOut],
+                options: [UIViewAnimationOptions.allowAnimatedContent, UIViewAnimationOptions.beginFromCurrentState, UIViewAnimationOptions.allowUserInteraction, UIViewAnimationOptions.curveEaseOut],
                 animations: animations,
                 completion: nil
             )
@@ -1283,7 +1257,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         let timeText = optionCurrentDate.stringFromFormat("h':'mma").lowercased()
         let paragraph = NSMutableParagraphStyle()
         paragraph.alignment = NSTextAlignment.center
-        let attrText = NSMutableAttributedString(string: timeText, attributes: [attributedStringKey.font: optionSelectorPanelFontTime, attributedStringKey.foregroundColor: optionSelectorPanelFontColorTime, attributedStringKey.paragraphStyle: paragraph])
+        let attrText = NSMutableAttributedString(string: timeText, attributes: [NSAttributedStringKey.font: optionSelectorPanelFontTime, NSAttributedStringKey.foregroundColor: optionSelectorPanelFontColorTime, NSAttributedStringKey.paragraphStyle: paragraph])
         
         if selCurrrent.showDateMonth {
             monthLabel.textColor = optionSelectorPanelFontColorMonthHighlight
@@ -1312,10 +1286,10 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
             let minuteRange = NSRange(location: colonIndex + 1, length: 2)
             
             if selTimeStateHour {
-                attrText.addAttributes([attributedStringKey.foregroundColor: optionSelectorPanelFontColorTimeHighlight], range: hourRange)
+                attrText.addAttributes([NSAttributedStringKey.foregroundColor: optionSelectorPanelFontColorTimeHighlight], range: hourRange)
             }
             else {
-                attrText.addAttributes([attributedStringKey.foregroundColor: optionSelectorPanelFontColorTimeHighlight], range: minuteRange)
+                attrText.addAttributes([NSAttributedStringKey.foregroundColor: optionSelectorPanelFontColorTimeHighlight], range: minuteRange)
             }
         }
         timeLabel.attributedText = attrText
@@ -1327,13 +1301,10 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         let selInactiveWidth = self.selInactiveWidth
         let selInactiveWidthDouble = selInactiveWidth * 2
         let selActiveHeightFull = backgroundSelView.frame.height
-        #if swift(>=4.2)
-        backgroundSelView.sendSubviewToBack(selYearView)
-        backgroundSelView.sendSubviewToBack(selTimeView)
-        #else
+        
         backgroundSelView.sendSubview(toBack: selYearView)
         backgroundSelView.sendSubview(toBack: selTimeView)
-        #endif
+        
         // adjust date view (because it's complicated)
         selMonthXConstraint.constant = 0
         selMonthYConstraint.constant = -optionSelectorPanelOffsetHighlightMonth
@@ -1401,7 +1372,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
                 delay: 0,
                 usingSpringWithDamping: 0.8,
                 initialSpringVelocity: 0,
-                options: [animationOptions.allowAnimatedContent, animationOptions.allowUserInteraction],
+                options: [UIViewAnimationOptions.allowAnimatedContent, UIViewAnimationOptions.allowUserInteraction],
                 animations: animations,
                 completion: completion
             )
@@ -1419,13 +1390,10 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         let selInactiveWidth = self.selInactiveWidth
         let selInactiveWidthDouble = selInactiveWidth * 2
         let selActiveHeightFull = backgroundSelView.frame.height
-        #if swift(>=4.2)
-        backgroundSelView.sendSubviewToBack(selYearView)
-        backgroundSelView.sendSubviewToBack(selTimeView)
-        #else
+        
         backgroundSelView.sendSubview(toBack: selYearView)
         backgroundSelView.sendSubview(toBack: selTimeView)
-        #endif
+        
         // adjust date view
         selMonthXConstraint.constant = 0
         selMonthYConstraint.constant = 0
@@ -1493,7 +1461,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
                 delay: 0,
                 usingSpringWithDamping: 0.8,
                 initialSpringVelocity: 0,
-                options: [animationOptions.allowAnimatedContent, animationOptions.allowUserInteraction],
+                options: [UIViewAnimationOptions.allowAnimatedContent, UIViewAnimationOptions.allowUserInteraction],
                 animations: animations,
                 completion: completion
             )
@@ -1512,13 +1480,10 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         let selMonthX = monthLabel.bounds.width / 2
         let selInactiveWidthDouble = selInactiveWidth * 2
         let selActiveHeightFull = backgroundSelView.frame.height
-        #if swift(>=4.2)
-        backgroundSelView.sendSubviewToBack(selDateView)
-        backgroundSelView.sendSubviewToBack(selTimeView)
-        #else
+        
         backgroundSelView.sendSubview(toBack: selDateView)
         backgroundSelView.sendSubview(toBack: selTimeView)
-        #endif
+        
         selDateXConstraint.constant = optionStyles.showDateMonth ? -selMonthX : 0
         selDateYConstraint.constant = 0
         selMonthXConstraint.constant = optionStyles.showDateMonth ? selMonthX : 0
@@ -1585,7 +1550,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
                 delay: 0,
                 usingSpringWithDamping: 0.8,
                 initialSpringVelocity: 0,
-                options: [animationOptions.allowAnimatedContent, animationOptions.allowUserInteraction],
+                options: [UIViewAnimationOptions.allowAnimatedContent, UIViewAnimationOptions.allowUserInteraction],
                 animations: animations,
                 completion: completion
             )
@@ -1604,13 +1569,10 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         let selMonthX = monthLabel.bounds.width / 2
         let selInactiveWidthDouble = selInactiveWidth * 2
         let selActiveHeightFull = backgroundSelView.frame.height
-        #if swift(>=4.2)
-        backgroundSelView.sendSubviewToBack(selYearView)
-        backgroundSelView.sendSubviewToBack(selDateView)
-        #else
+        
         backgroundSelView.sendSubview(toBack: selYearView)
         backgroundSelView.sendSubview(toBack: selDateView)
-        #endif
+        
         selDateXConstraint.constant = optionStyles.showDateMonth ? -selMonthX : 0
         selDateYConstraint.constant = 0
         selMonthXConstraint.constant = optionStyles.showDateMonth ? selMonthX : 0
@@ -1676,7 +1638,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
                 delay: 0,
                 usingSpringWithDamping: 0.8,
                 initialSpringVelocity: 0,
-                options: [animationOptions.allowAnimatedContent, animationOptions.allowUserInteraction],
+                options: [UIViewAnimationOptions.allowAnimatedContent, UIViewAnimationOptions.allowUserInteraction],
                 animations: animations,
                 completion: completion
             )
@@ -1716,7 +1678,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
                 cell = c
             }
             else {
-                cell = UITableViewCell(style: tableViewCellStyle.default, reuseIdentifier: "cell")
+                cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "cell")
                 let calRow = WWCalendarRow()
                 calRow.translatesAutoresizingMaskIntoConstraints = false
                 calRow.delegate = self
@@ -1783,10 +1745,10 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
                 cell = c
             }
             else {
-                cell = UITableViewCell(style: tableViewCellStyle.default, reuseIdentifier: "cell")
+                cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "cell")
                 cell.backgroundColor = UIColor.clear
                 cell.textLabel?.textAlignment = NSTextAlignment.center
-                cell.selectionStyle = tableViewCellSelectionStyle.none
+                cell.selectionStyle = UITableViewCellSelectionStyle.none
             }
             
             let currentYear = Date().year
@@ -1810,9 +1772,9 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
                 cell = c
             }
             else {
-                cell = UITableViewCell(style: tableViewCellStyle.default, reuseIdentifier: "cell")
+                cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "cell")
                 cell.textLabel?.textAlignment = NSTextAlignment.center
-                cell.selectionStyle = tableViewCellSelectionStyle.none
+                cell.selectionStyle = UITableViewCellSelectionStyle.none
                 cell.backgroundColor = UIColor.clear
             }
             
@@ -1855,7 +1817,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
             
             flashDate = date
             calendarTable.reloadData()
-            calendarTable.scrollToRow(at: IndexPath(row: 4, section: 0), at: tableViewScrollPosition.top, animated: true)
+            calendarTable.scrollToRow(at: IndexPath(row: 4, section: 0), at: UITableViewScrollPosition.top, animated: true)
         }
     }
     
@@ -2044,13 +2006,13 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
                     indexPath = IndexPath(row: indexToDelete, section: 0)
                     optionCurrentDates.remove(date)
                     
-                    selMultipleDatesTable.scrollToRow(at: indexPath, at: tableViewScrollPosition.middle, animated: true)
+                    selMultipleDatesTable.scrollToRow(at: indexPath, at: UITableViewScrollPosition.middle, animated: true)
                     
                     multipleDatesLastAdded = nil
                     selMultipleDatesTable.beginUpdates()
-                    selMultipleDatesTable.deleteRows(at: [indexPath], with: tableViewRowAnimation.left)
+                    selMultipleDatesTable.deleteRows(at: [indexPath], with: UITableViewRowAnimation.left)
                     if let ip = indexPathToReload , ip != indexPath {
-                        selMultipleDatesTable.reloadRows(at: [ip], with: tableViewRowAnimation.fade)
+                        selMultipleDatesTable.reloadRows(at: [ip], with: UITableViewRowAnimation.fade)
                     }
                     selMultipleDatesTable.endUpdates()
                 }
@@ -2063,7 +2025,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
                     indexPath = IndexPath(row: indexToAdd, section: 0)
                     
                     if indexPath.row < optionCurrentDates.count - 1 {
-                        selMultipleDatesTable.scrollToRow(at: indexPath, at: tableViewScrollPosition.middle, animated: true)
+                        selMultipleDatesTable.scrollToRow(at: indexPath, at: UITableViewScrollPosition.middle, animated: true)
                     }
                     else {
                         shouldScroll = true
@@ -2071,14 +2033,14 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
                     
                     multipleDatesLastAdded = date
                     selMultipleDatesTable.beginUpdates()
-                    selMultipleDatesTable.insertRows(at: [indexPath], with: tableViewRowAnimation.right)
+                    selMultipleDatesTable.insertRows(at: [indexPath], with: UITableViewRowAnimation.right)
                     if let ip = indexPathToReload {
-                        selMultipleDatesTable.reloadRows(at: [ip], with: tableViewRowAnimation.fade)
+                        selMultipleDatesTable.reloadRows(at: [ip], with: UITableViewRowAnimation.fade)
                     }
                     selMultipleDatesTable.endUpdates()
                     
                     if shouldScroll {
-                        selMultipleDatesTable.scrollToRow(at: indexPath, at: tableViewScrollPosition.middle, animated: true)
+                        selMultipleDatesTable.scrollToRow(at: indexPath, at: UITableViewScrollPosition.middle, animated: true)
                     }
                 }
                 
@@ -2129,7 +2091,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
         UIView.transition(
             with: clockView,
             duration: selAnimationDuration / 2,
-            options: [animationOptions.transitionCrossDissolve, animationOptions.allowUserInteraction, animationOptions.beginFromCurrentState],
+            options: [UIViewAnimationOptions.transitionCrossDissolve, UIViewAnimationOptions.allowUserInteraction, UIViewAnimationOptions.beginFromCurrentState],
             animations: {
                 self.clockView.layer.displayIfNeeded()
             },
@@ -2240,7 +2202,7 @@ internal class WWCalendarRow: UIView {
             let monthName = startDate.stringFromFormat("MMMM yyyy").capitalized
             let monthHeight = ceil(monthFont.lineHeight)
             
-            let str = NSAttributedString(string: monthName, attributes: [attributedStringKey.font: monthFont, attributedStringKey.foregroundColor: monthFontColor, attributedStringKey.paragraphStyle: paragraph])
+            let str = NSAttributedString(string: monthName, attributes: [NSAttributedStringKey.font: monthFont, NSAttributedStringKey.foregroundColor: monthFontColor, NSAttributedStringKey.paragraphStyle: paragraph])
             str.draw(in: CGRect(x: 0, y: boxHeight - monthHeight, width: rect.width, height: monthHeight))
         }
         else if detail.type == .day {
@@ -2251,7 +2213,7 @@ internal class WWCalendarRow: UIView {
             formatter.calendar = Calendar.autoupdatingCurrent
             let days = formatter.veryShortWeekdaySymbols ?? ["S", "M", "T", "W", "T", "F", "S"]
             for (index, element) in days.enumerated() {
-                let str = NSAttributedString(string: element, attributes: [attributedStringKey.font: dayFont, attributedStringKey.foregroundColor: dayFontColor, attributedStringKey.paragraphStyle: paragraph])
+                let str = NSAttributedString(string: element, attributes: [NSAttributedStringKey.font: dayFont, NSAttributedStringKey.foregroundColor: dayFontColor, NSAttributedStringKey.paragraphStyle: paragraph])
                 str.draw(in: CGRect(x: CGFloat(index) * boxWidth, y: y, width: boxWidth, height: dayHeight))
             }
         }
@@ -2291,16 +2253,16 @@ internal class WWCalendarRow: UIView {
                         ctx?.setFillColor(backgroundHighlightColor)
                         
                         if multipleSelectionEnabled {
-                            var testStringSize = NSAttributedString(string: "00", attributes: [attributedStringKey.font: dateTodayFontHighlight, attributedStringKey.paragraphStyle: paragraph]).size()
+                            var testStringSize = NSAttributedString(string: "00", attributes: [NSAttributedStringKey.font: dateTodayFontHighlight, NSAttributedStringKey.paragraphStyle: paragraph]).size()
                             var dateMaxWidth = testStringSize.width
                             var dateMaxHeight = testStringSize.height
                             if dateFutureFontHighlight.lineHeight > dateTodayFontHighlight.lineHeight {
-                                testStringSize = NSAttributedString(string: "00", attributes: [attributedStringKey.font: dateFutureFontHighlight, attributedStringKey.paragraphStyle: paragraph]).size()
+                                testStringSize = NSAttributedString(string: "00", attributes: [NSAttributedStringKey.font: dateFutureFontHighlight, NSAttributedStringKey.paragraphStyle: paragraph]).size()
                                 dateMaxWidth = testStringSize.width
                                 dateMaxHeight = testStringSize.height
                             }
                             if datePastFontHighlight.lineHeight > dateFutureFontHighlight.lineHeight {
-                                testStringSize = NSAttributedString(string: "00", attributes: [attributedStringKey.font: datePastFontHighlight, attributedStringKey.paragraphStyle: paragraph]).size()
+                                testStringSize = NSAttributedString(string: "00", attributes: [NSAttributedStringKey.font: datePastFontHighlight, NSAttributedStringKey.paragraphStyle: paragraph]).size()
                                 dateMaxWidth = testStringSize.width
                                 dateMaxHeight = testStringSize.height
                             }
@@ -2340,10 +2302,10 @@ internal class WWCalendarRow: UIView {
                             ctx?.fillEllipse(in: CGRect(x: x, y: y, width: size, height: size))
                         }
                         
-                        str = NSMutableAttributedString(string: "\(date.day)", attributes: [attributedStringKey.font: font!, attributedStringKey.foregroundColor: fontHighlightColor!, attributedStringKey.paragraphStyle: paragraph])
+                        str = NSMutableAttributedString(string: "\(date.day)", attributes: [NSAttributedStringKey.font: font!, NSAttributedStringKey.foregroundColor: fontHighlightColor!, NSAttributedStringKey.paragraphStyle: paragraph])
                     }
                     else {
-                        str = NSMutableAttributedString(string: "\(date.day)", attributes: [attributedStringKey.font: font!, attributedStringKey.foregroundColor: fontColor!, attributedStringKey.paragraphStyle: paragraph])
+                        str = NSMutableAttributedString(string: "\(date.day)", attributes: [NSAttributedStringKey.font: font!, NSAttributedStringKey.foregroundColor: fontColor!, NSAttributedStringKey.paragraphStyle: paragraph])
                     }
                     // underlined rect
                     if comparisonUnderlinedDates.contains(date) {
@@ -2407,7 +2369,7 @@ internal class WWCalendarRow: UIView {
                         UIView.animate(
                             withDuration: flashDuration / 2,
                             delay: 0,
-                            options: [animationOptions.allowAnimatedContent, animationOptions.allowUserInteraction, animationOptions.beginFromCurrentState, animationOptions.curveEaseOut],
+                            options: [UIViewAnimationOptions.allowAnimatedContent, UIViewAnimationOptions.allowUserInteraction, UIViewAnimationOptions.beginFromCurrentState, UIViewAnimationOptions.curveEaseOut],
                             animations: {
                                 flashView.alpha = 0.75
                             },
@@ -2415,7 +2377,7 @@ internal class WWCalendarRow: UIView {
                                 UIView.animate(
                                     withDuration: self.flashDuration / 2,
                                     delay: 0,
-                                    options: [animationOptions.allowAnimatedContent, animationOptions.allowUserInteraction, animationOptions.beginFromCurrentState, animationOptions.curveEaseIn],
+                                    options: [UIViewAnimationOptions.allowAnimatedContent, UIViewAnimationOptions.allowUserInteraction, UIViewAnimationOptions.beginFromCurrentState, UIViewAnimationOptions.curveEaseIn],
                                     animations: {
                                         flashView.alpha = 0
                                     },
@@ -2510,26 +2472,26 @@ internal class WWClock: UIView {
         ctx?.setFillColor(backgroundColorAMPMHighlight.cgColor)
         if time.hour < 12 {
             ctx?.fillEllipse(in: CGRect(x: amX, y: ampmY, width: ampmSize, height: ampmSize))
-            var str = NSAttributedString(string: "AM", attributes: [attributedStringKey.font: fontAMPMHighlight, attributedStringKey.foregroundColor: fontColorAMPMHighlight, attributedStringKey.paragraphStyle: paragraph])
+            var str = NSAttributedString(string: "AM", attributes: [NSAttributedStringKey.font: fontAMPMHighlight, NSAttributedStringKey.foregroundColor: fontColorAMPMHighlight, NSAttributedStringKey.paragraphStyle: paragraph])
             var ampmHeight = fontAMPMHighlight.lineHeight
             str.draw(in: CGRect(x: amX, y: ampmY + (ampmSize - ampmHeight) / 2, width: ampmSize, height: ampmHeight))
-            str = NSAttributedString(string: "PM", attributes: [attributedStringKey.font: fontAMPM, attributedStringKey.foregroundColor: fontColorAMPM, attributedStringKey.paragraphStyle: paragraph])
+            str = NSAttributedString(string: "PM", attributes: [NSAttributedStringKey.font: fontAMPM, NSAttributedStringKey.foregroundColor: fontColorAMPM, NSAttributedStringKey.paragraphStyle: paragraph])
             ampmHeight = fontAMPM.lineHeight
             str.draw(in: CGRect(x: pmX, y: ampmY + (ampmSize - ampmHeight) / 2, width: ampmSize, height: ampmHeight))
         }
         else {
             ctx?.fillEllipse(in: CGRect(x: pmX, y: ampmY, width: ampmSize, height: ampmSize))
-            var str = NSAttributedString(string: "AM", attributes: [attributedStringKey.font: fontAMPM, attributedStringKey.foregroundColor: fontColorAMPM, attributedStringKey.paragraphStyle: paragraph])
+            var str = NSAttributedString(string: "AM", attributes: [NSAttributedStringKey.font: fontAMPM, NSAttributedStringKey.foregroundColor: fontColorAMPM, NSAttributedStringKey.paragraphStyle: paragraph])
             var ampmHeight = fontAMPM.lineHeight
             str.draw(in: CGRect(x: amX, y: ampmY + (ampmSize - ampmHeight) / 2, width: ampmSize, height: ampmHeight))
-            str = NSAttributedString(string: "PM", attributes: [attributedStringKey.font: fontAMPMHighlight, attributedStringKey.foregroundColor: fontColorAMPMHighlight, attributedStringKey.paragraphStyle: paragraph])
+            str = NSAttributedString(string: "PM", attributes: [NSAttributedStringKey.font: fontAMPMHighlight, NSAttributedStringKey.foregroundColor: fontColorAMPMHighlight, NSAttributedStringKey.paragraphStyle: paragraph])
             ampmHeight = fontAMPMHighlight.lineHeight
             str.draw(in: CGRect(x: pmX, y: ampmY + (ampmSize - ampmHeight) / 2, width: ampmSize, height: ampmHeight))
         }
         
         if showingHour {
-            let textAttr = [attributedStringKey.font: fontHour as Any, attributedStringKey.foregroundColor: fontColorHour, attributedStringKey.paragraphStyle: paragraph]
-            let textAttrHighlight = [attributedStringKey.font: fontHourHighlight as Any, attributedStringKey.foregroundColor: fontColorHourHighlight, attributedStringKey.paragraphStyle: paragraph]
+            let textAttr : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font: fontHour, NSAttributedStringKey.foregroundColor: fontColorHour, NSAttributedStringKey.paragraphStyle: paragraph]
+            let textAttrHighlight : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font: fontHourHighlight, NSAttributedStringKey.foregroundColor: fontColorHourHighlight, NSAttributedStringKey.paragraphStyle: paragraph]
             
             let templateSize = NSAttributedString(string: "12", attributes: textAttr).size()
             let templateSizeHighlight = NSAttributedString(string: "12", attributes: textAttrHighlight).size()
@@ -2593,8 +2555,8 @@ internal class WWClock: UIView {
             }
         }
         else {
-            let textAttr = [attributedStringKey.font: fontMinute as Any, attributedStringKey.foregroundColor: fontColorMinute, attributedStringKey.paragraphStyle: paragraph]
-            let textAttrHighlight = [attributedStringKey.font: fontMinuteHighlight as Any, attributedStringKey.foregroundColor: fontColorMinuteHighlight, attributedStringKey.paragraphStyle: paragraph]
+            let textAttr : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font: fontMinute, NSAttributedStringKey.foregroundColor: fontColorMinute, NSAttributedStringKey.paragraphStyle: paragraph]
+            let textAttrHighlight : [NSAttributedStringKey : Any] = [NSAttributedStringKey.font: fontMinuteHighlight, NSAttributedStringKey.foregroundColor: fontColorMinuteHighlight, NSAttributedStringKey.paragraphStyle: paragraph]
             let templateSize = NSAttributedString(string: "60", attributes: textAttr).size()
             let templateSizeHighlight = NSAttributedString(string: "60", attributes: textAttrHighlight).size()
             let maxSize = max(templateSize.width, templateSize.height)

@@ -724,10 +724,10 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     fileprivate var flashDate: Date?
     fileprivate let defaultTopPanelTitleForMultipleDates = "Select Multiple Dates"
     fileprivate var viewBoundsHeight: CGFloat {
-        return view.bounds.height - topLayoutGuide.length - bottomLayoutGuide.length
+        return view.safeAreaLayoutGuide.layoutFrame.height
     }
     fileprivate var viewBoundsWidth: CGFloat {
-        return view.bounds.width
+        return view.safeAreaLayoutGuide.layoutFrame.width
     }
     fileprivate var portraitHeight: CGFloat {
         return max(viewBoundsHeight, viewBoundsWidth)
@@ -900,7 +900,8 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     }
     
     @objc internal func didRotateOrNot(animated: Bool = true) {
-        let orientation = UIApplication.shared.statusBarOrientation
+        
+        let orientation = UIApplication.shared.orientation
         if orientation == .landscapeLeft || orientation == .landscapeRight || orientation == .portrait || orientation == .portraitUpsideDown {
             let isPortrait = orientation == .portrait || orientation == .portraitUpsideDown
             let size = CGSize(width: viewBoundsWidth, height: viewBoundsHeight)

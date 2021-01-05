@@ -20,6 +20,7 @@
 		00FBEF831CC8849D0046C872 /* String+Timepiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00FBEF7B1CC8849D0046C872 /* String+Timepiece.swift */; };
 		00FBEF841CC8849D0046C872 /* WWCalendarTimeSelector.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00FBEF7C1CC8849D0046C872 /* WWCalendarTimeSelector.storyboard */; };
 		00FBEF851CC8849D0046C872 /* WWCalendarTimeSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00FBEF7D1CC8849D0046C872 /* WWCalendarTimeSelector.swift */; };
+		0321B3C3259E9971002D5328 /* Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0321B3C2259E9971002D5328 /* Extentions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		00FBEF7B1CC8849D0046C872 /* String+Timepiece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Timepiece.swift"; sourceTree = "<group>"; };
 		00FBEF7C1CC8849D0046C872 /* WWCalendarTimeSelector.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = WWCalendarTimeSelector.storyboard; sourceTree = "<group>"; };
 		00FBEF7D1CC8849D0046C872 /* WWCalendarTimeSelector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WWCalendarTimeSelector.swift; sourceTree = "<group>"; };
+		0321B3C2259E9971002D5328 /* Extentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extentions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +102,7 @@
 				00FBEF791CC8849D0046C872 /* NSDate+Timepiece.swift */,
 				00FBEF7A1CC8849D0046C872 /* NSDateComponents+Timepiece.swift */,
 				00FBEF7B1CC8849D0046C872 /* String+Timepiece.swift */,
+				0321B3C2259E9971002D5328 /* Extentions.swift */,
 			);
 			name = Helper;
 			sourceTree = "<group>";
@@ -180,6 +183,7 @@
 			files = (
 				00FBEF851CC8849D0046C872 /* WWCalendarTimeSelector.swift in Sources */,
 				00FBEF831CC8849D0046C872 /* String+Timepiece.swift in Sources */,
+				0321B3C3259E9971002D5328 /* Extentions.swift in Sources */,
 				00FBEF821CC8849D0046C872 /* NSDateComponents+Timepiece.swift in Sources */,
 				00FBEF7E1CC8849D0046C872 /* Duration.swift in Sources */,
 				00FBEF7F1CC8849D0046C872 /* Int+Timepiece.swift in Sources */,
